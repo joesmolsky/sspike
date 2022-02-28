@@ -14,6 +14,6 @@ def save(events):
     pass
 
 
-def display(snowball, detector):
+def display(snowball):
     """Display event rates."""
     pass

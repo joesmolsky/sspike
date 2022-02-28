@@ -1,7 +1,8 @@
 from setuptools import setup, find_packages
 
-with open('README.md', mode='r') as readme:
-    long_description = readme.read()
+from pathlib import Path
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='sspike',
@@ -9,13 +10,13 @@ setup(
     author='Joe Smolsky',
     author_email='smolsky@mit.edu',
     description='snewpy supernovae package inducing KamLAND events',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     license='MIT License',
     keywords='KamLAND kamland supernovae',
     url='https://github.com/joesmolsky/sspike',
     packages=find_packages(),
     include_package_data=True,
-    long_description=long_description,
-    long_description_content_type='text/markdown',
     classifiers=['Development Status :: 5 - Alpha',
                  'Programming Language :: Python :: 3.8',
                  'Operating System :: MacOS',
