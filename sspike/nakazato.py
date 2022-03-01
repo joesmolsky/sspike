@@ -12,7 +12,7 @@ def main():
     # Set detector.  Only option is 'kamland' for now.
     detector = 'kamland'
     # Distance to supernova in kpc.
-    distance = 0.6
+    distance = 10
     # Set simulation type.  Only option is 'Nakazato_2013' for now.
     model = 'Nakazato_2013'
     # Nakazato simulation parameters.
@@ -26,13 +26,15 @@ def main():
     transform = 'NoTransformation'
 
     # pnut: predict neutrino underground telemetry.
-    snowball = pnut.get_fluence(model, progenitor, transform, distance)
-    snowflakes = pnut.snowglobes_events(snowball, detector)
-    sspiked = pnut.elastic_events(snowball, detector)
+    snowball, out_file = pnut.get_fluence(model, progenitor,
+                                          transform, distance)
+
+    snowflakes = pnut.snowglobes_events(snowball, out_file, detector)
+    # sspiked = pnut.elastic_events(snowball, detector)
 
     # beer: back-end event reader.
-    events = beer.combo(sspiked, snowflakes)
-    beer.save(events)
-    beer.display(events)
+    # combo = beer.combo(sspiked, snowflakes)
+    beer.display(snowflakes, channels=['ibd', 'e'])
+
 
 main()
