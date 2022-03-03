@@ -26,7 +26,7 @@ def display(events, channels=['ibd', 'e']):
 
     # Create text file for summary of results.
     # Example file name:
-        #   '/Users/joe/src/gitjoe/sspike/snowballs/Nak-20-20-300/snow-smeared.csv'
+    # '/Users/joe/src/gitjoe/sspike/snowballs/Nak-20-20-300/snow-smeared.csv'
     snow_dir, filename = events[0].split('/')[-2:]
     distance = snow_dir.split('-')[-1]
     label = filename.split('-')[1][:-4]
@@ -39,22 +39,40 @@ def display(events, channels=['ibd', 'e']):
     for file in events:
         # Get distance and labels from file name.
         # Example file name:
-        # '/Users/joe/src/gitjoe/sspike/snowballs/Nak-20-20-300/snow-smeared.csv'
+        # '~/src/gitjoe/sspike/snowballs/Nak-20-20-300/snow-smeared.csv'
         snow_dir, filename = file.split('/')[-2:]
         distance = snow_dir.split('-')[-1]
         label = filename.split('-')[1][:-4]
         sf.write(f"{label}\n")
+        data = pd.read_csv(file, sep=' ')
 
         # ibd events.
-        data = pd.read_csv(file, sep=' ')
-        ax.plot(data['E'], data['ibd'], label=f'ibd-{label}')
-        sf.write(f"ibd: {np.sum(data['ibd'])}\n")
+        if 'sspike-e' not in file:
+            ax.plot(data['E'], data['ibd'], label=f'ibd-{label}')
+            sf.write(f"ibd: {np.sum(data['ibd'])}\n")
 
         # electron scattering events.
-        e_tot = data['nue_e'] + data['nuebar_e'] + data['numu_e']\
-            + data['numubar_e'] + data['nutau_e'] + data['nutaubar_e']
-        ax.plot(data['E'], e_tot, label=f'e-{label}')
-        sf.write(f"e: {np.sum(e_tot)}\n")
+        if 'snow' in file:
+            chans = ['nue_e', 'nuebar_e', 'numu_e', 
+                    'numubar_e', 'nutau_e', 'nutaubar_e']
+            e_tot = pd.Series()
+            for chan in chans:
+                n_chan = np.sum(data[chan])
+                e_tot += data[chan]
+                # sf.write(f"{chan} events: {n_chan}\n")
+                # ax.plot(data['E'], data[chan], label=f'e-{label}')
+            # ax.plot(data['E'], e_tot)
+            # sf.write(f"e: {np.sum(e_tot)}\n")
+
+        if 'sspike-e' in file:
+            chans = ['nue_e', 'nuebar_e', 'nux_e']
+            e_tot = 0
+            for chan in chans:
+                n_chan = np.sum(data[chan])
+                e_tot += n_chan
+                sf.write(f"{chan} events: {n_chan}\n")
+                ax.plot(data['E'], data[chan], label=f'e-{label}')
+            sf.write(f"sspike-e: {np.sum(e_tot)}\n")
 
     plt.legend()
     plt.show()
