@@ -27,7 +27,7 @@ def display(events, channels=['ibd', 'e']):
     # Create text file for summary of results.
     # Example file name:
     # '/Users/joe/src/gitjoe/sspike/snowballs/Nak-20-20-300/snow-smeared.csv'
-    snow_dir, filename = events[0].split('/')[-2:]
+    snow_dir, filename = events[-1].split('/')[-2:]
     distance = snow_dir.split('-')[-1]
     label = filename.split('-')[1][:-4]
     sum_file = f"{snowball_dir}{snow_dir}/{distance}kpc.txt"
@@ -52,7 +52,7 @@ def display(events, channels=['ibd', 'e']):
             sf.write(f"ibd: {np.sum(data['ibd'])}\n")
 
         # electron scattering events.
-        if 'snow' in file:
+        if 'snow-' in file:
             chans = ['nue_e', 'nuebar_e', 'numu_e', 
                     'numubar_e', 'nutau_e', 'nutaubar_e']
             e_tot = pd.Series()
@@ -74,5 +74,6 @@ def display(events, channels=['ibd', 'e']):
                 ax.plot(data['E'], data[chan], label=f'e-{label}')
             sf.write(f"sspike-e: {np.sum(e_tot)}\n")
 
+    sf.close()
     plt.legend()
     plt.show()

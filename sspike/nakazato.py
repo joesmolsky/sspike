@@ -30,13 +30,17 @@ def main():
                                           transform, distance)
 
     snowflakes = pnut.snowglobes_events(snowball, out_file, detector)
-    # sspikes = pnut.sspike_events(snowball, out_file)
-    sspikes = ['/Users/joe/src/gitjoe/sspike/snowballs/Nak-20-20-300-10/sspike-ibd.csv',
-               '/Users/joe/src/gitjoe/sspike/snowballs/Nak-20-20-300-10/sspike-e.csv']
+    sspikes = pnut.sspike_events(snowball, out_file)
+    # sspikes = ['/Users/joe/src/gitjoe/sspike/snowballs/Nak-20-20-300-10/sspike-ibd.csv',
+            #    '/Users/joe/src/gitjoe/sspike/snowballs/Nak-20-20-300-10/sspike-e.csv']
 
     # beer: back-end event reader.
     # combo = beer.combo(sspiked, snowflakes)
-    beer.display(snowflakes, channels=['ibd', 'e'])
+    print(sspikes, snowflakes)
+    combo = snowflakes
+    for s in sspikes:
+        combo.append(s)
+    beer.display(combo, channels=['ibd', 'e'])
 
 
 main()

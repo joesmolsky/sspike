@@ -113,16 +113,22 @@ def e_scat(sb, out_file):
     # Number of events: fluence * xscn * N_electrons.
     # Multiply cross-sections from file (in GLoBES formatting) by energy.
     events = pd.DataFrame()
-    events['E'] = sb['E'][:]
+    # events['E'] = sb['E'][:]
+    # Use the same energy grid as SNOwGLoBES
+    events['E'] = np.linspace(7.49e-4, 9.975e-2, 200)
+
     # Electron flavor neutrinos.
-    events['nue_e'] =\
-        sb['nue'] * np.interp(sb['E'], x_E, x_nue) * N_e * sb['E']
+    f_nue = np.interp(events['E'], sb['E'], sb['nue'])
+    xs_nue = np.interp(events['E'], x_E, x_nue)
+    events['nue_e'] = f_nue * xs_nue * events['E'] * N_e
     # Positron flavor neutrinos.
-    events['nuebar_e'] =\
-        sb['nueb'] * np.interp(sb['E'], x_E, x_nueb) * N_e * sb['E']
+    f_nueb = np.interp(events['E'], sb['E'], sb['nueb'])
+    xs_nueb = np.interp(events['E'], x_E, x_nueb)
+    events['nue_e'] = f_nueb * xs_nueb * events['E'] * N_e
     # Extra factor of 4: nux = nu_mu + nu_mubar + nu_tau + nu_taubar.
-    events['nux_e'] =\
-        sb['numu'] * np.interp(sb['E'], x_E, x_nux) * N_e * 4 * sb['E']
+    f_nux = np.interp(events['E'], sb['E'], sb['numu'])
+    xs_nux = np.interp(events['E'], x_E, x_nux)
+    events['nue_e'] = f_nux * xs_nux * events['E'] * N_e
 
     sspike_path = f"{snowball_path}{out_file}/sspike-e.csv"
     events.to_csv(path_or_buf=sspike_path, sep=' ')
@@ -143,9 +149,13 @@ def ibds(sb, out_file):
     # Number of events: fluence * xscn * bin-size * N_electrons.
     # Energy bins of 0.2 MeV in GeV.
     events = pd.DataFrame()
-    events['E'] = sb['E'][:]
-    events['ibd'] =\
-        sb['nueb'] * np.interp(sb['E'], x_E, x_nueb) * N_p * sb['E']
+    # Use the same energy grid as SNOwGLoBES
+    events['E'] = np.linspace(7.49e-4, 9.975e-2, 200)
+    bin_size = events['E'][1] - events['E'][0]
+    bin_scale = bin_size / 0.0002
+    f_nueb = np.interp(events['E'], sb['E'], sb['nueb'])
+    xs_nueb = np.interp(events['E'], x_E, x_nueb)
+    events['ibd'] = f_nueb * xs_nueb * events['E'] * N_p * bin_scale
 
     sspike_path = f"{snowball_path}{out_file}/sspike-ibd.csv"
     events.to_csv(path_or_buf=sspike_path, sep=' ')
