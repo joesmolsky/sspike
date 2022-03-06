@@ -8,16 +8,17 @@ import tarfile
 import pandas as pd
 import numpy as np
 import scipy.constants as cns
+from scipy.integrate import quad
 
 from snewpy import snowglobes
 
 # Physics constants.
-M_p = cns.physical_constants['proton mass energy equivalent in MeV'][0]
+M_p = cns.physical_constants['proton mass energy equivalent in MeV'][0] * 1e-3
 # Calculate number of targets in fiducial volume of radius R_f.
 R_f = 600  # Radial volume cut [cm].
 rho_p = 6.66e22  # KamLAND proton density [cm^-3].
 N_p = 4 * np.pi * rho_p * R_f**3 / 3  # Number of protons in radius R_f.
-N_e = N_p * 4.047  # Number of lectrons in radius R_f.
+N_e = N_p * 4.047  # Number of electrons in radius R_f.
 
 # Path to SNOeGLoBES ibd cross-section file
 x_ibd = '/Users/joe/src/snowglobes/xscns/xs_ibd.dat'
@@ -85,17 +86,10 @@ def sspike_events(snowball, out_file):
 
     sspikes = []
     # sspikes.append(e_scat(sb, out_file))
-    sspikes.append(ibds(sb, out_file))
+    # sspikes.append(ibds(sb, out_file))
+    sspikes.append(elastic_events(sb, out_file))
 
     return sspikes
-
-def elastic_events(sb):
-    """Save events predicted using sspike return filepath."""
-    # Find differential cross-section as function of proton recoil energy.
-    # dsig = dsig_dTp(sb)
-
-    # Determine number of electron scattering events.
-    pass
 
 
 def e_scat(sb, out_file):
@@ -116,19 +110,21 @@ def e_scat(sb, out_file):
     # events['E'] = sb['E'][:]
     # Use the same energy grid as SNOwGLoBES
     events['E'] = np.linspace(7.49e-4, 9.975e-2, 200)
+    bin_size = events['E'][1] - events['E'][0]
+    bin_scale = bin_size / 0.0002
 
     # Electron flavor neutrinos.
     f_nue = np.interp(events['E'], sb['E'], sb['nue'])
     xs_nue = np.interp(events['E'], x_E, x_nue)
-    events['nue_e'] = f_nue * xs_nue * events['E'] * N_e
+    events['nue_e'] = f_nue * xs_nue * events['E'] * N_e * bin_scale
     # Positron flavor neutrinos.
     f_nueb = np.interp(events['E'], sb['E'], sb['nueb'])
     xs_nueb = np.interp(events['E'], x_E, x_nueb)
-    events['nue_e'] = f_nueb * xs_nueb * events['E'] * N_e
+    events['nueb_e'] = f_nueb * xs_nueb * events['E'] * N_e * bin_scale
     # Extra factor of 4: nux = nu_mu + nu_mubar + nu_tau + nu_taubar.
     f_nux = np.interp(events['E'], sb['E'], sb['numu'])
     xs_nux = np.interp(events['E'], x_E, x_nux)
-    events['nue_e'] = f_nux * xs_nux * events['E'] * N_e
+    events['nux_e'] = f_nux * xs_nux * events['E'] * N_e * bin_scale
 
     sspike_path = f"{snowball_path}{out_file}/sspike-e.csv"
     events.to_csv(path_or_buf=sspike_path, sep=' ')
@@ -163,16 +159,81 @@ def ibds(sb, out_file):
     return sspike_path
 
 
-def dsig_dTp(sb):
-    """Given fluence dataframe, return cross-section dataframe."""
-    # Proton recoil energies possible for neutrino energy 100 MeV.
-    T_p = np.arange(0.1, 17.6, 0.1)
-    # N_bins = len(T_p)
-    # Minimum required neutrino energy for proton recoil energy T.
-    E_min = (T_p + np.sqrt(T_p * (T_p + 2 * M_p))) / 2
+def elastic_events(sb, out_file):
+    """Save events predicted using sspike return filepath."""
+    # Find differential cross-section as function of proton recoil energy.
+    nc = pd.DataFrame()
+    nc['T_p'] = np.arange(1e-4, 0.0176, 1e-4)
+    nc['E_vis'] = quench(nc['T_p'])
+    # Kinematic threshold.
+    nc['E_min'] = (nc['T_p'] + np.sqrt(nc['T_p'] * (nc['T_p'] + 2 * M_p))) / 2
 
-    # nue = np.zeros(N_bins)
-    # nueb = np.zeros(N_bins)
-    # nux = np.zeros(N_bins)
+    N_bins = len(nc['T_p'])
+    nc['nue'] = np.zeros(N_bins)
+    nc['nueb'] = np.zeros(N_bins)
+    nc['nux'] = np.zeros(N_bins)
+    nc['nuxb'] = np.zeros(N_bins)
 
-    return E_min
+    # Event rates.
+    bin_scale = 1e-3 / 2e-4
+    for i in range(N_bins):
+        nc['nue'][i] = N_p * quad(lambda x: dxs_nc(x, nc['T_p'][i])
+                                  * np.interp(x, sb['E'], sb['nue']),
+                                  nc['E_min'][i], 0.1)[0] * bin_scale
+        nc['nueb'][i] = N_p * quad(lambda x: dxs_nc(x, nc['T_p'][i])
+                                   * np.interp(x, sb['E'], sb['nueb']),
+                                   nc['E_min'][i], 0.1)[0] * bin_scale
+        nc['nux'][i] = N_p * quad(lambda x: dxs_nc(x, nc['T_p'][i])
+                                  * np.interp(x, sb['E'], sb['numu']),
+                                  nc['E_min'][i], 0.1)[0] * bin_scale
+        nc['nuxb'][i] = N_p * quad(lambda x: dxs_nc(x, nc['T_p'][i])
+                                   * np.interp(x, sb['E'], sb['numub']),
+                                   nc['E_min'][i], 0.1)[0] * bin_scale
+
+    sspike_path = f"{snowball_path}{out_file}/sspike-nc.csv"
+    nc.to_csv(path_or_buf=sspike_path, sep=' ')
+
+    return sspike_path
+
+
+def dxs_nc(E, T_p, a=1):
+    """Neutral-current double differential cross-section."""
+    if E == 0 or T_p == 0:
+        return 0
+
+    Gf = cns.physical_constants['Fermi coupling constant'][0]  # GeV^-2
+    hbarc = cns.physical_constants['reduced Planck constant times c in MeV fm'][0]
+    hbarc *= 1e-13  # Convert fm to cm
+    hbarc *= 1e-3  # Convert MeV to GeV
+    Cv = 0.04  # vector coupling
+    Ca = 1.27 / 2  # axial coupling
+
+    # Cross-section has three terms with a shared coefficient.
+    A = (Gf * hbarc)**2 * M_p / 2 / np.pi / E**2  # [(GeV^-2 cm^2)(GeV)(GeV^-2)]
+    nu2 = (Cv + a * Ca)**2 * E**2  # [GeV^2]
+    p2 = (Cv**2 - Ca**2) * M_p * T_p  # [GeV^2]
+    pnu = (Cv - a * Ca)**2 * (E - T_p)**2  # [GeV^2]
+
+    return A * (nu2 + pnu - p2)  # [cm^2 GeV^-1]
+
+
+def quench(T_p):
+    """
+    Convert proton recoil energy to electron equivalent energy.
+
+    Parameters:
+        T_p (np.array):
+            Proton recoil energies of interest $[MeV]$.
+
+    Return:
+        E (np.array):
+            Electron equivalent energy in KamLAND.
+
+    Note:
+        Quenching factors using WebPlotDigitizer on Fig. 6 in:
+        https://www.sciencedirect.com/science/article/pii/S0168900210017018
+    """
+    qE, qX = np.genfromtxt('./aux/proton_quenching.csv', delimiter=',').T
+    E = T_p * np.interp(T_p, qE, qX)
+
+    return E
