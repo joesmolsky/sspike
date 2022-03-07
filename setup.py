@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='sspike',
-    version='0.0.1',
+    version='0.0.2',
     author='Joe Smolsky',
     author_email='smolsky@mit.edu',
     description='snewpy supernovae package inducing KamLAND events',
