@@ -202,8 +202,8 @@ def dxs_nc(E, T_p, a=1):
         return 0
 
     Gf = cns.physical_constants['Fermi coupling constant'][0]  # GeV^-2
-    hbarc = cns.physical_constants['reduced Planck constant times c in MeV fm']
-    hbarc *= hbarc[0] * 1e-13  # Convert fm to cm
+    hbcu = cns.physical_constants['reduced Planck constant times c in MeV fm']
+    hbarc = hbcu[0] * 1e-13  # Convert fm to cm
     hbarc *= 1e-3  # Convert MeV to GeV
     Cv = 0.04  # vector coupling
     Ca = 1.27 / 2  # axial coupling

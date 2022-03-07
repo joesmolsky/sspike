@@ -26,22 +26,14 @@ def main():
     transform = 'NoTransformation'
 
     # pnut: predict neutrino underground telemetry.
-    # snowball = '/Users/joe/src/snewpy/models/Nakazato_2013/Nak-20-20-300-10.tar.bz2'
-    # out_file = 'Nak-20-20-300-10'
     snowball, out_file = pnut.get_fluence(model, progenitor,
                                           transform, distance)
 
-    # snowflakes = pnut.snowglobes_events(snowball, out_file, detector)
+    snowflakes = pnut.snowglobes_events(snowball, out_file, detector)
     sspikes = pnut.sspike_events(snowball, out_file)
-    # sspikes = ['/Users/joe/src/gitjoe/sspike/snowballs/Nak-20-20-300-10/sspike-ibd.csv',
-            #    '/Users/joe/src/gitjoe/sspike/snowballs/Nak-20-20-300-10/sspike-e.csv']
 
     # beer: back-end event reader.
-    # combo = beer.combo(sspiked, snowflakes)
-    # print(sspikes, snowflakes)
-    # combo = [snowflakes[0]]
-    # for s in sspikes:
-        # combo.append(s)
+    beer.display(snowflakes, channels=['ibd', 'e'])
     beer.display(sspikes, channels=['nc'])
 
 
