@@ -14,11 +14,6 @@ mpl.rc('font', size=18)
 snowball_dir = '/Users/joe/src/gitjoe/sspike/snowballs/'
 
 
-def combo(sspiked, snowflakes):
-    """Combine sspike and snewpy results and return as dataframe."""
-    pass
-
-
 def display(events, channels=['ibd', 'e']):
     """Display event rates."""
     # Ensure file list type.
