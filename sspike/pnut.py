@@ -202,14 +202,14 @@ def dxs_nc(E, T_p, a=1):
         return 0
 
     Gf = cns.physical_constants['Fermi coupling constant'][0]  # GeV^-2
-    hbarc = cns.physical_constants['reduced Planck constant times c in MeV fm'][0]
-    hbarc *= 1e-13  # Convert fm to cm
+    hbarc = cns.physical_constants['reduced Planck constant times c in MeV fm']
+    hbarc *= hbarc[0] * 1e-13  # Convert fm to cm
     hbarc *= 1e-3  # Convert MeV to GeV
     Cv = 0.04  # vector coupling
     Ca = 1.27 / 2  # axial coupling
 
     # Cross-section has three terms with a shared coefficient.
-    A = (Gf * hbarc)**2 * M_p / 2 / np.pi / E**2  # [(GeV^-2 cm^2)(GeV)(GeV^-2)]
+    A = (Gf * hbarc)**2 * M_p / 2 / np.pi / E**2  # [GeV^-3 cm^2]
     nu2 = (Cv + a * Ca)**2 * E**2  # [GeV^2]
     p2 = (Cv**2 - Ca**2) * M_p * T_p  # [GeV^2]
     pnu = (Cv - a * Ca)**2 * (E - T_p)**2  # [GeV^2]
