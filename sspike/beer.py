@@ -3,7 +3,6 @@
 Process events saved by pnut.
 """
 
-from matplotlib import lines
 import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
