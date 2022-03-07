@@ -26,6 +26,7 @@ setup(
                     ['pytest', 'sphinx', 'pydata_sphinx_theme',
                      # 'ipython', 'pylint', 'hypothesis'
                      ], },
+    # TODO: Add command line entry point.
     # entry_points = {
     #     'console_scripts': ['sspike=sspike.sspike:main']
     # }
