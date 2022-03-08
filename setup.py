@@ -9,7 +9,7 @@ setup(
     version='0.0.2',
     author='Joe Smolsky',
     author_email='smolsky@mit.edu',
-    description='snewpy supernovae package inducing KamLAND events',
+    description='simulated supernovae projectiles inducing KamLAND events',
     long_description=long_description,
     long_description_content_type='text/markdown',
     license='MIT License',
@@ -17,17 +17,12 @@ setup(
     url='https://github.com/joesmolsky/sspike',
     packages=find_packages(),
     include_package_data=True,
-    classifiers=['Development Status :: 5 - Alpha',
+    classifiers=['Development Status :: 2 - Pre-Alpha',
                  'Programming Language :: Python :: 3.8',
                  'Operating System :: MacOS',
                  'License :: OSI Approved :: MIT License', ],
-    install_requires=['numpy', 'matplotlib', ],
-    extras_require={'dev':
-                    ['pytest', 'sphinx', 'pydata_sphinx_theme',
-                     # 'ipython', 'pylint', 'hypothesis'
-                     ], },
-    # TODO: Add command line entry point.
-    # entry_points = {
-    #     'console_scripts': ['sspike=sspike.sspike:main']
-    # }
+    install_requires=['numpy', 'matplotlib', 'snewpy', ],
+    extras_require={'dev': ['pytest', 'sphinx', 'pydata_sphinx_theme', ]},
+
+    entry_points={'console_scripts': ['sspike=sspike.sspike:main']}
 )
