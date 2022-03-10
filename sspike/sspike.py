@@ -9,7 +9,7 @@ log = getLogger(__name__)
 def main():
     """Parse arguments and run."""
     # Description for -h, --help flags
-    description = 'Package for simulating SN models in KamLAND.'
+    description = 'simulated supernovae products inducing KamLAND events.'
     parser = ArgumentParser(description=description)
 
     # Flag options

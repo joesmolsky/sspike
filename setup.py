@@ -9,7 +9,7 @@ setup(
     version='0.0.2',
     author='Joe Smolsky',
     author_email='smolsky@mit.edu',
-    description='simulated supernovae projectiles inducing KamLAND events',
+    description='simulated supernovae products inducing KamLAND events',
     long_description=long_description,
     long_description_content_type='text/markdown',
     license='MIT License',
@@ -23,6 +23,5 @@ setup(
                  'License :: OSI Approved :: MIT License', ],
     install_requires=['numpy', 'matplotlib', 'snewpy', ],
     extras_require={'dev': ['pytest', 'sphinx', 'pydata_sphinx_theme', ]},
-
     entry_points={'console_scripts': ['sspike=sspike.sspike:main']}
 )
