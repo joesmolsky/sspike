@@ -52,7 +52,7 @@ def snowglobes_events(snowball, target):
     # Store filepaths for each smearing option.
     snowflakes = []
     for smear in smearing:
-        snowflake = f"{sb.snowball_dir}{sb.fluence}snow-{smear}.csv"
+        snowflake = f"{sb.snowball_dir}{sb.fluence_dir}snow-{smear}.csv"
         events = snow[target.name][sb.sn_name]['weighted', smear]
         events.to_csv(path_or_buf=snowflake, sep=' ')
         snowflakes.append(snowflake)
@@ -287,8 +287,8 @@ def quench(T_p):
         Quenching factors using WebPlotDigitizer on Fig. 6 in:
         https://www.sciencedirect.com/science/article/pii/S0168900210017018
     """
-    quenching_file = '/Users/joe/src/gitjoe/sspike/sspike/aux/proton_quenching.csv'
-    qE, qX = np.genfromtxt(quenching_file, delimiter=',').T
+    quenching = '/Users/joe/src/gitjoe/sspike/sspike/aux/proton_quenching.csv'
+    qE, qX = np.genfromtxt(quenching, delimiter=',').T
     E = T_p * np.interp(T_p, qE, qX)
 
     return E
