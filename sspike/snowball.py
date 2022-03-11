@@ -104,12 +104,21 @@ class Snowball():
             if mass == 9.6:
                 sim_file = f'sukhbold-{EoS}-z{mass}.fits'
 
+        # Walk models are 1 for each year.
         if self.model == 'Walk_2018':
             self.sn_name = 'W18'
             sim_file = 's15.0c_3D_nonrot_dir1'
         if self.model == 'Walk_2019':
             self.sn_name = 'W19'
             sim_file = 's40.0c_3DBH_dir1'
+
+        # Kuroda models have spin and magnetic field.
+        # Allowed combinations for (Omega, B0): (00, 00), (10, 12), (10, 13).
+        if self.model == 'Kuroda_2020':
+            Omega = self.progenitor['Omega']
+            B0 = self.progenitor['B-field']
+            self.sn_name = f'K20-{Omega}-{B0}'
+            sim_file = f'LnuR{Omega}B{B0}.dat'
 
         self.sim_path = f'{self.models_dir}/{self.model}/{sim_file}'
         fluence_specs = f'{self.distance}kpc-{self.transform}'
