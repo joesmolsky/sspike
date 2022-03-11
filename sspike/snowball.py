@@ -66,7 +66,7 @@ class Snowball():
             metal = self.progenitor['metal']
             t_rev = self.progenitor['t_rev']
             # Name for sub-directory of fluences produced by this model file.
-            self.sn_name = f'Nak-{mass}-{int(metal*1e3)}-{t_rev}'
+            self.sn_name = f'N13-{mass}-{int(metal*1e3)}-{t_rev}'
             # Supernovae model filename.
             sim_file = f'nakazato-shen-z{metal}-t_rev{t_rev}ms-s{mass}.0.fits'
 
@@ -84,6 +84,13 @@ class Snowball():
             # Name for sub-directory of fluences produced by this model file.
             self.sn_name = f'W20-{mass}-{stir}'
             sim_file = f'stir_a{stir}/stir_multimessenger_a{stir}_m{mass}.h5'
+
+        if self.model == 'Tamborra_2014':
+            # Tamborra model includes 2 different simulations 20.0, 27.0 S.M.
+            mass = self.progenitor['mass']
+            # Name for sub-directory of fluences produced by this model file.
+            self.sn_name = f'T14-{mass}'
+            sim_file = f's{mass}c_3D_dir1'
 
         self.sim_path = f'{self.models_dir}/{self.model}/{sim_file}'
         fluence_specs = f'{self.distance}kpc-{self.transform}'
