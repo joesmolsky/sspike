@@ -92,6 +92,18 @@ class Snowball():
             self.sn_name = f'T14-{mass}'
             sim_file = f's{mass}c_3D_dir1'
 
+        if self.model == 'Sukhbold_2015':
+            # Sukhbold model has 2 masses and 2 equations of state.
+            mass = self.progenitor['mass']
+            EoS = self.progenitor['EoS']
+            # Name for sub-directory of fluences produced by this model file.
+            self.sn_name = f'S15-{mass}-{EoS}'
+            # Naming convention varies with mass by 1 letter.
+            if mass == 27.0:
+                sim_file = f'sukhbold-{EoS}-s{mass}.fits'
+            if mass == 9.6:
+                sim_file = f'sukhbold-{EoS}-z{mass}.fits'
+
         self.sim_path = f'{self.models_dir}/{self.model}/{sim_file}'
         fluence_specs = f'{self.distance}kpc-{self.transform}'
         self.fluence_dir = f"{self.sn_name}/{fluence_specs}/"
