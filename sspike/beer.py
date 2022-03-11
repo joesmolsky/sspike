@@ -199,3 +199,13 @@ def tab(snowball):
     tab.close()
 
     return tab_file
+
+
+def bar(tab):
+    """Bar graph comparing event rates."""
+    pass
+
+
+def pay(tab):
+    """Print astrophysical yields.  (Show rates from tab.)"""
+    pass
