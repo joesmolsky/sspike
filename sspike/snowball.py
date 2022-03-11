@@ -77,6 +77,14 @@ class Snowball():
             self.sn_name = f'F21-{mass}'
             sim_file = f'lum_spec_{mass}M_r10000_dat.h5'
 
+        if self.model == 'Warren_2020':
+            # Warren 2020 models vary by mass and stirring parameter.
+            mass = self.progenitor['mass']
+            stir = self.progenitor['stir']
+            # Name for sub-directory of fluences produced by this model file.
+            self.sn_name = f'W20-{mass}-{stir}'
+            sim_file = f'stir_a{stir}/stir_multimessenger_a{stir}_m{mass}.h5'
+
         self.sim_path = f'{self.models_dir}/{self.model}/{sim_file}'
         fluence_specs = f'{self.distance}kpc-{self.transform}'
         self.fluence_dir = f"{self.sn_name}/{fluence_specs}/"
