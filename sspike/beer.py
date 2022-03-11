@@ -10,78 +10,192 @@ import numpy as np
 
 mpl.rc('font', size=18)
 
-snowball_dir = '/Users/joe/src/gitjoe/sspike/snowballs/'
 
+def draw(events_path, channels, save=False):
+    """Plot event rates.
 
-def display(events, channels=['ibd', 'e']):
-    """Display event rates."""
-    # Ensure file list type.
-    if not type(events) == list:
-        events = [events]
+    Parameters
+    ----------
+    events_path : str
+        Location of dataframe csv.
+    channels : list of str
+        Interaction channels to plot.
 
-    # Create text file for summary of results.
-    # Example file name:
-    # '/Users/joe/src/gitjoe/sspike/snowballs/Nak-20-20-300/snow-smeared.csv'
-    snow_dir, filename = events[0].split('/')[-2:]
-    distance = snow_dir.split('-')[-1]
-    label = filename.split('-')[1][:-4]
-    sum_file = f"{snowball_dir}{snow_dir}/{distance}kpc.txt"
+    Note
+    ----
+        Proton neutral rates cannot be combined with other rates yet.
+    """
+    events = pd.read_csv(events_path, sep=' ')
+    if 'nc_nue_p' in events:
+        N_bins = len(events['T_p'])
+    else:
+        N_bins = len(events['E'])
 
-    # Plot results from each file.
-    fig, ax = plt.subplots(1, figsize=(8, 6), facecolor='white')
+    # Combine similar channels before plotting.
+    combos = {}
+    for chan in channels:
+        # SNOwGLoBES naming convention is based on '_'.
+        vals = chan.split('_')
+        n = len(vals)
 
-    sf = open(sum_file, 'w')
-    for file in events:
-        # Get distance and labels from file name.
-        # Example file name:
-        # '~/src/gitjoe/sspike/snowballs/Nak-20-20-300/snow-smeared.csv'
-        snow_dir, filename = file.split('/')[-2:]
-        distance = snow_dir.split('-')[-1]
-        label = filename.split('-')[1][:-4]
-        sf.write(f"{label}\n")
-        data = pd.read_csv(file, sep=' ')
+        # Inverse beta decay.
+        if n == 1:
+            combos[chan] = [chan]
+            continue
 
-        # NC events.
-        if channels == ['nc']:
-            cut = 0.0003
-            for flav in ['nue', 'nueb', 'nux', 'nuxb']:
-                ax.plot(data['E_vis'] * 1e3, data[flav], label=flav)
-                sf.write(f"nc-{flav}: {np.sum(data[flav])}\n")
-                vis = data['E_vis'].where(data['E_vis'] > cut)
-                sf.write(f"nc-{flav}-cut-{cut*1e3}: {np.sum(vis)}\n")
-            ax.hlines(1, 0, 0.8, linestyles=':', color='black')
-            ax.vlines(0.3, 1e-4, 1e3, linestyles=':', color='black')
+        # SNOwGLoBES naming convention is target last and neutrino 2nd to last.
+        target = vals[-1]
 
-        # ibd events.
-        if 'sspike-e' not in file:
-            if 'ibd' in channels:
-                ax.plot(data['E'], data['ibd'], label=f'ibd-{label}')
-                sf.write(f"ibd: {np.sum(data['ibd'])}\n")
+        # Electron scattering and charged-current interactions have n = 2.
+        if n == 2:
+            # Add neutrino flavor to nucleus charged-current interations.
+            if target != 'e':
+                target = f'{target}-{vals[-2]}'
+        # Neutral current events (not or electrons) have n = 3.
+        if n == 3:
+            # Plot proton elastic scattering channels separately.
+            if target == 'p':
+                combos[chan] = [chan]
+                continue
 
-        # Electron scattering events.
-        if 'snow-' in file:
-            chans = ['nue_e', 'nuebar_e', 'numu_e',
-                     'numubar_e', 'nutau_e', 'nutaubar_e']
-            e_tot = pd.Series(np.zeros(len(data['E'])))
-            for chan in chans:
-                n_chan = np.sum(data[chan])
-                e_tot += data[chan]
-                sf.write(f"{chan} events: {n_chan}\n")
-                ax.plot(data['E'], data[chan], label=f'e-{label}')
-            ax.plot(data['E'], e_tot)
-            sf.write(f"e: {np.sum(e_tot)}\n")
+            target = f'{target}-{vals[0]}'
 
-        if 'sspike-e' in file:
-            chans = ['nue_e', 'nueb_e', 'nux_e']
-            e_tot = 0
-            for chan in chans:
-                n_chan = np.sum(data[chan])
-                e_tot += n_chan
-                sf.write(f"{chan} events: {n_chan}\n")
-                ax.plot(data['E'], data[chan], label=f'sspike-{chan}')
-            sf.write(f"sspike-e: {np.sum(e_tot)}\n")
+        # A few other SNOwGLoBES v1.2 cross-sections have n = 4.
+        if n == 4:
+            target = f'{target}-{vals[0]}-{vals[1]}'
 
-    ax.set_yscale('log')
-    sf.close()
+        if target not in combos:
+            combos[target] = []
+        combos[target].append(chan)
+
+    # Add together channels as needed.
+    rates = pd.DataFrame()
+    for combo in combos:
+        rates[combo] = np.zeros(N_bins)
+        for chan in combos[combo]:
+            rates[combo] += events[chan]
+
+    # Plotting time.
+    fig, ax = plt.subplots(1, figsize=(16, 8), facecolor='white')
+    # Title plot based on file name.
+    title = events_path.split('/')[-1][:-4]
+    fig.suptitle(title)
+    # Neutral current proton events require 2 axes.
+    set_twins = False
+
+    for rate in rates:
+        # Proton elastic scattering.
+        if rate[-2:] == '_p':
+            if not set_twins:
+                ax.set_xlim(right=5)
+                ax.set_xlabel(r'$T_p\ [MeV]$')
+                ax.set_ylabel(r'$Events\ [T_p\ 0.1\ MeV^{-1}]$')
+                twax = ax.twiny()
+                twax.set_xlabel(r'$E_{vis}\ [MeV]$')
+                set_twins = True
+
+            ax.plot(events['T_p']*1e3, rates[rate], label=rate, linestyle=':')
+            twax.plot(events['E_vis']*1e3, rates[rate], label=rate)
+
+            continue
+
+        ax.plot(events['E']*1e3, rates[rate], label=rate)
+        ax.set_xlim(right=60)
+        ax.set_xlabel(r'$E\ [MeV]$')
+
+    plt.tight_layout(pad=1.0)
     plt.legend()
     plt.show()
+
+
+def tab(snowball):
+    """Count binned event rates and create a table.
+
+    Parameters
+    ----------
+    snowball : Snowball
+
+    Return
+    ------
+    tab : str
+        File path to results.
+    """
+    sb = snowball
+
+    # Location of event rates.
+    data_dir = f'{sb.snowball_dir}{sb.fluence_dir}'
+    data_files = ['snow-smeared.csv', 'snow-unsmeared.csv',
+                  'sspike-basic.csv', 'sspike-nc.csv']
+    # Output file of tabulated events.
+    tab_file = f'{data_dir}totals.txt'
+    tab = open(tab_file, 'w')
+
+    for file in data_files:
+        # Write file name and some dashes to improve readability.
+        name = file[:-4]
+        dashes = '-' * len(name)
+        tab.write(f'{name}\n')
+        tab.write(f'{dashes}\n')
+
+        # Load data.
+        data = pd.read_csv(f'{data_dir}{file}', sep=' ')
+
+        # sspike data have different format than SNOwGLoBES data.
+        if name == 'sspike-nc':
+            # Event rates with no energy threshold.
+            tab.write('No energy cut\n')
+            tab.write('-------------\n')
+            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
+                chan = f'nc_{nu}_p'
+                N = np.sum(data[chan])
+                tab.write(f'{chan}: \t{N}\n')
+
+            # Event rates with energy cut.
+            tab.write('\n')
+            tab.write('100 kev energy cut\n')
+            tab.write('------------------\n')
+            cut = 1e-4
+            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
+                chan = f'nc_{nu}_p'
+                vis = data[chan].where(data['E_vis'] >= cut)
+                N = np.sum(vis)
+                tab.write(f'{chan}: \t{N}\n')
+
+            # Event rates with energy cut.
+            tab.write('\n')
+            tab.write('200 kev energy cut\n')
+            tab.write('------------------\n')
+            cut = 2e-4
+            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
+                chan = f'nc_{nu}_p'
+                vis = data[chan].where(data['E_vis'] >= cut)
+                N = np.sum(vis)
+                tab.write(f'{chan}: \t{N}\n')
+
+            # Event rates with energy cut.
+            tab.write('\n')
+            tab.write('300 kev energy cut\n')
+            tab.write('------------------\n')
+            cut = 3e-4
+            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
+                chan = f'nc_{nu}_p'
+                vis = data[chan].where(data['E_vis'] >= cut)
+                N = np.sum(vis)
+                tab.write(f'{chan}: \t{N}\n')
+
+        elif name == 'sspike-basic':
+            for chan in ['ibd', 'nue_e', 'nuebar_e', 'nux_e']:
+                N = np.sum(data[chan])
+                tab.write(f'{chan}: \t{N}\n')
+            tab.write('\n\n')
+
+        else:
+            chans = data.keys()[1:]
+            for chan in chans:
+                N = np.sum(data[chan])
+                tab.write(f'{chan}: \t{N}\n')
+            tab.write('\n\n')
+
+    tab.close()
+
+    return tab_file
