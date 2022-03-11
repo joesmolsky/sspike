@@ -14,7 +14,7 @@ def main():
 
     # Flag options
     parser.add_argument('-v', '--version',
-                        action='version', version='0.0.2')
+                        action='version', version='0.0.3')
     parser.add_argument('-d', '--debug', action='store_true',
                         help='include all messages in log file')
     parser.add_argument('-i', '--info', action='store_true',
