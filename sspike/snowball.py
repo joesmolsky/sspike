@@ -2,6 +2,7 @@
 
 import tarfile
 
+import pandas as pd
 from snewpy import snowglobes
 
 from .core.logging import getLogger
@@ -28,16 +29,16 @@ class Snowball():
         Local snewpy models directory.
     snowglobes_dir : str
         Local SNOwGLoBES directory.
-    snowball_dir : str
-        sspike directory for simulation fluences and processed dataframes.
     sim_path : str
         Simulation file containing initial neutrino fluxes.
+    snowball_dir : str
+        sspike directory for simulation fluences and processed dataframes.
     sn_name : str
         Name indicating model type and progenitor parameters.
     tarball : str
         File path to tarball created by snewpy.
-    fluence : str
-        File path to extracted snewpy tarball.
+    fluence_dir : str
+        Directory path to extracted snewpy tarball.
     """
     def __init__(self, model, progenitor, transform, distance):
         # Install locations.
@@ -60,18 +61,25 @@ class Snowball():
     def _simulation_settings(self):
         """Paths to supernovae simulation file and output directory."""
         if self.model == 'Nakazato_2013':
-            # Simulation properties
-            try:
-                mass = self.progenitor['mass']
-                metal = self.progenitor['metal']
-                t_rev = self.progenitor['t_rev']
-            except Exception:
-                log.error('ERROR: given properties do not match model.\n')
-                log.error(Exception)
-                exit()
+            # Nakazato parameters: mass, metallicity, shock-revival time.
+            mass = self.progenitor['mass']
+            metal = self.progenitor['metal']
+            t_rev = self.progenitor['t_rev']
+            # Name for sub-directory of fluences produced by this model file.
+            self.sn_name = f'Nak-{mass}-{int(metal*1e3)}-{t_rev}'
             # Supernovae model filename.
             sim_file = f'nakazato-shen-z{metal}-t_rev{t_rev}ms-s{mass}.0.fits'
-            self.sn_name = f'{self.model[:3]}-{mass}-{int(metal*1e3)}-{t_rev}'
+
+        if self.model == 'Fornax_2019':
+            # Fornax 2019 models only vary by mass.
+            mass = self.progenitor['mass']
+            # Name for sub-directory of fluences produced by this model file.
+            self.sn_name = f'F19-{mass}'
+            # 16 solar mass simulation is a special case for file name.
+            if mass == 16:
+                sim_file = 'lum_spec_16M_r250.hf'
+            else:
+                sim_file = f'lum_spec_{mass}M.hf'
 
         self.sim_path = f'{self.models_dir}/{self.model}/{sim_file}'
         fluence_specs = f'{self.distance}kpc-{self.transform}'
@@ -88,3 +96,14 @@ class Snowball():
         # Extract snewpy output in sspike snowball directory.
         with tarfile.open(self.tarball) as tb:
             tb.extractall(f"{self.snowball_dir}{self.fluence_dir}")
+
+    def fluences(self):
+        """Read fluence file and return dataframe."""
+        file_dir = f'{self.snowball_dir}{self.fluence_dir}'
+        file_name = f'{self.sn_name}.dat'
+        fluence_file = f'{file_dir}{file_name}'
+        names = ['E', 'NuE', 'NuMu', 'NuTau', 'aNuE', 'aNuMu', 'aNuTau']
+        fluences = pd.read_csv(fluence_file, sep='   ', skiprows=2,
+                               names=names, engine='python')
+
+        return fluences
