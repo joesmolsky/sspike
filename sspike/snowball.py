@@ -70,16 +70,12 @@ class Snowball():
             # Supernovae model filename.
             sim_file = f'nakazato-shen-z{metal}-t_rev{t_rev}ms-s{mass}.0.fits'
 
-        if self.model == 'Fornax_2019':
+        if self.model == 'Fornax_2021':
             # Fornax 2019 models only vary by mass.
             mass = self.progenitor['mass']
             # Name for sub-directory of fluences produced by this model file.
-            self.sn_name = f'F19-{mass}'
-            # 16 solar mass simulation is a special case for file name.
-            if mass == 16:
-                sim_file = 'lum_spec_16M_r250.hf'
-            else:
-                sim_file = f'lum_spec_{mass}M.hf'
+            self.sn_name = f'F21-{mass}'
+            sim_file = f'lum_spec_{mass}M_r10000_dat.h5'
 
         self.sim_path = f'{self.models_dir}/{self.model}/{sim_file}'
         fluence_specs = f'{self.distance}kpc-{self.transform}'
