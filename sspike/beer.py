@@ -11,7 +11,7 @@ import numpy as np
 mpl.rc('font', size=18)
 
 
-def draw(events_path, channels, save=False):
+def draw(events_path, channels, save=False, test=False):
     """Plot event rates.
 
     Parameters
@@ -105,6 +105,10 @@ def draw(events_path, channels, save=False):
 
     plt.tight_layout(pad=1.0)
     plt.legend()
+    if save:
+        plt.savefig(save, dpi=600, facecolor='white')
+        if test:
+            return 0
     plt.show()
 
 
