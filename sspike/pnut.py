@@ -111,7 +111,20 @@ def basic_events(snowball, target):
 
 
 def ibd_events(snowball, target):
-    """Given fluence dataframe, return electron events dataframe."""
+    """Inverse beta decay events.
+
+    Parameters
+    ----------
+    snowball : Snowball
+        Simulation details.
+    target : list of str
+        Name of SNOwGLoBES detector.
+
+    Returns
+    -------
+    sspiked : dataframe
+        Pandas dataframe with electron events by flavor.
+    """
     # Load fluences.
     fluences = snowball.fluences()
 
