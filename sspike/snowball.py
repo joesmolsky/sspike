@@ -1,6 +1,7 @@
 """Class for model details and data storage."""
 
 import tarfile
+from os.path import isdir
 
 import pandas as pd
 from snewpy import snowglobes
@@ -55,8 +56,13 @@ class Snowball():
         self.distance = distance
         # Model/simulation specific variables.
         self._simulation_settings()
-        # Transformed terrestrial fluence.
-        self._gen_fluence()
+        # Generate fluence if this has not been run before.
+        if not isdir(f"{self.snowball_dir}{self.fluence_dir}"):
+            self._gen_fluence()
+        else:
+            fluence_dir = f"{self.snowball_dir}{self.fluence_dir}"
+            with open(f"{fluence_dir}tarball_path.txt", 'r') as f:
+                self.tarball = f.readline()
 
     def _simulation_settings(self):
         """Paths to supernovae simulation file and output directory."""
@@ -133,8 +139,15 @@ class Snowball():
                                                    self.distance,
                                                    self.sn_name)
         # Extract snewpy output in sspike snowball directory.
+        fluence_path = f"{self.snowball_dir}{self.fluence_dir}"
         with tarfile.open(self.tarball) as tb:
-            tb.extractall(f"{self.snowball_dir}{self.fluence_dir}")
+            tb.extractall(fluence_path)
+        tarball_path = f"{fluence_path}tarball_path.txt"
+        # Save path name for skipping this step later.
+        with open(tarball_path, 'w') as f:
+            f.write(self.tarball)
+
+        
 
     def fluences(self):
         """Read fluence file and return dataframe."""
