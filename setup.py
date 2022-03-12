@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='sspike',
-    version='0.0.3',
+    version='0.0.4',
     author='Joe Smolsky',
     author_email='smolsky@mit.edu',
     description='simulated supernovae products inducing KamLAND events',
