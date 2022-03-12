@@ -22,6 +22,7 @@ def test_Snowball_keys():
 
 def test_fluences():
     fluences = sb.fluences()
-    assert (fluences.keys() == ['E', 'NuE', 'NuMu', 'NuTau', 'aNuE', 'aNuMu', 'aNuTau']).all()
+    assert (fluences.keys() == ['E', 'NuE', 'NuMu', 'NuTau',
+                                     'aNuE', 'aNuMu', 'aNuTau']).all()
     assert len(fluences['E']) == 501
     assert fluences['NuTau'][0] == 3785870550.0
