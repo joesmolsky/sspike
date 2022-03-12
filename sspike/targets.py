@@ -12,6 +12,9 @@ class Target:
     ----------
     name: str
         Detector name in SNOwGLoBES (and sspike (copying SNOwGLoBES ( ;) ))).
+
+    Attributes
+    ----------
     N_p : float
         Number of target protons.
     N_e : float

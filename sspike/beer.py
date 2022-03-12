@@ -1,6 +1,6 @@
 """Back-end event reader.
 
-Process events saved by pnut.
+Make plots and tables of pnut outputs.
 """
 
 import pandas as pd
@@ -150,7 +150,18 @@ def tab(snowball):
                 N = np.sum(data[chan])
                 tab.write(f'{chan}: \t{N}\n')
 
-            # Event rates with energy cut.
+            # 20 keV cut.
+            tab.write('\n')
+            tab.write('20 kev energy cut\n')
+            tab.write('-----------------\n')
+            cut = 2e-5
+            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
+                chan = f'nc_{nu}_p'
+                vis = data[chan].where(data['E_vis'] >= cut)
+                N = np.sum(vis)
+                tab.write(f'{chan}: \t{N}\n')
+
+            # 100 keV cut.
             tab.write('\n')
             tab.write('100 kev energy cut\n')
             tab.write('------------------\n')
@@ -161,7 +172,7 @@ def tab(snowball):
                 N = np.sum(vis)
                 tab.write(f'{chan}: \t{N}\n')
 
-            # Event rates with energy cut.
+            # 200 keV cut.
             tab.write('\n')
             tab.write('200 kev energy cut\n')
             tab.write('------------------\n')
@@ -172,7 +183,7 @@ def tab(snowball):
                 N = np.sum(vis)
                 tab.write(f'{chan}: \t{N}\n')
 
-            # Event rates with energy cut.
+            # 300 keV cut.
             tab.write('\n')
             tab.write('300 kev energy cut\n')
             tab.write('------------------\n')
@@ -201,11 +212,11 @@ def tab(snowball):
     return tab_file
 
 
-def bar(tab):
+def bar(tabs):
     """Bar graph comparing event rates."""
     pass
 
 
-def pay(tab):
-    """Print astrophysical yields.  (Show rates from tab.)"""
+def pay(tabs):
+    """Print astrophysical yields.  (Show rates from tabs.)"""
     pass
