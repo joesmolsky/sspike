@@ -22,6 +22,6 @@ setup(
                  'Operating System :: MacOS',
                  'License :: OSI Approved :: MIT License', ],
     install_requires=['numpy', 'matplotlib', 'snewpy', ],
-    extras_require={'dev': ['pytest', 'sphinx', 'pydata_sphinx_theme', ]},
+    extras_require={'dev': ['pytest', 'sphinx', 'sphinx-rtd-theme', ]},
     entry_points={'console_scripts': ['sspike=sspike.sspike:main']}
 )
