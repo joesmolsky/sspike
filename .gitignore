@@ -1,7 +1,6 @@
 .vscode/
 *.egg-info
 *.pyc
-docs/
 snowballs/
 log/
 out/

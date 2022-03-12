@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sspike package &mdash; sspike 0.0.2 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="sspike.core package" href="sspike.core.html" />
+    <link rel="prev" title="sspike" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> sspike
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">sspike</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">sspike package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="sspike.core.html">sspike.core package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-sspike.beer">sspike.beer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-sspike.pnut">sspike.pnut module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-sspike.snowball">sspike.snowball module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-sspike.sspike">sspike.sspike module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-sspike.targets">sspike.targets module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-sspike">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sspike</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">sspike</a> &raquo;</li>
+      <li>sspike package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/sspike.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sspike-package">
+<h1>sspike package<a class="headerlink" href="#sspike-package" title="Permalink to this headline"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sspike.core.html">sspike.core package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sspike.core.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sspike.core.html#module-sspike.core.logging">sspike.core.logging module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sspike.core.html#module-sspike.core">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-sspike.beer">
+<span id="sspike-beer-module"></span><h2>sspike.beer module<a class="headerlink" href="#module-sspike.beer" title="Permalink to this headline"></a></h2>
+<p>Back-end event reader.</p>
+<p>Make plots and tables of pnut outputs.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.beer.bar">
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.bar" title="Permalink to this definition"></a></dt>
+<dd><p>Bar graph comparing event rates.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.beer.draw">
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.draw" title="Permalink to this definition"></a></dt>
+<dd><p>Plot event rates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>events_path</strong> (<em>str</em>) – Location of dataframe csv.</p></li>
+<li><p><strong>channels</strong> (<em>list of str</em>) – Interaction channels to plot.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Proton neutral rates cannot be combined with other rates yet.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.beer.pay">
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">pay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.pay" title="Permalink to this definition"></a></dt>
+<dd><p>Print astrophysical yields.  (Show rates from tabs.)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.beer.tab">
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.tab" title="Permalink to this definition"></a></dt>
+<dd><p>Count binned event rates and create a table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>tab</strong> – File path to results.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-sspike.pnut">
+<span id="sspike-pnut-module"></span><h2>sspike.pnut module<a class="headerlink" href="#module-sspike.pnut" title="Permalink to this headline"></a></h2>
+<p>Process neutrino underground telemetry.</p>
+<p>Load models and process event rates with snewpy, SNoGLoBES, and sspike.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.pnut.basic_events">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">basic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.basic_events" title="Permalink to this definition"></a></dt>
+<dd><p>Estimate ibd and electron scatter events for cross-checking.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – Simulation details.</p></li>
+<li><p><strong>target</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>sspiked</strong> – File path to processed dataframe.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.pnut.dxs_nc">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">dxs_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.dxs_nc" title="Permalink to this definition"></a></dt>
+<dd><p>Neutral-current double differential cross-section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>E</strong> (<em>float</em>) – Neutrino energy in GeV.</p></li>
+<li><p><strong>T_p</strong> (<em>float</em>) – Proton recoil energy in GeV.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dsig</strong> – Differential cross-section in with respect to proton recoil energy
+with units of cm^2 / GeV.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.pnut.e_scat">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">e_scat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.e_scat" title="Permalink to this definition"></a></dt>
+<dd><p>Electron-neutrino scattering events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – Simulation details.</p></li>
+<li><p><strong>target</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>sspiked</strong> – Pandas dataframe with electron events by flavor.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.pnut.elastic_events">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">elastic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.elastic_events" title="Permalink to this definition"></a></dt>
+<dd><p>Proton-neutrino elastic scattering events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – Simulation details.</p></li>
+<li><p><strong>target</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>sspiked</strong> – Pandas dataframe with neutral-current events by flavor.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.pnut.ibd_events">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">ibd_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.ibd_events" title="Permalink to this definition"></a></dt>
+<dd><p>Given fluence dataframe, return electron events dataframe.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.pnut.quench">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">quench</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T_p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.quench" title="Permalink to this definition"></a></dt>
+<dd><p>Convert proton recoil energy to electron equivalent energy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>T_p</strong> (<em>np.array</em>) – Proton recoil energies of interest $[MeV]$.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>E</strong> (<em>np.array</em>) – Electron equivalent energy in KamLAND.</p></li>
+<li><p><em>Note</em> – Quenching factors using WebPlotDigitizer on Fig. 6 in:
+<a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0168900210017018">https://www.sciencedirect.com/science/article/pii/S0168900210017018</a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.pnut.snowglobes_events">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.snowglobes_events" title="Permalink to this definition"></a></dt>
+<dd><p>Process fluences with SNOwGLoBES via snewpy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – Simulation details.</p></li>
+<li><p><strong>target</strong> (<em>str</em>) – Name of SNOwGLoBES detector.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>snowflakes</strong> – File path to processed dataframe.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.pnut.sspike_events">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">sspike_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.sspike_events" title="Permalink to this definition"></a></dt>
+<dd><p>Process event rates using sspike functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – Simulation details.</p></li>
+<li><p><strong>target</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>sspikes</strong> – File paths to processed dataframe.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list(str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-sspike.snowball">
+<span id="sspike-snowball-module"></span><h2>sspike.snowball module<a class="headerlink" href="#module-sspike.snowball" title="Permalink to this headline"></a></h2>
+<p>Class for model details and data storage.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sspike.snowball.Snowball">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sspike.snowball.</span></span><span class="sig-name descname"><span class="pre">Snowball</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progenitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.snowball.Snowball" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Simulation parameters and directory information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>str</em>) – Name of supernova model type from snewpy.</p></li>
+<li><p><strong>progenitor</strong> (<em>dict</em>) – Model specific simulation parameters.</p></li>
+<li><p><strong>transform</strong> (<em>str</em>) – Name of transformation type for snewpy to apply.</p></li>
+<li><p><strong>distance</strong> (<em>float</em>) – Distance to supernova in kpc.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sspike.snowball.Snowball.models_dir">
+<span class="sig-name descname"><span class="pre">models_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.models_dir" title="Permalink to this definition"></a></dt>
+<dd><p>Local snewpy models directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sspike.snowball.Snowball.snowglobes_dir">
+<span class="sig-name descname"><span class="pre">snowglobes_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.snowglobes_dir" title="Permalink to this definition"></a></dt>
+<dd><p>Local SNOwGLoBES directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sspike.snowball.Snowball.sim_path">
+<span class="sig-name descname"><span class="pre">sim_path</span></span><a class="headerlink" href="#sspike.snowball.Snowball.sim_path" title="Permalink to this definition"></a></dt>
+<dd><p>Simulation file containing initial neutrino fluxes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sspike.snowball.Snowball.snowball_dir">
+<span class="sig-name descname"><span class="pre">snowball_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.snowball_dir" title="Permalink to this definition"></a></dt>
+<dd><p>sspike directory for simulation fluences and processed dataframes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sspike.snowball.Snowball.sn_name">
+<span class="sig-name descname"><span class="pre">sn_name</span></span><a class="headerlink" href="#sspike.snowball.Snowball.sn_name" title="Permalink to this definition"></a></dt>
+<dd><p>Name indicating model type and progenitor parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sspike.snowball.Snowball.tarball">
+<span class="sig-name descname"><span class="pre">tarball</span></span><a class="headerlink" href="#sspike.snowball.Snowball.tarball" title="Permalink to this definition"></a></dt>
+<dd><p>File path to tarball created by snewpy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sspike.snowball.Snowball.fluence_dir">
+<span class="sig-name descname"><span class="pre">fluence_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.fluence_dir" title="Permalink to this definition"></a></dt>
+<dd><p>Directory path to extracted snewpy tarball.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sspike.snowball.Snowball.fluences">
+<span class="sig-name descname"><span class="pre">fluences</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sspike.snowball.Snowball.fluences" title="Permalink to this definition"></a></dt>
+<dd><p>Read fluence file and return dataframe.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-sspike.sspike">
+<span id="sspike-sspike-module"></span><h2>sspike.sspike module<a class="headerlink" href="#module-sspike.sspike" title="Permalink to this headline"></a></h2>
+<p>Command-line entry-point for <cite>sspike</cite>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.sspike.main">
+<span class="sig-prename descclassname"><span class="pre">sspike.sspike.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sspike.sspike.main" title="Permalink to this definition"></a></dt>
+<dd><p>Parse arguments and run.</p>
+</dd></dl>
+
+</section>
+<section id="module-sspike.targets">
+<span id="sspike-targets-module"></span><h2>sspike.targets module<a class="headerlink" href="#module-sspike.targets" title="Permalink to this headline"></a></h2>
+<p>Detector specifications.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sspike.targets.Target">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sspike.targets.</span></span><span class="sig-name descname"><span class="pre">Target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.targets.Target" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Target/detector specific information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Detector name in SNOwGLoBES (and sspike (copying SNOwGLoBES ( ;) ))).</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sspike.targets.Target.N_p">
+<span class="sig-name descname"><span class="pre">N_p</span></span><a class="headerlink" href="#sspike.targets.Target.N_p" title="Permalink to this definition"></a></dt>
+<dd><p>Number of target protons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sspike.targets.Target.N_e">
+<span class="sig-name descname"><span class="pre">N_e</span></span><a class="headerlink" href="#sspike.targets.Target.N_e" title="Permalink to this definition"></a></dt>
+<dd><p>Number of target electrons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sspike.targets.Target.snow_channels">
+<span class="sig-name descname"><span class="pre">snow_channels</span></span><a class="headerlink" href="#sspike.targets.Target.snow_channels" title="Permalink to this definition"></a></dt>
+<dd><p>Channels used in SNOwGLoBES simulations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of  str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sspike.targets.Target.basic_channels">
+<span class="sig-name descname"><span class="pre">basic_channels</span></span><a class="headerlink" href="#sspike.targets.Target.basic_channels" title="Permalink to this definition"></a></dt>
+<dd><p>Channels for cross-checking sspike with SNOwGLoBES.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sspike.targets.Target.nc_channels">
+<span class="sig-name descname"><span class="pre">nc_channels</span></span><a class="headerlink" href="#sspike.targets.Target.nc_channels" title="Permalink to this definition"></a></dt>
+<dd><p>Neutrino-proton neutral-current interaction channels by flavor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-sspike">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-sspike" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="sspike" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sspike.core.html" class="btn btn-neutral float-right" title="sspike.core package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Joe Smolsky.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
