@@ -60,9 +60,13 @@ class Snowball():
         if not isdir(f"{self.snowball_dir}{self.fluence_dir}"):
             self._gen_fluence()
         else:
-            fluence_dir = f"{self.snowball_dir}{self.fluence_dir}"
-            with open(f"{fluence_dir}tarball_path.txt", 'r') as f:
-                self.tarball = f.readline()
+            # Temporary try except until version 0.0.3 snowballs reprocessed.
+            try:
+                fluence_dir = f"{self.snowball_dir}{self.fluence_dir}"
+                with open(f"{fluence_dir}tarball_path.txt", 'r') as f:
+                    self.tarball = f.readline()
+            except Exception:
+                self._gen_fluence()
 
     def _simulation_settings(self):
         """Paths to supernovae simulation file and output directory."""
@@ -146,8 +150,6 @@ class Snowball():
         # Save path name for skipping this step later.
         with open(tarball_path, 'w') as f:
             f.write(self.tarball)
-
-        
 
     def fluences(self):
         """Read fluence file and return dataframe."""
