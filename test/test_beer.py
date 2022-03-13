@@ -15,6 +15,15 @@ plot_dir = '/Users/joe/src/gitjoe/sspike/test/plots/'
 # Target instance for channel names.
 target = Target('kamland')
 
+# Testing Snowball
+model = 'Nakazato_2013'
+progenitor = {'mass':  20,
+              'metal': 0.02,
+              't_rev': 300}
+transformation = 'NoTransformation'
+distance = 5.0
+sb = Snowball(model, progenitor, transformation, distance)
+
 
 # SNOwGLoBES unsmeared plot.
 def test_draw_unsmeared():
@@ -36,16 +45,6 @@ def test_draw_basic():
 def test_draw_nc():
     draw(f'{data_dir}{nc}', channels=target.nc_channels,
          save=f'{plot_dir}{nc[:-3]}', test=True)
-
-
-# Testing Snowball
-model = 'Nakazato_2013'
-progenitor = {'mass': 20,
-              'metal': 0.02,
-              't_rev': 300}
-transformation = 'NoTransformation'
-distance = 5
-sb = Snowball(model, progenitor, transformation, distance)
 
 
 def test_tab():

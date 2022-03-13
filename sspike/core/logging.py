@@ -27,7 +27,8 @@ levels = {'debug': DEBUG, 'info': INFO, 'warning': WARNING,
 
 
 def initialize_logging(level):
-    """Initialize top-level logger with the stream handler and a `level`."""
+    """Initialize top-level logger with the file handler and a `level`."""
     if fh not in logger.handlers:
         logger.addHandler(fh)
         logger.setLevel(levels.get(level))
+        logger.propagate = False

@@ -58,7 +58,7 @@ class Snowball():
         self._simulation_settings()
         # Generate fluence if this has not been run before.
         if not isdir(f"{self.snowball_dir}{self.fluence_dir}"):
-            self._gen_fluence()
+            self._gen_fluences()
         else:
             # Temporary try except until version 0.0.3 snowballs reprocessed.
             try:
@@ -66,7 +66,7 @@ class Snowball():
                 with open(f"{fluence_dir}tarball_path.txt", 'r') as f:
                     self.tarball = f.readline()
             except Exception:
-                self._gen_fluence()
+                self._gen_fluences()
 
     def _simulation_settings(self):
         """Paths to supernovae simulation file and output directory."""
@@ -105,7 +105,7 @@ class Snowball():
         if self.model == 'Sukhbold_2015':
             # Sukhbold model has 2 masses and 2 equations of state.
             mass = self.progenitor['mass']
-            EoS = self.progenitor['EoS']
+            EoS = self.progenitor['eos']
             # Name for sub-directory of fluences produced by this model file.
             self.sn_name = f'S15-{mass}-{EoS}'
             # Naming convention varies with mass by 1 letter.
@@ -125,8 +125,8 @@ class Snowball():
         # Kuroda models have spin and magnetic field.
         # Allowed combinations for (Omega, B0): (00, 00), (10, 12), (10, 13).
         if self.model == 'Kuroda_2020':
-            Omega = self.progenitor['Omega']
-            B0 = self.progenitor['B-field']
+            Omega = self.progenitor['omega']
+            B0 = self.progenitor['B0']
             self.sn_name = f'K20-{Omega}-{B0}'
             sim_file = f'LnuR{Omega}B{B0}.dat'
 
@@ -134,8 +134,17 @@ class Snowball():
         fluence_specs = f'{self.distance}kpc-{self.transform}'
         self.fluence_dir = f"{self.sn_name}/{fluence_specs}/"
 
-    def _gen_fluence(self):
+    def _gen_fluences(self):
         """Generate fluence tarball with snewpy and extract for sspike."""
+        # Debugging message
+        flu_msg = '\n- Generating fluences:\n'
+        flu_msg += f'\t- sim_path: {self.sim_path} {type(self.sim_path)}\n'
+        flu_msg += f'\t- model: {self.model} {type(self.model)}\n'
+        flu_msg += f'\t- transform: {self.transform} {type(self.transform)}\n'
+        flu_msg += f'\t- distance: {self.distance} {type(self.distance)}\n'
+        flu_msg += f'\t- sn_name: {self.sn_name} {type(self.sn_name)}\n'
+        log.debug(flu_msg)
+
         # Generate fluence with snewpy and get path to output.
         self.tarball = snowglobes.generate_fluence(self.sim_path,
                                                    self.model,
@@ -153,6 +162,7 @@ class Snowball():
 
     def fluences(self):
         """Read fluence file and return dataframe."""
+        log.debug('\n- Reading fluences.\n')
         file_dir = f'{self.snowball_dir}{self.fluence_dir}'
         file_name = f'{self.sn_name}.dat'
         fluence_file = f'{file_dir}{file_name}'

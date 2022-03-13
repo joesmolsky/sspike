@@ -10,6 +10,9 @@ from scipy.integrate import quad
 
 from snewpy import snowglobes
 
+from .core.logging import getLogger
+log = getLogger(__name__)
+
 # Physics constants.
 # Proton mass in GeV.
 M_p = cns.physical_constants['proton mass energy equivalent in MeV'][0] * 1e-3
@@ -39,6 +42,7 @@ def snowglobes_events(snowball, target):
     snowflakes : list of str
         File path to processed dataframe.
     """
+    log.debug('- Generating SNOwGLoBES events.')
     sb = snowball
     # Simulate via snewpy and make a table of the results.
     snow = snowglobes.simulate(sb.snowglobes_dir,
