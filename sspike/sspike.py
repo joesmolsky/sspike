@@ -17,8 +17,6 @@ def main():
                         action='version', version='0.0.4')
     parser.add_argument('-d', '--debug', action='store_true',
                         help='include all messages in log file')
-    parser.add_argument('-i', '--info', action='store_true',
-                        help='include info messages in log file')
     parser.add_argument('-o', '--output', dest='outfile', metavar='FILE',
                         default='../out/default.txt', type=FileType(mode='w'),
                         help='output file path (default <stdout>)')
@@ -32,10 +30,8 @@ def main():
     # Logging level
     if cmdline.debug:
         initialize_logging('debug')
-    elif cmdline.info:
-        initialize_logging('info')
     else:
-        initialize_logging('warning')
+        initialize_logging('info')
 
     log.debug('\n****\nBegin Processing.\n****\n')
 
