@@ -1,7 +1,10 @@
 """Command-line entry-point for `sspike`."""
-from argparse import ArgumentParser  # TODO: output files using FileType
+from argparse import ArgumentParser
+
+from matplotlib import bezier  # TODO: output files using FileType
 
 from sspike import pnut
+from sspike import beer
 from sspike.snowball import Snowball
 from sspike.targets import Target
 from .core.logging import getLogger, initialize_logging
@@ -16,9 +19,9 @@ def main():
     parser = ArgumentParser(prog='sspike', description=description)
 
     # Command line arguments.
-    # Supernova model type.
+    # Supernova model type or file path.
     parser.add_argument('model',
-                        help='name of supernova model type from snewpy')
+                        help='name of supernova model type or file path')
     # Target/detector.
     parser.add_argument('-T', '--detector', default='kamland', metavar='',
                         help='target/detector for simulations')
@@ -44,6 +47,8 @@ def main():
     parser.add_argument('-S', '--stir', metavar='',
                         help='stirring parameter (Warren_2020)')
     # Other arguments.
+    parser.add_argument('-f', '--file', metavar='',
+                        help='file path to simulations dictionary')
     parser.add_argument('-v', '--version',
                         action='version', version='0.0.4')
     parser.add_argument('-d', '--debug', action='store_true',
@@ -101,19 +106,32 @@ def main():
     log.info(sn_info)
 
     # Physics!!!
-    log.debug('\n- Generating Snowball.\n')
-    sb = Snowball(model, progenitor, transform, distance)
-    log.debug(f'\n- Assigning target: {detector}.\n')
-    target = Target(detector)
-    log.debug('\n- Processing with SNOwGLoBES .\n')
-    snowflakes = pnut.snowglobes_events(sb, target)
-    log.info(f'- SNOwGLoBES files:\n\t-{snowflakes[0]}\n\t-{snowflakes[1]}')
-    log.debug('\n- Processing with sspike.\n')
-    sspikes = pnut.sspike_events(sb, target)
-    log.info(f'- sspike files:\n\t-{sspikes[0]}\n\t-{sspikes[1]}')
+    run_sim(model, progenitor, transform, distance, detector)
+
     # End of main()
     log.debug('\n****\nsspike.main complete.\n****\n')
 
     print("Job's done.")
 
     return 0
+
+
+def run_sim(model, progenitor, transform, distance, detector):
+    # Load model.
+    log.debug('\n- Generating Snowball.\n')
+    sb = Snowball(model, progenitor, transform, distance)
+    # Assign target.
+    log.debug(f'\n- Assigning target: {detector}.\n')
+    target = Target(detector)
+    # Process with SNOwGLoBES.
+    log.debug('\n- Processing with SNOwGLoBES .\n')
+    snowflakes = pnut.snowglobes_events(sb, target)
+    log.info(f'- SNOwGLoBES files:\n\t-{snowflakes[0]}\n\t-{snowflakes[1]}')
+    # Process with sspike.
+    log.debug('\n- Processing with sspike.\n')
+    sspikes = pnut.sspike_events(sb, target)
+    log.info(f'- sspike files:\n\t-{sspikes[0]}\n\t-{sspikes[1]}')
+    # Tabulate results
+    log.debug('\n- Tabulating results.\n')
+    tab = beer.tab(sb)
+    log.info(f'- tab file:\n\t-{tab}')
