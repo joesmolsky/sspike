@@ -109,12 +109,12 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.beer.bar">
 <span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.bar" title="Permalink to this definition"></a></dt>
-<dd><p>Bar graph comparing event rates.</p>
+<dd><p>TODO: Bar graph comparing event rates.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.beer.draw">
-<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.draw" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.draw" title="Permalink to this definition"></a></dt>
 <dd><p>Plot event rates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -133,7 +133,7 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.beer.pay">
 <span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">pay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.pay" title="Permalink to this definition"></a></dt>
-<dd><p>Print astrophysical yields.  (Show rates from tabs.)</p>
+<dd><p>TODO: Print astrophysical yields.  (Show rates from tabs.)</p>
 </dd></dl>
 
 <dl class="py function">
@@ -157,7 +157,7 @@
 <section id="module-sspike.pnut">
 <span id="sspike-pnut-module"></span><h2>sspike.pnut module<a class="headerlink" href="#module-sspike.pnut" title="Permalink to this headline"></a></h2>
 <p>Process neutrino underground telemetry.</p>
-<p>Load models and process event rates with snewpy, SNoGLoBES, and sspike.</p>
+<p>Functions to load SN models from and process event rates.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.pnut.basic_events">
 <span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">basic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.basic_events" title="Permalink to this definition"></a></dt>
@@ -242,7 +242,21 @@ with units of cm^2 / GeV.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.pnut.ibd_events">
 <span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">ibd_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.ibd_events" title="Permalink to this definition"></a></dt>
-<dd><p>Given fluence dataframe, return electron events dataframe.</p>
+<dd><p>Inverse beta decay events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – Simulation details.</p></li>
+<li><p><strong>target</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>sspiked</strong> – Pandas dataframe with electron events by flavor.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dataframe</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -267,7 +281,7 @@ with units of cm^2 / GeV.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.pnut.snowglobes_events">
 <span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.snowglobes_events" title="Permalink to this definition"></a></dt>
-<dd><p>Process fluences with SNOwGLoBES via snewpy.</p>
+<dd><p>Process fluences with SNOwGLoBES via <cite>snewpy</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -316,9 +330,9 @@ with units of cm^2 / GeV.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>str</em>) – Name of supernova model type from snewpy.</p></li>
+<li><p><strong>model</strong> (<em>str</em>) – Name of supernova model type from <cite>snewpy</cite>.</p></li>
 <li><p><strong>progenitor</strong> (<em>dict</em>) – Model specific simulation parameters.</p></li>
-<li><p><strong>transform</strong> (<em>str</em>) – Name of transformation type for snewpy to apply.</p></li>
+<li><p><strong>transform</strong> (<em>str</em>) – Name of transformation type for <cite>snewpy</cite> to apply.</p></li>
 <li><p><strong>distance</strong> (<em>float</em>) – Distance to supernova in kpc.</p></li>
 </ul>
 </dd>
@@ -326,7 +340,7 @@ with units of cm^2 / GeV.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball.models_dir">
 <span class="sig-name descname"><span class="pre">models_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.models_dir" title="Permalink to this definition"></a></dt>
-<dd><p>Local snewpy models directory.</p>
+<dd><p>Local <cite>snewpy</cite> models directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -337,7 +351,7 @@ with units of cm^2 / GeV.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball.snowglobes_dir">
 <span class="sig-name descname"><span class="pre">snowglobes_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.snowglobes_dir" title="Permalink to this definition"></a></dt>
-<dd><p>Local SNOwGLoBES directory.</p>
+<dd><p>Local <cite>SNOwGLoBES</cite> directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -381,7 +395,7 @@ with units of cm^2 / GeV.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball.tarball">
 <span class="sig-name descname"><span class="pre">tarball</span></span><a class="headerlink" href="#sspike.snowball.Snowball.tarball" title="Permalink to this definition"></a></dt>
-<dd><p>File path to tarball created by snewpy.</p>
+<dd><p>File path to tarball created by <cite>snewpy</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -392,7 +406,7 @@ with units of cm^2 / GeV.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball.fluence_dir">
 <span class="sig-name descname"><span class="pre">fluence_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.fluence_dir" title="Permalink to this definition"></a></dt>
-<dd><p>Directory path to extracted snewpy tarball.</p>
+<dd><p>Directory path to extracted <cite>snewpy</cite> tarball.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -412,10 +426,98 @@ with units of cm^2 / GeV.</p>
 <section id="module-sspike.sspike">
 <span id="sspike-sspike-module"></span><h2>sspike.sspike module<a class="headerlink" href="#module-sspike.sspike" title="Permalink to this headline"></a></h2>
 <p>Command-line entry-point for <cite>sspike</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">param model</dt>
+<dd class="field-odd"><p>Name of supernova model type or file path simulation specifications.</p>
+</dd>
+<dt class="field-even">type model</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">param detector</dt>
+<dd class="field-odd"><p>Target/detector for simulations.  Default <cite>kamland</cite>.</p>
+</dd>
+<dt class="field-even">type detector</dt>
+<dd class="field-even"><p>str, optional</p>
+</dd>
+<dt class="field-odd">param distance</dt>
+<dd class="field-odd"><p>Distance to supernova in kpc.  Default 5.0</p>
+</dd>
+<dt class="field-even">type distance</dt>
+<dd class="field-even"><p>float, optional</p>
+</dd>
+<dt class="field-odd">param transform</dt>
+<dd class="field-odd"><p>Type of transformation to apply.  Default <cite>NoTransformation</cite>.</p>
+</dd>
+<dt class="field-even">type transform</dt>
+<dd class="field-even"><p>str, optional</p>
+</dd>
+<dt class="field-odd">param mass</dt>
+<dd class="field-odd"><p>Progenitor mass in solar masses.  Required for several models.</p>
+</dd>
+<dt class="field-even">type mass</dt>
+<dd class="field-even"><p>float or str, optional</p>
+</dd>
+<dt class="field-odd">param metal</dt>
+<dd class="field-odd"><p>Progenitor metallicity.  Required for <cite>Nakazato_2013</cite>.</p>
+</dd>
+<dt class="field-even">type metal</dt>
+<dd class="field-even"><p>float, optional</p>
+</dd>
+<dt class="field-odd">param revival_time</dt>
+<dd class="field-odd"><p>Shock revival time. Required for <cite>Nakazato_2013</cite>.</p>
+</dd>
+<dt class="field-even">type revival_time</dt>
+<dd class="field-even"><p>str or int, optional</p>
+</dd>
+<dt class="field-odd">param omega</dt>
+<dd class="field-odd"><p>Rotation of progenitor.  Required for <cite>Kuroda_2020</cite>.</p>
+</dd>
+<dt class="field-even">type omega</dt>
+<dd class="field-even"><p>str, optional</p>
+</dd>
+<dt class="field-odd">param b_field</dt>
+<dd class="field-odd"><p>Magnetic field strength of progenitor.  Required for <cite>Kuroda_2020</cite>.</p>
+</dd>
+<dt class="field-even">type b_field</dt>
+<dd class="field-even"><p>str or int, optional</p>
+</dd>
+<dt class="field-odd">param eos</dt>
+<dd class="field-odd"><p>Nuclear equation of state.  Required for <cite>Sukhbold_2015</cite>.</p>
+</dd>
+<dt class="field-even">type eos</dt>
+<dd class="field-even"><p>str, optional</p>
+</dd>
+<dt class="field-odd">param stir</dt>
+<dd class="field-odd"><p>Progenitor stirring parameter.  Required for <cite>Warren_2020</cite>.</p>
+</dd>
+<dt class="field-even">type stir</dt>
+<dd class="field-even"><p>str or float, optional</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Supernova model and detector must be included in <cite>snewpy</cite> and <cite>SNOwGLoBES</cite>.</p>
+</div>
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.sspike.main">
 <span class="sig-prename descclassname"><span class="pre">sspike.sspike.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sspike.sspike.main" title="Permalink to this definition"></a></dt>
-<dd><p>Parse arguments and run.</p>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.sspike.run_sim">
+<span class="sig-prename descclassname"><span class="pre">sspike.sspike.</span></span><span class="sig-name descname"><span class="pre">run_sim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progenitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.sspike.run_sim" title="Permalink to this definition"></a></dt>
+<dd><p>Process simulation file with <cite>SNoGLoBES</cite> and <cite>sspike</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>str</em>) – Model name from <cite>snewpy</cite>.</p></li>
+<li><p><strong>progenitor</strong> (<em>dict</em>) – Model specific parameters for simulation file.</p></li>
+<li><p><strong>transform</strong> (<em>str</em>) – Type of <cite>snewpy</cite> transformation to apply.</p></li>
+<li><p><strong>distance</strong> (<em>float</em>) – Distance to supernova.</p></li>
+<li><p><strong>detector</strong> (<em>str</em>) – Name of detector in <cite>SNOwGLoBEs</cite>.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
