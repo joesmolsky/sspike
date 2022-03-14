@@ -1,6 +1,6 @@
 """Process neutrino underground telemetry.
 
-Load models and process event rates with snewpy, SNoGLoBES, and sspike.
+Functions to load SN models from and process event rates.
 """
 
 import pandas as pd
@@ -28,7 +28,7 @@ xs_e = '/Users/joe/src/snowglobes/xscns/xs_nue_e.dat'
 
 
 def snowglobes_events(snowball, target):
-    """Process fluences with SNOwGLoBES via snewpy.
+    """Process fluences with SNOwGLoBES via `snewpy`.
 
     Parameters
     ----------

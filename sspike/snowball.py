@@ -16,20 +16,20 @@ class Snowball():
     Parameters
     ----------
     model : str
-        Name of supernova model type from snewpy.
+        Name of supernova model type from `snewpy`.
     progenitor : dict
         Model specific simulation parameters.
     transform : str
-        Name of transformation type for snewpy to apply.
+        Name of transformation type for `snewpy` to apply.
     distance : float
         Distance to supernova in kpc.
 
     Attributes
     ----------
     models_dir : str
-        Local snewpy models directory.
+        Local `snewpy` models directory.
     snowglobes_dir : str
-        Local SNOwGLoBES directory.
+        Local `SNOwGLoBES` directory.
     sim_path : str
         Simulation file containing initial neutrino fluxes.
     snowball_dir : str
@@ -37,9 +37,9 @@ class Snowball():
     sn_name : str
         Name indicating model type and progenitor parameters.
     tarball : str
-        File path to tarball created by snewpy.
+        File path to tarball created by `snewpy`.
     fluence_dir : str
-        Directory path to extracted snewpy tarball.
+        Directory path to extracted `snewpy` tarball.
     """
     def __init__(self, model, progenitor, transform, distance):
         # Install locations.
@@ -135,7 +135,7 @@ class Snowball():
         self.fluence_dir = f"{self.sn_name}/{fluence_specs}/"
 
     def _gen_fluences(self):
-        """Generate fluence tarball with snewpy and extract for sspike."""
+        """Generate fluence tarball with `snewpy` and extract for `sspike`."""
         # Debugging message
         flu_msg = '\n- Generating fluences:\n'
         flu_msg += f'\t- sim_path: {self.sim_path} {type(self.sim_path)}\n'

@@ -3,6 +3,8 @@
 Make plots and tables of pnut outputs.
 """
 
+from os.path import isfile
+
 import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -135,14 +137,21 @@ def tab(snowball):
     tab = open(tab_file, 'w')
 
     for file in data_files:
+        # Path to processed data files.
+        path = f'{data_dir}{file}'
+
+        # Detectors other than kamland may not have all for file types.
+        if not isfile(path):
+            continue
+
+        # Load data.
+        data = pd.read_csv(path, sep=' ')
+
         # Write file name and some dashes to improve readability.
         name = file[:-4]
         dashes = '-' * len(name)
         tab.write(f'{name}\n')
         tab.write(f'{dashes}\n')
-
-        # Load data.
-        data = pd.read_csv(f'{data_dir}{file}', sep=' ')
 
         # sspike data have different format than SNOwGLoBES data.
         if name == 'sspike-nc':
@@ -217,10 +226,10 @@ def tab(snowball):
 
 
 def bar(tabs):
-    """Bar graph comparing event rates."""
+    """TODO: Bar graph comparing event rates."""
     pass
 
 
 def pay(tabs):
-    """Print astrophysical yields.  (Show rates from tabs.)"""
+    """TODO: Print astrophysical yields.  (Show rates from tabs.)"""
     pass

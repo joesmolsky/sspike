@@ -1,4 +1,34 @@
-"""Command-line entry-point for `sspike`."""
+"""Command-line entry-point for `sspike`.
+
+Parameters
+----------
+model : str
+    Name of supernova model type or file path simulation specifications.
+detector : str, optional
+    Target/detector for simulations.  Default `kamland`.
+distance : float, optional
+    Distance to supernova in kpc.  Default 5.0 
+transform : str, optional
+    Type of transformation to apply.  Default `NoTransformation`.
+mass : float or str, optional
+    Progenitor mass in solar masses.  Required for several models.
+metal : float, optional
+    Progenitor metallicity.  Required for `Nakazato_2013`.
+revival_time : str or int, optional
+    Shock revival time. Required for `Nakazato_2013`.
+omega: str, optional
+    Rotation of progenitor.  Required for `Kuroda_2020`.
+b_field : str or int, optional
+    Magnetic field strength of progenitor.  Required for `Kuroda_2020`.
+eos : str, optional
+    Nuclear equation of state.  Required for `Sukhbold_2015`.
+stir: str or float, optional
+    Progenitor stirring parameter.  Required for `Warren_2020`.
+
+Note
+----
+Supernova model and detector must be included in `snewpy` and `SNOwGLoBES`.
+"""
 from argparse import ArgumentParser  # TODO: output files using FileType
 import json
 import itertools
@@ -13,12 +43,12 @@ log = getLogger(__name__)
 
 
 def main():
-    """Parse arguments and run."""
-    # Description for -h, --help flags
+    # Description for -h, --help flag.
     description = 'simulated supernovae products inducing KamLAND events'
-    parser = ArgumentParser(prog='sspike', description=description)
 
     # Command line arguments.
+    parser = ArgumentParser(prog='sspike', description=description)
+
     # Supernova model type or file path.
     parser.add_argument('model',
                         help='name of supernova model type or file path')
@@ -26,7 +56,8 @@ def main():
     parser.add_argument('-T', '--detector', default='kamland', metavar='',
                         help='target/detector for simulations')
     # Distance to supernovae.
-    parser.add_argument('-D', '--distance', default=5, metavar='', type=float,
+    parser.add_argument('-D', '--distance',
+                        default=5.0, metavar='', type=float,
                         help='supernovae distance in kpc (default 5)')
     # Neutrino transformation.
     parser.add_argument('-X', '--transform', default='NoTransformation',
@@ -142,6 +173,21 @@ def main():
 
 
 def run_sim(model, progenitor, transform, distance, detector):
+    """Process simulation file with `SNoGLoBES` and `sspike`.
+
+    Parameters
+    ----------
+    model : str
+        Model name from `snewpy`.
+    progenitor : dict
+        Model specific parameters for simulation file.
+    transform : str
+        Type of `snewpy` transformation to apply.
+    distance : float
+        Distance to supernova.
+    detector : str
+        Name of detector in `SNOwGLoBEs`.
+    """
     # Log initial supernovae information.
     sn_info = f"\n- Running {model} model at {distance} kpc in {detector}.\n"
     sn_info += "- Progenitor properties:\n"
