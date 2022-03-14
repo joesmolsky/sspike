@@ -1,7 +1,7 @@
 """Command-line entry-point for `sspike`."""
-from argparse import ArgumentParser
-
-from matplotlib import bezier  # TODO: output files using FileType
+from argparse import ArgumentParser  # TODO: output files using FileType
+import json
+import itertools
 
 from sspike import pnut
 from sspike import beer
@@ -98,15 +98,40 @@ def main():
             progenitor[prog_keys[i]] = prog_vals[i]
     log.debug(prog_msg)
 
-    # Log initial supernovae information.
-    sn_info = f"\n- Running {model} model at {distance} kpc in {detector}.\n"
-    sn_info += "- Progenitor properties:\n"
-    for key in progenitor.keys():
-        sn_info += f"\t- {key}: {progenitor[key]}\n"
-    log.info(sn_info)
-
     # Physics!!!
-    run_sim(model, progenitor, transform, distance, detector)
+    # Model name for single simulation.
+    if '.' not in model:
+        print('Starting simulation.')
+        run_sim(model, progenitor, transform, distance, detector)
+
+    # File name for (multiple) simulation(s).
+    else:
+        with open(model, 'r') as f:
+            info = json.load(f)
+
+        # List of (model-type, progenitor) tuples.
+        sims = []
+        for sim in info['sim']:
+            for pair in itertools.product(sim['model'], sim['progenitor']):
+                sims.append(pair)
+
+        # List of (distance, transform, target) tuples.
+        params = itertools.product(info['transform'],
+                                   info['distance'],
+                                   info['target'])
+
+        # List of each simulation file with each set of parameters.
+        runs = itertools.product(sims, params)
+
+        for run in runs:
+            model = run[0][0]
+            progenitor = run[0][1]
+            transform = run[1][0]
+            distance = run[1][1]
+            detector = run[1][2]
+            print('Starting simulation.')
+            run_sim(model, progenitor, transform, distance, detector)
+            print('Simulation complete.')
 
     # End of main()
     log.debug('\n****\nsspike.main complete.\n****\n')
@@ -117,20 +142,31 @@ def main():
 
 
 def run_sim(model, progenitor, transform, distance, detector):
+    # Log initial supernovae information.
+    sn_info = f"\n- Running {model} model at {distance} kpc in {detector}.\n"
+    sn_info += "- Progenitor properties:\n"
+    for key in progenitor.keys():
+        sn_info += f"\t- {key}: {progenitor[key]}\n"
+    log.info(sn_info)
+
     # Load model.
     log.debug('\n- Generating Snowball.\n')
     sb = Snowball(model, progenitor, transform, distance)
+
     # Assign target.
     log.debug(f'\n- Assigning target: {detector}.\n')
     target = Target(detector)
+
     # Process with SNOwGLoBES.
     log.debug('\n- Processing with SNOwGLoBES .\n')
     snowflakes = pnut.snowglobes_events(sb, target)
     log.info(f'- SNOwGLoBES files:\n\t-{snowflakes[0]}\n\t-{snowflakes[1]}')
+
     # Process with sspike.
     log.debug('\n- Processing with sspike.\n')
     sspikes = pnut.sspike_events(sb, target)
     log.info(f'- sspike files:\n\t-{sspikes[0]}\n\t-{sspikes[1]}')
+
     # Tabulate results
     log.debug('\n- Tabulating results.\n')
     tab = beer.tab(sb)
