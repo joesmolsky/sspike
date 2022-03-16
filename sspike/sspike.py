@@ -132,7 +132,7 @@ def main():
     # Physics!!!
     # Model name for single simulation.
     if '.' not in model:
-        print('Starting simulation.')
+        print('Starting simulation: {model} \t {progenitor}.')
         run_sim(model, progenitor, transform, distance, detector)
 
     # File name for (multiple) simulation(s).
@@ -160,9 +160,14 @@ def main():
             transform = run[1][0]
             distance = run[1][1]
             detector = run[1][2]
-            print('Starting simulation.')
+            description = f"\tModel: {model}\n"\
+                          f"\tProgenitor: {progenitor}\n"\
+                          f"\tDistance: {distance} kpc\n"\
+                          f"\tDetector: {detector}\n"
+
+            print(f'Starting simulation:\n {description}')
             run_sim(model, progenitor, transform, distance, detector)
-            print('Simulation complete.')
+            print('\nSimulation complete.\n')
 
     # End of main()
     log.debug('\n****\nsspike.main complete.\n****\n')
