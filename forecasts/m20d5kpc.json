@@ -1,0 +1,93 @@
+{
+  "sim": [
+    {
+      "model": [
+        "Nakazato_2013"
+      ],
+      "progenitor": [
+        {
+          "mass": 20,
+          "metal": 0.02,
+          "t_rev": 100
+        },
+        {
+          "mass": 20,
+          "metal": 0.02,
+          "t_rev": 200
+        },
+        {
+          "mass": 20,
+          "metal": 0.02,
+          "t_rev": 300
+        }
+      ]
+    },
+    {
+      "model": [
+        "Fornax_2021"
+      ],
+      "progenitor": [
+        {
+          "mass": 20
+        }
+      ]
+    },
+    {
+      "model": [
+        "Warren_2020"
+      ],
+      "progenitor": [
+        {
+          "mass": 20.0,
+          "stir": 1.23
+        },
+        {
+          "mass": 20.0,
+          "stir": 1.25
+        },
+        {
+          "mass": 20.0,
+          "stir": 1.27
+        }
+      ]
+    },
+    {
+      "model": [
+        "Tamborra_2014"
+      ],
+      "progenitor": [
+        {
+          "mass": 20.0
+        }
+      ]
+    },
+    {
+      "model": [
+        "Kuroda_2020"
+      ],
+      "progenitor": [
+        {
+        "omega": "00",
+        "B0": "00"
+        },
+        {
+          "omega": "10",
+          "B0": "12"
+        },
+        {
+          "omega": "10",
+          "B0": "13"
+        }
+      ]
+    }
+  ],
+  "distance": [
+    5.0
+  ],
+  "transform": [
+    "NoTransformation"
+  ],
+  "target": [
+    "kamland"
+  ]
+}
