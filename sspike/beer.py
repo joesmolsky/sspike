@@ -116,9 +116,9 @@ def sort_channels(channels):
         # Neutral current events (not or electrons) have n = 3.
         if n == 3:
             # Plot proton elastic scattering channels separately.
-            if target == 'p':
-                combos[chan] = [chan]
-                continue
+            # if target == 'p':
+            #     combos[chan] = [chan]
+            #     continue
 
             target = f'{target}-{vals[0]}'
 
@@ -128,6 +128,7 @@ def sort_channels(channels):
 
         if target not in combos:
             combos[target] = []
+
         combos[target].append(chan)
 
     return combos
