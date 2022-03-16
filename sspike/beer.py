@@ -34,41 +34,7 @@ def draw(events_path, channels, save=False, test=False):
         N_bins = len(events['E'])
 
     # Combine similar channels before plotting.
-    combos = {}
-    for chan in channels:
-        # SNOwGLoBES naming convention is based on '_'.
-        vals = chan.split('_')
-        n = len(vals)
-
-        # Inverse beta decay.
-        if n == 1:
-            combos[chan] = [chan]
-            continue
-
-        # SNOwGLoBES naming convention is target last and neutrino 2nd to last.
-        target = vals[-1]
-
-        # Electron scattering and charged-current interactions have n = 2.
-        if n == 2:
-            # Add neutrino flavor to nucleus charged-current interations.
-            if target != 'e':
-                target = f'{target}-{vals[-2]}'
-        # Neutral current events (not or electrons) have n = 3.
-        if n == 3:
-            # Plot proton elastic scattering channels separately.
-            if target == 'p':
-                combos[chan] = [chan]
-                continue
-
-            target = f'{target}-{vals[0]}'
-
-        # A few other SNOwGLoBES v1.2 cross-sections have n = 4.
-        if n == 4:
-            target = f'{target}-{vals[0]}-{vals[1]}'
-
-        if target not in combos:
-            combos[target] = []
-        combos[target].append(chan)
+    combos = sort_channels(channels)
 
     # Add together channels as needed.
     rates = pd.DataFrame()
@@ -114,6 +80,59 @@ def draw(events_path, channels, save=False, test=False):
     plt.show()
 
 
+def sort_channels(channels):
+    """Combine similar channels for plotting and tables.
+
+    Parameters
+    ----------
+    channels : list of str
+        Interaction channels to plot.
+
+    Returns
+    -------
+    combos : dict of list of str
+        List of all neutrino flavor interactions for each nucleus or electrons.
+    """
+    combos = {}
+    for chan in channels:
+        # SNOwGLoBES naming convention is based on '_'.
+        vals = chan.split('_')
+        n = len(vals)
+
+        # Inverse beta decay.
+        if n == 1:
+            combos[chan] = [chan]
+            continue
+
+        # SNOwGLoBES naming convention is target last and neutrino 2nd to last.
+        target = vals[-1]
+
+        # Electron scattering and charged-current interactions have n = 2.
+        if n == 2:
+            # Add neutrino flavor to nucleus charged-current interations.
+            if target != 'e':
+                target = f'{target}-{vals[-2]}'
+
+        # Neutral current events (not or electrons) have n = 3.
+        if n == 3:
+            # Plot proton elastic scattering channels separately.
+            if target == 'p':
+                combos[chan] = [chan]
+                continue
+
+            target = f'{target}-{vals[0]}'
+
+        # A few other SNOwGLoBES v1.2 cross-sections have n = 4.
+        if n == 4:
+            target = f'{target}-{vals[0]}-{vals[1]}'
+
+        if target not in combos:
+            combos[target] = []
+        combos[target].append(chan)
+
+    return combos
+
+
 def tab(snowball):
     """Count binned event rates and create a table.
 
@@ -124,7 +143,7 @@ def tab(snowball):
     Return
     ------
     tab : str
-        File path to results.
+        File path to results: `totals.txt`.
     """
     sb = snowball
 
@@ -225,11 +244,19 @@ def tab(snowball):
     return tab_file
 
 
-def bar(tabs):
+def pay(tabs, distance=None, target='kamland'):
+    """TODO: Pack astrophysical yields.  (Combine tabs into dataframe format.)
+
+    Parameters:
+    tabs : list of str
+        Directory paths containing a `totals.txt` file from `beer.tab()`.
+    distance : float or str
+        Only include results at this distance.  Default, None, checks all tabs.
+    """
+
+    return tabs, distance, target
+
+
+def bar(pack):
     """TODO: Bar graph comparing event rates."""
-    pass
-
-
-def pay(tabs):
-    """TODO: Print astrophysical yields.  (Show rates from tabs.)"""
-    pass
+    return pack
