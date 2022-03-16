@@ -1,0 +1,68 @@
+{
+  "sim": [
+    {
+      "model": [
+        "Nakazato_2013"
+      ],
+      "progenitor": [
+        {
+          "mass": 13,
+          "metal": 0.02,
+          "t_rev": 100
+        },
+        {
+          "mass": 13,
+          "metal": 0.02,
+          "t_rev": 200
+        },
+        {
+          "mass": 13,
+          "metal": 0.02,
+          "t_rev": 300
+        }
+      ]
+    },
+    {
+      "model": [
+        "Fornax_2021"
+      ],
+      "progenitor": [
+        {
+          "mass": 13
+        }
+      ]
+    },
+    {
+      "model": [
+        "Warren_2020"
+      ],
+      "progenitor": [
+        {
+          "mass": 13.0,
+          "stir": 1.23
+        },
+        {
+          "mass": 13.0,
+          "stir": 1.25
+        },
+        {
+          "mass": 13.0,
+          "stir": 1.27
+        }
+      ]
+    }
+  ],
+  "distance": [
+    10.0,
+    5.0,
+    1.0,
+    0.5,
+    0.2
+  ],
+  "transform": [
+    "NoTransformation"
+  ],
+  "target": [
+    "kamland"
+  ]
+}
