@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='sspike',
-    version='0.0.4',
+    version='0.0.5',
     author='Joe Smolsky',
     author_email='smolsky@mit.edu',
     description='simulated supernovae products inducing KamLAND events',
@@ -17,7 +17,7 @@ setup(
     url='https://github.com/joesmolsky/sspike',
     packages=find_packages(),
     include_package_data=True,
-    classifiers=['Development Status :: 2 - Pre-Alpha',
+    classifiers=['Development Status :: 3 - Alpha',
                  'Programming Language :: Python :: 3.8',
                  'Operating System :: MacOS',
                  'License :: OSI Approved :: MIT License', ],

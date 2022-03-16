@@ -248,7 +248,8 @@ def tab(snowball):
 def pay(tabs, distance=None, target='kamland'):
     """TODO: Pack astrophysical yields.  (Combine tabs into dataframe format.)
 
-    Parameters:
+    Parameters
+    ----------
     tabs : list of str
         Directory paths containing a `totals.txt` file from `beer.tab()`.
     distance : float or str

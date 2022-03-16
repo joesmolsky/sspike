@@ -81,7 +81,7 @@ def main():
     parser.add_argument('-f', '--file', metavar='',
                         help='file path to simulations dictionary')
     parser.add_argument('-v', '--version',
-                        action='version', version='0.0.4')
+                        action='version', version='0.0.5')
     parser.add_argument('-d', '--debug', action='store_true',
                         help='include all messages in log file')
     # TODO: add output options.

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sspike package &mdash; sspike 0.0.2 documentation</title>
+  <title>sspike package &mdash; sspike 0.0.5-alpha documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -108,7 +108,7 @@
 <p>Make plots and tables of pnut outputs.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.beer.bar">
-<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.bar" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pack</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.bar" title="Permalink to this definition"></a></dt>
 <dd><p>TODO: Bar graph comparing event rates.</p>
 </dd></dl>
 
@@ -132,8 +132,33 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.beer.pay">
-<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">pay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.pay" title="Permalink to this definition"></a></dt>
-<dd><p>TODO: Print astrophysical yields.  (Show rates from tabs.)</p>
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">pay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kamland'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.pay" title="Permalink to this definition"></a></dt>
+<dd><p>TODO: Pack astrophysical yields.  (Combine tabs into dataframe format.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tabs</strong> (<em>list of str</em>) – Directory paths containing a <cite>totals.txt</cite> file from <cite>beer.tab()</cite>.</p></li>
+<li><p><strong>distance</strong> (<em>float</em><em> or </em><em>str</em>) – Only include results at this distance.  Default, None, checks all tabs.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.beer.sort_channels">
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">sort_channels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.sort_channels" title="Permalink to this definition"></a></dt>
+<dd><p>Combine similar channels for plotting and tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>channels</strong> (<em>list of str</em>) – Interaction channels to plot.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>combos</strong> – List of all neutrino flavor interactions for each nucleus or electrons.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict of list of str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -145,7 +170,7 @@
 <dd class="field-odd"><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – </p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>tab</strong> – File path to results.</p>
+<dd class="field-even"><p><strong>tab</strong> – File path to results: <cite>totals.txt</cite>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>str</p>
@@ -440,7 +465,7 @@ with units of cm^2 / GeV.</p>
 <dd class="field-even"><p>str, optional</p>
 </dd>
 <dt class="field-odd">param distance</dt>
-<dd class="field-odd"><p>Distance to supernova in kpc.  Default 5.0</p>
+<dd class="field-odd"><p>Distance to supernova in kpc.  Default 5.0.</p>
 </dd>
 <dt class="field-even">type distance</dt>
 <dd class="field-even"><p>float, optional</p>
