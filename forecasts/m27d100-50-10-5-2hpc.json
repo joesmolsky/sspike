@@ -1,0 +1,71 @@
+{
+  "sim": [
+    {
+      "model": [
+        "Fornax_2021"
+      ],
+      "progenitor": [
+        {
+          "mass": 26.99
+        }
+      ]
+    },
+    {
+      "model": [
+        "Sukhbold_2015"
+      ],
+      "progenitor": [
+        {
+          "mass": 27.0,
+          "eos": "LS220"
+        },
+        {
+          "mass": 27.0,
+          "eos": "SFHo"
+        }
+      ]
+    },
+    {
+      "model": [
+        "Tamborra_2014"
+      ],
+      "progenitor": [
+        {
+          "mass": 27.0
+        }
+      ]
+    },
+    {
+      "model": [
+        "Warren_2020"
+      ],
+      "progenitor": [
+        {
+          "mass": 27.0,
+          "stir": 1.23
+        },
+        {
+          "mass": 27.0,
+          "stir": 1.25
+        },
+        {
+          "mass": 27.0,
+          "stir": 1.27
+        }
+      ]
+    }
+  ],
+  "distance": [
+    10.0,
+    5.0,
+    1.0,
+    0.5,
+    0.2
+  ],
+  "transform": [
+    "NoTransformation"
+  ],
+  "target": [
+    "kamland"
+  ]
+}
