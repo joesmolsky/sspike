@@ -1,0 +1,44 @@
+{
+  "sim": [
+    {
+      "model": [
+        "Nakazato_2013"
+      ],
+      "progenitor": [
+        {
+          "mass": 13,
+          "metal": 0.02,
+          "t_rev": 100
+        },
+        {
+          "mass": 20,
+          "metal": 0.02,
+          "t_rev": 100
+        }
+      ]
+    },
+    {
+      "model": [
+        "Fornax_2021"
+      ],
+      "progenitor": [
+        {
+          "mass": 13
+        },
+        {
+          "mass": 20
+        }
+      ]
+    }
+  ],
+  "distance": [
+    5,
+    10
+  ],
+  "transform": [
+    "NoTransformation"
+  ],
+  "target": [
+    "kamland"
+  ]
+}
