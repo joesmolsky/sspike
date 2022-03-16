@@ -7,7 +7,7 @@ model : str
 detector : str, optional
     Target/detector for simulations.  Default `kamland`.
 distance : float, optional
-    Distance to supernova in kpc.  Default 5.0 
+    Distance to supernova in kpc.  Default 5.0.
 transform : str, optional
     Type of transformation to apply.  Default `NoTransformation`.
 mass : float or str, optional
