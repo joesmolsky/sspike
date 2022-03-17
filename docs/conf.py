@@ -22,7 +22,7 @@ copyright = '2022, Joe Smolsky'
 author = 'Joe Smolsky'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.5-alpha'
+release = '0.0.6-alpha'
 
 
 # -- General configuration ---------------------------------------------------
