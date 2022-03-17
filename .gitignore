@@ -6,3 +6,4 @@ log/
 out/
 test/plots/
 backup/
+.DS_Store
