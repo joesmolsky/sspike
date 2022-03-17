@@ -1,0 +1,124 @@
+{
+  "sim": [
+    {
+      "model": [
+        "Nakazato_2013"
+      ],
+      "progenitor": [
+        {
+          "mass": 13,
+          "metal": 0.004,
+          "t_rev": 100
+        },
+        {
+          "mass": 13,
+          "metal": 0.004,
+          "t_rev": 200
+        },
+        {
+          "mass": 13,
+          "metal": 0.004,
+          "t_rev": 300
+        },
+        {
+          "mass": 13,
+          "metal": 0.02,
+          "t_rev": 100
+        },
+        {
+          "mass": 13,
+          "metal": 0.02,
+          "t_rev": 200
+        },
+        {
+          "mass": 13,
+          "metal": 0.02,
+          "t_rev": 300
+        },
+        {
+          "mass": 20,
+          "metal": 0.004,
+          "t_rev": 100
+        },
+        {
+          "mass": 20,
+          "metal": 0.004,
+          "t_rev": 200
+        },
+        {
+          "mass": 20,
+          "metal": 0.004,
+          "t_rev": 300
+        },
+        {
+          "mass": 20,
+          "metal": 0.02,
+          "t_rev": 100
+        },
+        {
+          "mass": 20,
+          "metal": 0.02,
+          "t_rev": 200
+        },
+        {
+          "mass": 20,
+          "metal": 0.02,
+          "t_rev": 300
+        },
+        {
+          "mass": 30,
+          "metal": 0.02,
+          "t_rev": 100
+        },
+        {
+          "mass": 30,
+          "metal": 0.02,
+          "t_rev": 200
+        },
+        {
+          "mass": 30,
+          "metal": 0.02,
+          "t_rev": 300
+        },
+        {
+          "mass": 50,
+          "metal": 0.004,
+          "t_rev": 100
+        },
+        {
+          "mass": 50,
+          "metal": 0.004,
+          "t_rev": 200
+        },
+        {
+          "mass": 50,
+          "metal": 0.004,
+          "t_rev": 300
+        },{
+          "mass": 50,
+          "metal": 0.02,
+          "t_rev": 100
+        },
+        {
+          "mass": 50,
+          "metal": 0.02,
+          "t_rev": 200
+        },
+        {
+          "mass": 50,
+          "metal": 0.02,
+          "t_rev": 300
+        }
+      ]
+    }
+  ],
+  "distance": [
+    10.0
+  ],
+  "transform": [
+    "NoTransformation"
+  ],
+  "target": [
+    "kamland"
+  ]
+}
