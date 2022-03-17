@@ -76,7 +76,7 @@ class Snowball():
             metal = self.progenitor['metal']
             t_rev = self.progenitor['t_rev']
             # Name for sub-directory of fluences produced by this model file.
-            self.sn_name = f'N13-{mass}-{int(metal*1e3)}-{t_rev}'
+            self.sn_name = f'N13-{mass}-{int(metal*1e3):02d}-{t_rev}'
             # Supernovae model filename.
             sim_file = f'nakazato-shen-z{metal}-t_rev{t_rev}ms-s{mass}.0.fits'
 
