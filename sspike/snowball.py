@@ -6,6 +6,7 @@ from os.path import isdir
 import pandas as pd
 from snewpy import snowglobes
 
+from sspike.env import models_dir, snowball_dir, snowglobes_dir
 from .core.logging import getLogger
 log = getLogger(__name__)
 
@@ -44,11 +45,11 @@ class Snowball():
     def __init__(self, model, progenitor, transform, distance):
         # Install locations.
         # Location of snewpy models directory.
-        self.models_dir = '/Users/joe/src/snewpy/models/'
+        self.models_dir = models_dir
         # SNOwGLoBES location.
-        self.snowglobes_dir = "/Users/joe/src/gitjoe/snowglobes/"
+        self.snowglobes_dir = snowglobes_dir
         # sspike snowball directory.
-        self.snowball_dir = "/Users/joe/src/gitjoe/sspike/snowballs/"
+        self.snowball_dir = snowball_dir
         # Simulation properties and fluence.
         self.model = model
         self.progenitor = progenitor
