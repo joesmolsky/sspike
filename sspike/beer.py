@@ -10,6 +10,9 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+from .core.logging import getLogger
+log = getLogger(__name__)
+
 mpl.rc('font', size=18)
 
 
@@ -52,8 +55,9 @@ def draw(events_path, channels, save=False, test=False):
     set_twins = False
 
     for rate in rates:
+        log.debug(f"Drawing {rate}.")
         # Proton elastic scattering.
-        if rate[-2:] == '_p':
+        if rate == "p-nc":
             if not set_twins:
                 ax.set_xlim(right=5)
                 ax.set_xlabel(r'$T_p\ [MeV]$')
