@@ -132,7 +132,7 @@ def main():
     # Physics!!!
     # Model name for single simulation.
     if '.' not in model:
-        print('Starting simulation: {model} \t {progenitor}.')
+        print(f'Starting simulation: {model} \t {progenitor}.')
         run_sim(model, progenitor, transform, distance, detector)
 
     # File name for (multiple) simulation(s).
