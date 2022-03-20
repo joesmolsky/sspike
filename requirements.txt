@@ -1,0 +1,4 @@
+SNOwGloBES
+snewpy
+plotly
+kaleido
