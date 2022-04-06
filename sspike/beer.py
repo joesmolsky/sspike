@@ -6,17 +6,20 @@ Make plots and tables of pnut outputs.
 from os.path import isfile
 
 import pandas as pd
-import matplotlib as mpl
+# import matplotlib as mpl
+from matplotlib import rcParams
 import matplotlib.pyplot as plt
 import numpy as np
 
 from .core.logging import getLogger
 log = getLogger(__name__)
 
-mpl.rc('font', size=18)
+rcParams['font.family'] = 'sans-serif'
+rcParams['font.sans-serif'] = ['Times']
+rcParams['font.size'] = 22
 
 
-def draw(events_path, channels, save=False, test=False):
+def draw(events_path, channels, nc_flavors=False, save=False, test=False):
     """Plot event rates.
 
     Parameters
@@ -46,6 +49,11 @@ def draw(events_path, channels, save=False, test=False):
         for chan in combos[combo]:
             rates[combo] += events[chan]
 
+    N_flavor = {}
+    if nc_flavors:
+        for flavor in combos['p-nc']:
+            N_flavor[flavor] = events[flavor]
+
     # Plotting time.
     fig, ax = plt.subplots(1, figsize=(16, 8), facecolor='white')
     # Title plot based on file name.
@@ -59,12 +67,23 @@ def draw(events_path, channels, save=False, test=False):
         # Proton elastic scattering.
         if rate == "p-nc":
             if not set_twins:
-                ax.set_xlim(right=5)
-                ax.set_xlabel(r'$T_p\ [MeV]$')
+                ax.set_xlim(right=0.7)
+                ax.set_xlabel(r'$E\ [MeV]$')
                 ax.set_ylabel(r'$Events\ [T_p\ 0.1\ MeV^{-1}]$')
+                ax.set_yscale('log')
+                ax.set_ylim(bottom=1e-2)
                 twax = ax.twiny()
-                twax.set_xlabel(r'$E_{vis}\ [MeV]$')
+                # twax.set_xlabel(r'$E_{vis}\ [MeV]$')
                 set_twins = True
+                # ax.set_aspect(1)
+
+            if nc_flavors:
+                for flavor in N_flavor:
+                    ax.plot(events['T_p']*1e3, events[flavor],
+                            label=flavor, linestyle=':')
+                    twax.plot(events['E_vis']*1e3, events[flavor],
+                              label=flavor)
+                continue
 
             ax.plot(events['T_p']*1e3, rates[rate], label=rate, linestyle=':')
             twax.plot(events['E_vis']*1e3, rates[rate], label=rate)
@@ -225,6 +244,28 @@ def tab(snowball):
             tab.write('300 kev energy cut\n')
             tab.write('------------------\n')
             cut = 3e-4
+            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
+                chan = f'nc_{nu}_p'
+                vis = data[chan].where(data['E_vis'] >= cut)
+                N = np.sum(vis)
+                tab.write(f'{chan}: \t{N}\n')
+
+            # 400 keV cut.
+            tab.write('\n')
+            tab.write('400 kev energy cut\n')
+            tab.write('------------------\n')
+            cut = 4e-4
+            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
+                chan = f'nc_{nu}_p'
+                vis = data[chan].where(data['E_vis'] >= cut)
+                N = np.sum(vis)
+                tab.write(f'{chan}: \t{N}\n')
+
+            # 500 keV cut.
+            tab.write('\n')
+            tab.write('500 kev energy cut\n')
+            tab.write('------------------\n')
+            cut = 5e-4
             for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
                 chan = f'nc_{nu}_p'
                 vis = data[chan].where(data['E_vis'] >= cut)
