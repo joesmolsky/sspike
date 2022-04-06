@@ -22,7 +22,9 @@ copyright = '2022, Joe Smolsky'
 author = 'Joe Smolsky'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.6-alpha'
+with open('sspike/_version.py', 'r') as f:
+    version = f.readline().split('=')[1].strip()
+release = version
 
 
 # -- General configuration ---------------------------------------------------

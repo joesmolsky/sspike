@@ -1,12 +1,17 @@
 from setuptools import setup, find_packages
 
 from pathlib import Path
+
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
+with open('sspike/_version.py', 'r') as f:
+    version = f.readline().split('=')[1].strip()
+
+
 setup(
     name='sspike',
-    version='0.0.6',
+    version=version,
     author='Joe Smolsky',
     author_email='smolsky@mit.edu',
     description='simulated supernovae products inducing KamLAND events',
