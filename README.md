@@ -10,7 +10,7 @@ Modules:
 Class:
 
 1. `Snowball`: supernovae model specific properties.
-2. `Target`: KamLAND specifics.
+2. `Detector`: KamLAND specifics.
 
 ## pnut
 
@@ -24,6 +24,6 @@ Make plots and tables of processed models.
 
 Handle model specific information and data storage paths.
 
-## Target
+## Detector
 
 Detector configuration specifics.

@@ -5,7 +5,7 @@ Parameters
 model : str
     Name of supernova model type or file path simulation specifications.
 detector : str, optional
-    Target/detector for simulations.  Default `kamland`.
+    Detector for simulations.  Default `kamland`.
 distance : float, optional
     Distance to supernova in kpc.  Default 5.0.
 transform : str, optional
@@ -36,7 +36,7 @@ import itertools
 from sspike import pnut
 from sspike import beer
 from sspike.snowball import Snowball
-from sspike.targets import Target
+from sspike.detectors import Detector
 from .core.logging import getLogger, initialize_logging
 from ._version import __version__
 
@@ -53,11 +53,11 @@ def main():
     # Supernova model type or file path.
     parser.add_argument('model',
                         help='name of supernova model type or file path')
-    # Target/detector.
-    parser.add_argument('-T', '--detector', default='kamland', metavar='',
-                        help='target/detector for simulations')
+    # Detector.
+    parser.add_argument('-D', '--detector', default='kamland', metavar='',
+                        help='Detector for simulations')
     # Distance to supernovae.
-    parser.add_argument('-D', '--distance',
+    parser.add_argument('-L', '--baseline',
                         default=5.0, metavar='', type=float,
                         help='supernovae distance in kpc (default 5)')
     # Neutrino transformation.
@@ -108,7 +108,7 @@ def main():
     # Shorten variable names.  Do you know a better way to do this?
     model = cmdline.model
     detector = cmdline.detector
-    distance = cmdline.distance
+    distance = cmdline.baseline
     transform = cmdline.transform
     mass = cmdline.mass
     metal = cmdline.metal
@@ -118,11 +118,11 @@ def main():
     eos = cmdline.eos
     stir = cmdline.stir
 
-    # Dictionary for progenitor properties.
+    # Dictionary for progenitor properties.  Better way to do this?
     progenitor = {}
     prog_vals = [mass, metal, t_rev, omega, B0, eos, stir]
     prog_keys = ['mass', 'metal', 't_rev', 'omega', 'B0', 'eos', 'stir']
-    prog_msg = '\n- Possible progenitor variables:\n'
+    prog_msg = '\n- Allowed progenitor variables:\n'
     for i in range(len(prog_vals)):
         prog_msg += f"\t- {prog_keys[i]}:"\
                     f"\t {prog_vals[i]} {type(prog_vals[i])}\n"
@@ -147,10 +147,10 @@ def main():
             for pair in itertools.product(sim['model'], sim['progenitor']):
                 sims.append(pair)
 
-        # List of (distance, transform, target) tuples.
+        # List of (distance, transform, detector) tuples.
         params = itertools.product(info['transform'],
                                    info['distance'],
-                                   info['target'])
+                                   info['detector'])
 
         # List of each simulation file with each set of parameters.
         runs = itertools.product(sims, params)
@@ -205,18 +205,18 @@ def run_sim(model, progenitor, transform, distance, detector):
     log.debug('\n- Generating Snowball.\n')
     sb = Snowball(model, progenitor, transform, distance)
 
-    # Assign target.
-    log.debug(f'\n- Assigning target: {detector}.\n')
-    target = Target(detector)
+    # Detector string to class.
+    log.debug(f'\n- Initializing detector: {detector}.\n')
+    detector = Detector(detector)
 
     # Process with SNOwGLoBES.
     log.debug('\n- Processing with SNOwGLoBES .\n')
-    snowflakes = pnut.snowglobes_events(sb, target)
+    snowflakes = pnut.snowglobes_events(sb, detector)
     log.info(f'- SNOwGLoBES files:\n\t-{snowflakes[0]}\n\t-{snowflakes[1]}')
 
     # Process with sspike.
     log.debug('\n- Processing with sspike.\n')
-    sspikes = pnut.sspike_events(sb, target)
+    sspikes = pnut.sspike_events(sb, detector)
     log.info(f'- sspike files:\n\t-{sspikes[0]}\n\t-{sspikes[1]}')
 
     # Tabulate results

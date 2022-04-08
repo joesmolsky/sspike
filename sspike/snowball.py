@@ -5,8 +5,9 @@ from os.path import isdir
 
 import pandas as pd
 from snewpy import snowglobes
+from astropy import units as u
 
-from sspike.env import models_dir, snowball_dir, snowglobes_dir
+from sspike.env import models_dir, snowball_dir, snowglobes_dir, series_dir
 from .core.logging import getLogger
 log = getLogger(__name__)
 
@@ -42,7 +43,7 @@ class Snowball():
     fluence_dir : str
         Directory path to extracted `snewpy` tarball.
     """
-    def __init__(self, model, progenitor, transform, distance):
+    def __init__(self, model, progenitor, transform, distance, t_bins=1):
         # Install locations.
         # Location of snewpy models directory.
         self.models_dir = models_dir
@@ -50,24 +51,32 @@ class Snowball():
         self.snowglobes_dir = snowglobes_dir
         # sspike snowball directory.
         self.snowball_dir = snowball_dir
+        # sspike snowball directory.
+        self.series_dir = series_dir
         # Simulation properties and fluence.
         self.model = model
         self.progenitor = progenitor
         self.transform = transform
         self.distance = distance
+        self.t_bins = t_bins
         # Model/simulation specific variables.
         self._simulation_settings()
-        # Generate fluence if this has not been run before.
-        if not isdir(f"{self.snowball_dir}{self.fluence_dir}"):
-            self._gen_fluences()
-        else:
-            # Temporary try except until version 0.0.3 snowballs reprocessed.
-            try:
-                fluence_dir = f"{self.snowball_dir}{self.fluence_dir}"
-                with open(f"{fluence_dir}tarball_path.txt", 'r') as f:
-                    self.tarball = f.readline()
-            except Exception:
+        # Integrate entire flux.
+        if t_bins == 1:
+            # Generate fluence if this has not been run before.
+            if not isdir(f"{self.snowball_dir}{self.fluence_dir}"):
                 self._gen_fluences()
+            else:
+                # Temporary try except until version 0.0.3 snowballs reprocessed.
+                # This needs to be updated since everything is reprocessed.
+                try:
+                    fluence_dir = f"{self.snowball_dir}{self.fluence_dir}"
+                    with open(f"{fluence_dir}tarball_path.txt", 'r') as f:
+                        self.tarball = f.readline()
+                except Exception:
+                    self._gen_fluences()
+        else:
+            self._gen_series()
 
     def _simulation_settings(self):
         """Paths to supernovae simulation file and output directory."""
@@ -172,3 +181,36 @@ class Snowball():
                                names=names, engine='python')
 
         return fluences
+
+    def _gen_series(self):
+        """Generate times tarball with `snewpy` and extract for `sspike`."""
+        # Debugging message
+        flu_msg = '\n- Generating time series:\n'
+        flu_msg += f'\t- sim_path: {self.sim_path} {type(self.sim_path)}\n'
+        flu_msg += f'\t- model: {self.model} {type(self.model)}\n'
+        flu_msg += f'\t- transform: {self.transform} {type(self.transform)}\n'
+        flu_msg += f'\t- distance: {self.distance} {type(self.distance)}\n'
+        flu_msg += f'\t- sn_name: {self.sn_name} {type(self.sn_name)}\n'
+        log.debug(flu_msg)
+
+        # Get model times and create bins.
+        # Start with Nakazato times hard-coded.
+        # start = -0.05
+        # end = 20
+        # dt = (end - start) / (self.t_bins)
+
+        # Generate fluence with snewpy and get path to output.
+        self.tarball = snowglobes.generate_time_series(self.sim_path,
+                                                       self.model,
+                                                       self.transform,
+                                                       self.distance,
+                                                       self.sn_name,
+                                                       self.t_bins)
+        # Extract snewpy output in sspike snowball directory.
+        series_path = f"{self.series_dir}{self.fluence_dir}"
+        with tarfile.open(self.tarball) as tb:
+            tb.extractall(series_path)
+        tarball_path = f"{series_path}tarball_path.txt"
+        # Save path name for skipping this step later.
+        with open(tarball_path, 'w') as f:
+            f.write(self.tarball)

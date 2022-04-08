@@ -13,13 +13,13 @@ run = {'sim': [{'model': ['Nakazato_2013'],
                                {'mass': 20}]}],
        'distance': [5, 10],
        'transform': ['NoTransformation'],
-       'target': ['kamland']}
+       'detector': ['kamland']}
 
 run2 = {'sim': [{'model': ['Nakazato_2013'],
                 'progenitor': [{'mass': 20, 'metal': 0.02, 't_rev': 100}]}],
         'distance': [5.0],
         'transform': ['NoTransformation'],
-        'target': ['kamland']}
+        'detector': ['kamland']}
 
 file = 'pyson.json'
 
@@ -33,10 +33,10 @@ sims = []
 for s in read['sim']:
     [sims.append(p) for p in itertools.product(s['model'], s['progenitor'])]
 
-params = itertools.product(read['distance'], read['transform'], read['target'])
+params = itertools.product(read['distance'], read['transform'], read['detector'])
 
 coms = itertools.product(sims, params)
-print("model, progenitor, distance, transform, target")
+print("model, progenitor, distance, transform, detector")
 for i, com in enumerate(coms):
     c = f"{com[0][0]}, {com[0][1]}, {com[1][0]}, {com[1][1]}, {com[1][2]}"
     print(c)

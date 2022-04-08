@@ -27,14 +27,14 @@ xs_ibd = '/Users/joe/src/snowglobes/xscns/xs_ibd.dat'
 xs_e = '/Users/joe/src/snowglobes/xscns/xs_nue_e.dat'
 
 
-def snowglobes_events(snowball, target):
+def snowglobes_events(snowball, detector, series=False):
     """Process fluences with SNOwGLoBES via `snewpy`.
 
     Parameters
     ----------
     snowball : Snowball
         Simulation details.
-    target : str
+    detector : str
         Name of SNOwGLoBES detector.
 
     Returns
@@ -47,8 +47,8 @@ def snowglobes_events(snowball, target):
     # Simulate via snewpy and make a table of the results.
     snow = snowglobes.simulate(sb.snowglobes_dir,
                                sb.tarball,
-                               detector_input=target.name)
-    # return snow[target.name][sb.sn_name]
+                               detector_input=detector.name)
+    # return snow[detector.name][sb.sn_name]
 
     # Save results
     # Interesting rates are unsmeared_weighted and smeared_weighted.
@@ -57,21 +57,21 @@ def snowglobes_events(snowball, target):
     snowflakes = []
     for smear in smearing:
         snowflake = f"{sb.snowball_dir}{sb.fluence_dir}snow-{smear}.csv"
-        events = snow[target.name][sb.sn_name]['weighted', smear]
+        events = snow[detector.name][sb.sn_name]['weighted', smear]
         events.to_csv(path_or_buf=snowflake, sep=' ')
         snowflakes.append(snowflake)
 
     return snowflakes
 
 
-def sspike_events(snowball, target):
+def sspike_events(snowball, detector):
     """Process event rates using sspike functions.
 
     Parameters
     ----------
     snowball : Snowball
         Simulation details.
-    target : list of str
+    detector : list of str
         Name of SNOwGLoBES detector.
 
     Returns
@@ -80,20 +80,20 @@ def sspike_events(snowball, target):
         File paths to processed dataframe.
     """
     sspikes = []
-    sspikes.append(basic_events(snowball, target))
-    sspikes.append(elastic_events(snowball, target))
+    sspikes.append(basic_events(snowball, detector))
+    sspikes.append(elastic_events(snowball, detector))
 
     return sspikes
 
 
-def basic_events(snowball, target):
+def basic_events(snowball, detector):
     """Estimate ibd and electron scatter events for cross-checking.
 
     Parameters
     ----------
     snowball : Snowball
         Simulation details.
-    target : list of str
+    detector : list of str
         Name of SNOwGLoBES detector.
 
     Returns
@@ -104,9 +104,9 @@ def basic_events(snowball, target):
     sb = snowball
     # Location to save dataframe.
     basic_path = f"{sb.snowball_dir}{sb.fluence_dir}sspike-basic.csv"
-    # Dataframes of event rates by target type.
-    ibd = ibd_events(snowball, target)
-    e_nu = e_scat(snowball, target)
+    # Dataframes of event rates by detector type.
+    ibd = ibd_events(snowball, detector)
+    e_nu = e_scat(snowball, detector)
 
     events = pd.merge(ibd, e_nu, on='E')
     events.to_csv(path_or_buf=basic_path, sep=' ')
@@ -114,14 +114,14 @@ def basic_events(snowball, target):
     return basic_path
 
 
-def ibd_events(snowball, target):
+def ibd_events(snowball, detector):
     """Inverse beta decay events.
 
     Parameters
     ----------
     snowball : Snowball
         Simulation details.
-    target : list of str
+    detector : list of str
         Name of SNOwGLoBES detector.
 
     Returns
@@ -149,19 +149,19 @@ def ibd_events(snowball, target):
     bin_scale = bin_size / 0.0002
     f_nueb = np.interp(events['E'], fluences['E'], fluences['aNuE'])
     xs_nueb = np.interp(events['E'], x_E, x_nueb)
-    events['ibd'] = f_nueb * xs_nueb * events['E'] * target.N_p * bin_scale
+    events['ibd'] = f_nueb * xs_nueb * events['E'] * detector.N_p * bin_scale
 
     return events
 
 
-def e_scat(snowball, target):
+def e_scat(snowball, detector):
     """Electron-neutrino scattering events.
 
     Parameters
     ----------
     snowball : Snowball
         Simulation details.
-    target : list of str
+    detector : list of str
         Name of SNOwGLoBES detector.
 
     Returns
@@ -191,28 +191,28 @@ def e_scat(snowball, target):
     # Electron flavor neutrinos.
     f_nue = np.interp(events['E'], fluences['E'], fluences['NuE'])
     xs_nue = np.interp(events['E'], x_E, x_nue)
-    events['nue_e'] = f_nue * xs_nue * events['E'] * target.N_e * bin_scale
+    events['nue_e'] = f_nue * xs_nue * events['E'] * detector.N_e * bin_scale
     # Positron flavor neutrinos.
     f_nueb = np.interp(events['E'], fluences['E'], fluences['aNuE'])
     xs_nueb = np.interp(events['E'], x_E, x_nueb)
     events['nuebar_e'] = f_nueb * xs_nueb * events['E']\
-                                * target.N_e * bin_scale
+                                * detector.N_e * bin_scale
     # Extra factor of 4: nux = nu_mu + nu_mubar + nu_tau + nu_taubar.
     f_nux = np.interp(events['E'], fluences['E'], fluences['NuMu']) * 4
     xs_nux = np.interp(events['E'], x_E, x_nux)
-    events['nux_e'] = f_nux * xs_nux * events['E'] * target.N_e * bin_scale
+    events['nux_e'] = f_nux * xs_nux * events['E'] * detector.N_e * bin_scale
 
     return events
 
 
-def elastic_events(snowball, target):
+def elastic_events(snowball, detector):
     """Proton-neutrino elastic scattering events.
 
     Parameters
     ----------
     snowball : Snowball
         Simulation details.
-    target : list of str
+    detector : list of str
         Name of SNOwGLoBES detector.
 
     Returns
@@ -240,24 +240,24 @@ def elastic_events(snowball, target):
     # Change from fluence bin width of 0.2 MeV.
     bin_scale = (nc['T_p'][1] - nc['T_p'][0]) / 2e-4
     for i in range(N_bins):
-        nc['nc_nue_p'][i] = target.N_p * quad(lambda x:
+        nc['nc_nue_p'][i] = detector.N_p * quad(lambda x:
                                               dxs_nc(x, nc['T_p'][i])
                                               * np.interp(x, fluences['E'],
                                                           fluences['NuE']),
                                               nc['E_min'][i], 0.1)[0]\
                                        * bin_scale
-        nc['nc_nuebar_p'][i] = target.N_p * quad(lambda x:
+        nc['nc_nuebar_p'][i] = detector.N_p * quad(lambda x:
                                                  dxs_nc(x, nc['T_p'][i])
                                                  * np.interp(x, fluences['E'],
                                                              fluences['aNuE']),
                                                  nc['E_min'][i], 0.1)[0]\
                                           * bin_scale
-        nc['nc_nux_p'][i] = target.N_p * quad(lambda x: dxs_nc(x, nc['T_p'][i])
+        nc['nc_nux_p'][i] = detector.N_p * quad(lambda x: dxs_nc(x, nc['T_p'][i])
                                               * np.interp(x, fluences['E'],
                                                           fluences['NuMu']),
                                               nc['E_min'][i], 0.1)[0]\
                                        * bin_scale
-        nc['nc_nuxbar_p'][i] = target.N_p * quad(lambda x:
+        nc['nc_nuxbar_p'][i] = detector.N_p * quad(lambda x:
                                                  dxs_nc(x, nc['T_p'][i])
                                                  * np.interp(
                                                     x, fluences['E'],

@@ -5,8 +5,8 @@ from .core.logging import getLogger
 log = getLogger(__name__)
 
 
-class Target:
-    """Target/detector specific information.
+class Detector:
+    """Detector specific information.
 
     Parameters
     ----------
@@ -26,9 +26,9 @@ class Target:
     nc_channels : list of str
         Neutrino-proton neutral-current interaction channels by flavor.
     """
-    def __init__(self, target):
-        self.name = target
-        if target == 'kamland':
+    def __init__(self, detector):
+        self.name = detector
+        if detector == 'kamland':
             # Calculate number of targets in fiducial volume of radius R_f.
             _R_f = 600  # Radial volume cut [cm].
             _rho_p = 6.66e22  # KamLAND proton density [cm^-3].

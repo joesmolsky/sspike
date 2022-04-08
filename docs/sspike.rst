@@ -44,10 +44,10 @@ sspike.sspike module
    :undoc-members:
    :show-inheritance:
 
-sspike.targets module
+sspike.detectors module
 ---------------------
 
-.. automodule:: sspike.targets
+.. automodule:: sspike.detectors
    :members:
    :undoc-members:
    :show-inheritance:

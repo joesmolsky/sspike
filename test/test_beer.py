@@ -1,6 +1,6 @@
 from sspike.beer import draw, tab
 from sspike.snowball import Snowball
-from sspike.targets import Target
+from sspike.detectors import Detector
 
 # Directory of copied data from working version.
 data_dir = '/Users/joe/src/gitjoe/sspike/test/test_data/'
@@ -12,8 +12,8 @@ nc = 'sspike-nc.csv'
 # Directory for test plot outputs.
 plot_dir = '/Users/joe/src/gitjoe/sspike/test/plots/'
 
-# Target instance for channel names.
-target = Target('kamland')
+# Detector instance for channel names.
+detector = Detector('kamland')
 
 # Testing Snowball
 model = 'Nakazato_2013'
@@ -27,23 +27,23 @@ sb = Snowball(model, progenitor, transformation, distance)
 
 # SNOwGLoBES unsmeared plot.
 def test_draw_unsmeared():
-    draw(f'{data_dir}{unsmeared}', channels=target.snow_channels,
+    draw(f'{data_dir}{unsmeared}', channels=detector.snow_channels,
          save=f'{plot_dir}{unsmeared[:-3]}', test=True)
 
 
 # SNOwGLoBES smeared plot.
 def test_draw_smeared():
-    draw(f'{data_dir}{smeared}', channels=target.snow_channels,
+    draw(f'{data_dir}{smeared}', channels=detector.snow_channels,
          save=f'{plot_dir}{smeared[:-3]}', test=True)
 
 
 def test_draw_basic():
-    draw(f'{data_dir}{basic}', channels=target.basic_channels,
+    draw(f'{data_dir}{basic}', channels=detector.basic_channels,
          save=f'{plot_dir}{basic[:-3]}', test=True)
 
 
 def test_draw_nc():
-    draw(f'{data_dir}{nc}', channels=target.nc_channels,
+    draw(f'{data_dir}{nc}', channels=detector.nc_channels,
          save=f'{plot_dir}{nc[:-3]}', test=True)
 
 

@@ -1,5 +1,5 @@
 from sspike.snowball import Snowball
-from sspike.targets import Target
+from sspike.detectors import Detector
 from sspike import pnut
 
 model = 'Nakazato_2013'
@@ -10,11 +10,11 @@ transformation = 'NoTransformation'
 distance = 5
 
 sb = Snowball(model, progenitor, transformation, distance)
-target = Target('kamland')
+detector = Detector('kamland')
 
 
 def test_snowglobes_events():
-    snowflakes = pnut.snowglobes_events(sb, target)
+    snowflakes = pnut.snowglobes_events(sb, detector)
     assert snowflakes[0] == '/Users/joe/src/gitjoe/sspike/snowballs'\
                             '/N13-30-20-100/5kpc-NoTransformation'\
                             '/snow-unsmeared.csv'
@@ -24,7 +24,7 @@ def test_snowglobes_events():
 
 
 def test_sspike_events():
-    sspikes = pnut.sspike_events(sb, target)
+    sspikes = pnut.sspike_events(sb, detector)
     assert sspikes[0] == '/Users/joe/src/gitjoe/sspike/snowballs'\
                          '/N13-30-20-100/5kpc-NoTransformation/'\
                          'sspike-basic.csv'
