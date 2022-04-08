@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; sspike 0.0.5-alpha documentation</title>
+  <title>Index &mdash; sspike &#34;0.1.0&#34; documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -27,6 +27,9 @@
             <a href="index.html" class="icon icon-home"> sspike
             <img src="_static/spike.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                "0.1.0"
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -88,7 +91,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="sspike.html#sspike.targets.Target.basic_channels">basic_channels (sspike.targets.Target attribute)</a>
+      <li><a href="sspike.html#sspike.detectors.Detector.basic_channels">basic_channels (sspike.detectors.Detector attribute)</a>
 </li>
       <li><a href="sspike.html#sspike.pnut.basic_events">basic_events() (in module sspike.pnut)</a>
 </li>
@@ -98,10 +101,12 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="sspike.html#sspike.beer.draw">draw() (in module sspike.beer)</a>
+      <li><a href="sspike.html#sspike.detectors.Detector">Detector (class in sspike.detectors)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="sspike.html#sspike.beer.draw">draw() (in module sspike.beer)</a>
+</li>
       <li><a href="sspike.html#sspike.pnut.dxs_nc">dxs_nc() (in module sspike.pnut)</a>
 </li>
   </ul></td>
@@ -162,13 +167,13 @@
 </li>
         <li><a href="sspike.core.html#module-sspike.core.logging">sspike.core.logging</a>
 </li>
+        <li><a href="sspike.html#module-sspike.detectors">sspike.detectors</a>
+</li>
         <li><a href="sspike.html#module-sspike.pnut">sspike.pnut</a>
 </li>
         <li><a href="sspike.html#module-sspike.snowball">sspike.snowball</a>
 </li>
         <li><a href="sspike.html#module-sspike.sspike">sspike.sspike</a>
-</li>
-        <li><a href="sspike.html#module-sspike.targets">sspike.targets</a>
 </li>
       </ul></li>
   </ul></td>
@@ -177,13 +182,13 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="sspike.html#sspike.targets.Target.N_e">N_e (sspike.targets.Target attribute)</a>
+      <li><a href="sspike.html#sspike.detectors.Detector.N_e">N_e (sspike.detectors.Detector attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="sspike.html#sspike.targets.Target.N_p">N_p (sspike.targets.Target attribute)</a>
+      <li><a href="sspike.html#sspike.detectors.Detector.N_p">N_p (sspike.detectors.Detector attribute)</a>
 </li>
-      <li><a href="sspike.html#sspike.targets.Target.nc_channels">nc_channels (sspike.targets.Target attribute)</a>
+      <li><a href="sspike.html#sspike.detectors.Detector.nc_channels">nc_channels (sspike.detectors.Detector attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -219,7 +224,7 @@
 </li>
       <li><a href="sspike.html#sspike.snowball.Snowball.sn_name">sn_name (sspike.snowball.Snowball attribute)</a>
 </li>
-      <li><a href="sspike.html#sspike.targets.Target.snow_channels">snow_channels (sspike.targets.Target attribute)</a>
+      <li><a href="sspike.html#sspike.detectors.Detector.snow_channels">snow_channels (sspike.detectors.Detector attribute)</a>
 </li>
       <li><a href="sspike.html#sspike.snowball.Snowball">Snowball (class in sspike.snowball)</a>
 </li>
@@ -262,6 +267,13 @@
 </li>
       </ul></li>
       <li>
+    sspike.detectors
+
+      <ul>
+        <li><a href="sspike.html#module-sspike.detectors">module</a>
+</li>
+      </ul></li>
+      <li>
     sspike.pnut
 
       <ul>
@@ -282,13 +294,6 @@
         <li><a href="sspike.html#module-sspike.sspike">module</a>
 </li>
       </ul></li>
-      <li>
-    sspike.targets
-
-      <ul>
-        <li><a href="sspike.html#module-sspike.targets">module</a>
-</li>
-      </ul></li>
       <li><a href="sspike.html#sspike.pnut.sspike_events">sspike_events() (in module sspike.pnut)</a>
 </li>
   </ul></td>
@@ -302,8 +307,6 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="sspike.html#sspike.snowball.Snowball.tarball">tarball (sspike.snowball.Snowball attribute)</a>
-</li>
-      <li><a href="sspike.html#sspike.targets.Target">Target (class in sspike.targets)</a>
 </li>
   </ul></td>
 </tr></table>

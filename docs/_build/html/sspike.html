@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sspike package &mdash; sspike 0.0.5-alpha documentation</title>
+  <title>sspike package &mdash; sspike &#34;0.1.0&#34; documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -30,6 +30,9 @@
             <a href="index.html" class="icon icon-home"> sspike
             <img src="_static/spike.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                "0.1.0"
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -51,7 +54,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#module-sspike.pnut">sspike.pnut module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-sspike.snowball">sspike.snowball module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-sspike.sspike">sspike.sspike module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-sspike.targets">sspike.targets module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-sspike.detectors">sspike.detectors module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-sspike">Module contents</a></li>
 </ul>
 </li>
@@ -114,7 +117,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.beer.draw">
-<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.draw" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nc_flavors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.draw" title="Permalink to this definition"></a></dt>
 <dd><p>Plot event rates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -185,13 +188,13 @@
 <p>Functions to load SN models from and process event rates.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.pnut.basic_events">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">basic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.basic_events" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">basic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.basic_events" title="Permalink to this definition"></a></dt>
 <dd><p>Estimate ibd and electron scatter events for cross-checking.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – Simulation details.</p></li>
-<li><p><strong>target</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+<li><p><strong>detector</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -226,13 +229,13 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.pnut.e_scat">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">e_scat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.e_scat" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">e_scat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.e_scat" title="Permalink to this definition"></a></dt>
 <dd><p>Electron-neutrino scattering events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – Simulation details.</p></li>
-<li><p><strong>target</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+<li><p><strong>detector</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -246,13 +249,13 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.pnut.elastic_events">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">elastic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.elastic_events" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">elastic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.elastic_events" title="Permalink to this definition"></a></dt>
 <dd><p>Proton-neutrino elastic scattering events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – Simulation details.</p></li>
-<li><p><strong>target</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+<li><p><strong>detector</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -266,13 +269,13 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.pnut.ibd_events">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">ibd_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.ibd_events" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">ibd_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.ibd_events" title="Permalink to this definition"></a></dt>
 <dd><p>Inverse beta decay events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – Simulation details.</p></li>
-<li><p><strong>target</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+<li><p><strong>detector</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -305,13 +308,13 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.pnut.snowglobes_events">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.snowglobes_events" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.snowglobes_events" title="Permalink to this definition"></a></dt>
 <dd><p>Process fluences with SNOwGLoBES via <cite>snewpy</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – Simulation details.</p></li>
-<li><p><strong>target</strong> (<em>str</em>) – Name of SNOwGLoBES detector.</p></li>
+<li><p><strong>detector</strong> (<em>str</em>) – Name of SNOwGLoBES detector.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -325,13 +328,13 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.pnut.sspike_events">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">sspike_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.sspike_events" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">sspike_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.sspike_events" title="Permalink to this definition"></a></dt>
 <dd><p>Process event rates using sspike functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>snowball</strong> (<a class="reference internal" href="#sspike.snowball.Snowball" title="sspike.snowball.Snowball"><em>Snowball</em></a>) – Simulation details.</p></li>
-<li><p><strong>target</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+<li><p><strong>detector</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -349,7 +352,7 @@ with units of cm^2 / GeV.</p>
 <p>Class for model details and data storage.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sspike.snowball.</span></span><span class="sig-name descname"><span class="pre">Snowball</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progenitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.snowball.Snowball" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sspike.snowball.</span></span><span class="sig-name descname"><span class="pre">Snowball</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progenitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.snowball.Snowball" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Simulation parameters and directory information.</p>
 <dl class="field-list simple">
@@ -459,7 +462,7 @@ with units of cm^2 / GeV.</p>
 <dd class="field-even"><p>str</p>
 </dd>
 <dt class="field-odd">param detector</dt>
-<dd class="field-odd"><p>Target/detector for simulations.  Default <cite>kamland</cite>.</p>
+<dd class="field-odd"><p>Detector for simulations.  Default <cite>kamland</cite>.</p>
 </dd>
 <dt class="field-even">type detector</dt>
 <dd class="field-even"><p>str, optional</p>
@@ -546,22 +549,22 @@ with units of cm^2 / GeV.</p>
 </dd></dl>
 
 </section>
-<section id="module-sspike.targets">
-<span id="sspike-targets-module"></span><h2>sspike.targets module<a class="headerlink" href="#module-sspike.targets" title="Permalink to this headline"></a></h2>
+<section id="module-sspike.detectors">
+<span id="sspike-detectors-module"></span><h2>sspike.detectors module<a class="headerlink" href="#module-sspike.detectors" title="Permalink to this headline"></a></h2>
 <p>Detector specifications.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="sspike.targets.Target">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sspike.targets.</span></span><span class="sig-name descname"><span class="pre">Target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.targets.Target" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="sspike.detectors.Detector">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sspike.detectors.</span></span><span class="sig-name descname"><span class="pre">Detector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.detectors.Detector" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Target/detector specific information.</p>
+<p>Detector specific information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Detector name in SNOwGLoBES (and sspike (copying SNOwGLoBES ( ;) ))).</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sspike.targets.Target.N_p">
-<span class="sig-name descname"><span class="pre">N_p</span></span><a class="headerlink" href="#sspike.targets.Target.N_p" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="sspike.detectors.Detector.N_p">
+<span class="sig-name descname"><span class="pre">N_p</span></span><a class="headerlink" href="#sspike.detectors.Detector.N_p" title="Permalink to this definition"></a></dt>
 <dd><p>Number of target protons.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -571,8 +574,8 @@ with units of cm^2 / GeV.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sspike.targets.Target.N_e">
-<span class="sig-name descname"><span class="pre">N_e</span></span><a class="headerlink" href="#sspike.targets.Target.N_e" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="sspike.detectors.Detector.N_e">
+<span class="sig-name descname"><span class="pre">N_e</span></span><a class="headerlink" href="#sspike.detectors.Detector.N_e" title="Permalink to this definition"></a></dt>
 <dd><p>Number of target electrons.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -582,8 +585,8 @@ with units of cm^2 / GeV.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sspike.targets.Target.snow_channels">
-<span class="sig-name descname"><span class="pre">snow_channels</span></span><a class="headerlink" href="#sspike.targets.Target.snow_channels" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="sspike.detectors.Detector.snow_channels">
+<span class="sig-name descname"><span class="pre">snow_channels</span></span><a class="headerlink" href="#sspike.detectors.Detector.snow_channels" title="Permalink to this definition"></a></dt>
 <dd><p>Channels used in SNOwGLoBES simulations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -593,8 +596,8 @@ with units of cm^2 / GeV.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sspike.targets.Target.basic_channels">
-<span class="sig-name descname"><span class="pre">basic_channels</span></span><a class="headerlink" href="#sspike.targets.Target.basic_channels" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="sspike.detectors.Detector.basic_channels">
+<span class="sig-name descname"><span class="pre">basic_channels</span></span><a class="headerlink" href="#sspike.detectors.Detector.basic_channels" title="Permalink to this definition"></a></dt>
 <dd><p>Channels for cross-checking sspike with SNOwGLoBES.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -604,8 +607,8 @@ with units of cm^2 / GeV.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sspike.targets.Target.nc_channels">
-<span class="sig-name descname"><span class="pre">nc_channels</span></span><a class="headerlink" href="#sspike.targets.Target.nc_channels" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="sspike.detectors.Detector.nc_channels">
+<span class="sig-name descname"><span class="pre">nc_channels</span></span><a class="headerlink" href="#sspike.detectors.Detector.nc_channels" title="Permalink to this definition"></a></dt>
 <dd><p>Neutrino-proton neutral-current interaction channels by flavor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>

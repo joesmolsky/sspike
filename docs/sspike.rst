@@ -45,7 +45,7 @@ sspike.sspike module
    :show-inheritance:
 
 sspike.detectors module
----------------------
+-----------------------
 
 .. automodule:: sspike.detectors
    :members:
