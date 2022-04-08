@@ -2,6 +2,7 @@
 *.egg-info
 *.pyc
 snowballs/
+blizzards/
 log/
 out/
 test/plots/
