@@ -95,6 +95,9 @@ class Snowball():
             # Name for sub-directory of fluences produced by this model file.
             self.sn_name = f'F21-{mass}'
             sim_file = f'lum_spec_{mass}M_r10000_dat.h5'
+            # Simulation times.
+            self.t_start = -0.2135
+            self.t_end = 4.4885
 
         if self.model == 'Warren_2020':
             # Warren 2020 models vary by mass and stirring parameter.
@@ -103,6 +106,9 @@ class Snowball():
             # Name for sub-directory of fluences produced by this model file.
             self.sn_name = f'W20-{mass}-{stir}'
             sim_file = f'stir_a{stir}/stir_multimessenger_a{stir}_m{mass}.h5'
+            # Simulation times.
+            self.t_start = -1.5788003
+            self.t_end = 1.6835847
 
         if self.model == 'Tamborra_2014':
             # Tamborra model includes 2 different simulations 20.0, 27.0 S.M.
@@ -138,6 +144,11 @@ class Snowball():
             B0 = self.progenitor['B0']
             self.sn_name = f'K20-{Omega}-{B0}'
             sim_file = f'LnuR{Omega}B{B0}.dat'
+            # Simulation times.
+            self.t_start = -0.00482311
+            self.t_end = 0.316403
+            
+            
 
         self.sim_path = f'{self.models_dir}/{self.model}/{sim_file}'
         fluence_specs = f'{self.distance}kpc-{self.transform}'
