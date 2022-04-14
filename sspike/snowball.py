@@ -43,6 +43,7 @@ class Snowball():
     fluence_dir : str
         Directory path to extracted `snewpy` tarball.
     """
+    # TODO: Add time attributes to docstring.
     def __init__(self, model, progenitor, transform, distance, t_bins=1):
         # Install locations.
         # Location of snewpy models directory.
@@ -67,14 +68,9 @@ class Snowball():
             if not isdir(f"{self.snowball_dir}{self.fluence_dir}"):
                 self._gen_fluences()
             else:
-                # Temporary try except until version 0.0.3 snowballs reprocessed.
-                # This needs to be updated since everything is reprocessed.
-                try:
-                    fluence_dir = f"{self.snowball_dir}{self.fluence_dir}"
-                    with open(f"{fluence_dir}tarball_path.txt", 'r') as f:
-                        self.tarball = f.readline()
-                except Exception:
-                    self._gen_fluences()
+                fluence_dir = f"{self.snowball_dir}{self.fluence_dir}"
+                with open(f"{fluence_dir}tarball_path.txt", 'r') as f:
+                    self.tarball = f.readline()
         else:
             self._gen_series()
 
@@ -89,6 +85,9 @@ class Snowball():
             self.sn_name = f'N13-{mass}-{int(metal*1e3):02d}-{t_rev}'
             # Supernovae model filename.
             sim_file = f'nakazato-shen-z{metal}-t_rev{t_rev}ms-s{mass}.0.fits'
+            # Simulation times.
+            self.t_start = -0.05
+            self.t_end = 20.
 
         if self.model == 'Fornax_2021':
             # Fornax 2019 models only vary by mass.
@@ -161,6 +160,7 @@ class Snowball():
                                                    self.transform,
                                                    self.distance,
                                                    self.sn_name)
+
         # Extract snewpy output in sspike snowball directory.
         fluence_path = f"{self.snowball_dir}{self.fluence_dir}"
         with tarfile.open(self.tarball) as tb:
@@ -171,7 +171,12 @@ class Snowball():
             f.write(self.tarball)
 
     def fluences(self):
-        """Read fluence file and return dataframe."""
+        """Read fluence file and return dataframe.
+
+        Note
+        ----
+        Energy in 0.2 MeV bins and fluences are number per square centimeter.
+        """
         log.debug('\n- Reading fluences.\n')
         file_dir = f'{self.snowball_dir}{self.fluence_dir}'
         file_name = f'{self.sn_name}.dat'
@@ -193,12 +198,6 @@ class Snowball():
         flu_msg += f'\t- sn_name: {self.sn_name} {type(self.sn_name)}\n'
         log.debug(flu_msg)
 
-        # Get model times and create bins.
-        # Start with Nakazato times hard-coded.
-        # start = -0.05
-        # end = 20
-        # dt = (end - start) / (self.t_bins)
-
         # Generate fluence with snewpy and get path to output.
         self.tarball = snowglobes.generate_time_series(self.sim_path,
                                                        self.model,
@@ -206,11 +205,12 @@ class Snowball():
                                                        self.distance,
                                                        self.sn_name,
                                                        self.t_bins)
+
         # Extract snewpy output in sspike snowball directory.
-        series_path = f"{self.series_dir}{self.fluence_dir}"
+        self.series_path = f"{self.series_dir}{self.fluence_dir}"
         with tarfile.open(self.tarball) as tb:
-            tb.extractall(series_path)
-        tarball_path = f"{series_path}tarball_path.txt"
+            tb.extractall(self.series_path)
+        tarball_path = f"{self.series_path}tarball_path.txt"
         # Save path name for skipping this step later.
         with open(tarball_path, 'w') as f:
             f.write(self.tarball)

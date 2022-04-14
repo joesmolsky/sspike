@@ -10,6 +10,7 @@ from scipy.integrate import quad
 
 from snewpy import snowglobes
 
+from .env import snowglobes_dir
 from .core.logging import getLogger
 log = getLogger(__name__)
 
@@ -22,12 +23,12 @@ hbarc = hbcu[0] * 1e-13 * 1e-3  # Convert fm to cm and MeV to GeV
 Cv = 0.04  # Vector coupling constant
 Ca = 1.27 / 2  # Axial coupling constant
 
-# Path to SNOeGLoBES cross-section files
+# Path to SNOwGLoBES cross-section files
 xs_ibd = '/Users/joe/src/snowglobes/xscns/xs_ibd.dat'
 xs_e = '/Users/joe/src/snowglobes/xscns/xs_nue_e.dat'
 
 
-def snowglobes_events(snowball, detector, series=False):
+def snowglobes_events(snowball, detector, t_bins=None):
     """Process fluences with SNOwGLoBES via `snewpy`.
 
     Parameters
@@ -130,13 +131,14 @@ def ibd_events(snowball, detector):
         Pandas dataframe with electron events by flavor.
     """
     # Load fluences.
+    # Energy bins 0.2 MeV and fluences cm^-2.
     fluences = snowball.fluences()
 
-    # Load cross-sections
+    # Load cross-sections in GLoBES format.
     xscn = np.genfromtxt(xs_ibd, skip_header=3).T
-    # Energies [log(E GeV)] --> [GeV]
+    # Energies [log(E GeV)] --> [GeV].
     x_E = 10**xscn[0]
-    # Cross-sections [10^-38 cm^-2 GeV^-1] --> [cm^-2 GeV^-1]
+    # Cross-sections [10^-38 cm^-2 GeV^-1] --> [cm^-2 GeV^-1].
     x_scale = 1e-38
     x_nueb = xscn[4] * x_scale
 
@@ -220,8 +222,16 @@ def elastic_events(snowball, detector):
     sspiked : dataframe
         Pandas dataframe with neutral-current events by flavor.
     """
+    # Shorten name.
     sb = snowball
+    # Get fluences at detector.
     fluences = sb.fluences()
+    # Assign local variables for simplicity and naming conventions.
+    E = fluences['E']
+    f = {'nc_nue_p': fluences['NuE'],
+         'nc_nuebar_p': fluences['aNuE'],
+         'nc_nux_p': fluences['NuMu'],
+         'nc_nuxbar_p': fluences['aNuMu']}
     # Find differential cross-section as function of proton recoil energy.
     nc = pd.DataFrame()
     # Maximum proton recoil energy for 100 MeV neutrino is 17.5 MeV.
@@ -231,39 +241,22 @@ def elastic_events(snowball, detector):
     nc['E_min'] = (nc['T_p'] + np.sqrt(nc['T_p'] * (nc['T_p'] + 2 * M_p))) / 2
 
     N_bins = len(nc['T_p'])
-    nc['nc_nue_p'] = np.zeros(N_bins)
-    nc['nc_nuebar_p'] = np.zeros(N_bins)
-    nc['nc_nux_p'] = np.zeros(N_bins)
-    nc['nc_nuxbar_p'] = np.zeros(N_bins)
+    channels = detector.nc_channels
+    for chan in channels:
+        nc[chan] = np.zeros(N_bins)
 
     # Event rates.
     # Change from fluence bin width of 0.2 MeV.
     bin_scale = (nc['T_p'][1] - nc['T_p'][0]) / 2e-4
+    # Scale including number of targets.
+    scale = detector.N_p * bin_scale
+    # Cross-section depends on proton recoil energy.
     for i in range(N_bins):
-        nc['nc_nue_p'][i] = detector.N_p * quad(lambda x:
-                                              dxs_nc(x, nc['T_p'][i])
-                                              * np.interp(x, fluences['E'],
-                                                          fluences['NuE']),
-                                              nc['E_min'][i], 0.1)[0]\
-                                       * bin_scale
-        nc['nc_nuebar_p'][i] = detector.N_p * quad(lambda x:
-                                                 dxs_nc(x, nc['T_p'][i])
-                                                 * np.interp(x, fluences['E'],
-                                                             fluences['aNuE']),
-                                                 nc['E_min'][i], 0.1)[0]\
-                                          * bin_scale
-        nc['nc_nux_p'][i] = detector.N_p * quad(lambda x: dxs_nc(x, nc['T_p'][i])
-                                              * np.interp(x, fluences['E'],
-                                                          fluences['NuMu']),
-                                              nc['E_min'][i], 0.1)[0]\
-                                       * bin_scale
-        nc['nc_nuxbar_p'][i] = detector.N_p * quad(lambda x:
-                                                 dxs_nc(x, nc['T_p'][i])
-                                                 * np.interp(
-                                                    x, fluences['E'],
-                                                    fluences['aNuMu']),
-                                                 nc['E_min'][i], 0.1)[0]\
-                                          * bin_scale
+        T_p = nc['T_p'][i]
+        E_min = nc['E_min'][i]
+        # Intergrate fluences to get event rates for each flavor.
+        for chan in channels:
+            nc[chan][i] = nc_events(T_p, E, f[chan], E_min, scale)
 
     nc_path = f"{sb.snowball_dir}{sb.fluence_dir}sspike-nc.csv"
     nc.to_csv(path_or_buf=nc_path, sep=' ')
@@ -324,3 +317,36 @@ def quench(T_p):
     E = T_p * np.interp(T_p, qE, qX)
 
     return E
+
+def nc_events(T_p, E, f, E_min, scale=1):
+    """
+    Integrate neutrino differential cross-section and fluence w.r.t. energy.
+
+    Parameters
+    ----------
+    T_p : float
+        Proton recoil energy $[MeV]$.
+    E : np.array
+        Neutrino energies $[MeV]$.
+    f : np.array
+        Neutrino fluence $$
+
+    Return
+    ------
+    E : np.array
+        Electron equivalent energy in KamLAND.
+
+    Note:
+        Quenching factors using WebPlotDigitizer on Fig. 6 in:
+        https://www.sciencedirect.com/science/article/pii/S0168900210017018
+    """
+    N = quad(lambda x: dxs_nc(x, T_p) * np.interp(x, E, f), E_min, 0.1)[0]
+    return N * scale
+
+def time_events(bliz, detector):
+    """Process time series with snowglobes."""
+
+    snowglobes.simulate(snowglobes_dir, bliz, detector_input=detector)
+    tables = snowglobes.collate(snowglobes_dir, bliz, skip_plots=True)
+    
+    return tables

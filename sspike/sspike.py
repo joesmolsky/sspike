@@ -59,10 +59,13 @@ def main():
     # Distance to supernovae.
     parser.add_argument('-L', '--baseline',
                         default=5.0, metavar='', type=float,
-                        help='supernovae distance in kpc (default 5)')
+                        help='supernovae distance in kpc (default 5.0)')
     # Neutrino transformation.
     parser.add_argument('-X', '--transform', default='NoTransformation',
                         metavar='', help='transformation type from snewpy')
+    # Time bins
+    parser.add_argument('-T', '--time-bins', default=1,
+                    metavar='', help='number of time bins (default 1)')
     # Progenitor properties.
     parser.add_argument('-M', '--mass', metavar='',
                         help='progenitor mass in solar masses')
@@ -105,7 +108,7 @@ def main():
         arg_msg += f"\t- {arg}: {getattr(cmdline, arg)}\n"
     log.debug(arg_msg)
 
-    # Shorten variable names.  Do you know a better way to do this?
+    # Shorten variable names.  Better way to do this?
     model = cmdline.model
     detector = cmdline.detector
     distance = cmdline.baseline
@@ -117,11 +120,14 @@ def main():
     B0 = cmdline.b_field
     eos = cmdline.eos
     stir = cmdline.stir
+    t_bins = cmdline.time_bins
 
     # Dictionary for progenitor properties.  Better way to do this?
     progenitor = {}
     prog_vals = [mass, metal, t_rev, omega, B0, eos, stir]
     prog_keys = ['mass', 'metal', 't_rev', 'omega', 'B0', 'eos', 'stir']
+
+    # Debugging message.
     prog_msg = '\n- Allowed progenitor variables:\n'
     for i in range(len(prog_vals)):
         prog_msg += f"\t- {prog_keys[i]}:"\
@@ -134,7 +140,7 @@ def main():
     # Model name for single simulation.
     if '.' not in model:
         print(f'Starting simulation: {model} \t {progenitor}.')
-        run_sim(model, progenitor, transform, distance, detector)
+        run_sim(model, progenitor, transform, distance, detector, t_bins)
 
     # File name for (multiple) simulation(s).
     else:
@@ -155,6 +161,7 @@ def main():
         # List of each simulation file with each set of parameters.
         runs = itertools.product(sims, params)
 
+        # Run simulations in series.
         for run in runs:
             model = run[0][0]
             progenitor = run[0][1]
@@ -165,7 +172,8 @@ def main():
                           f"\tProgenitor: {progenitor}\n"\
                           f"\tDistance: {distance} kpc\n"\
                           f"\tDetector: {detector}\n"
-
+            
+            # PHYSICS!!!
             print(f'Starting simulation:\n {description}')
             run_sim(model, progenitor, transform, distance, detector)
             print('\nSimulation complete.\n')
@@ -178,7 +186,7 @@ def main():
     return 0
 
 
-def run_sim(model, progenitor, transform, distance, detector):
+def run_sim(model, progenitor, transform, distance, detector, t_bins=1):
     """Process simulation file with `SNoGLoBES` and `sspike`.
 
     Parameters
@@ -193,6 +201,8 @@ def run_sim(model, progenitor, transform, distance, detector):
         Distance to supernova.
     detector : str
         Name of detector in `SNOwGLoBEs`.
+    t_bins : int
+        Number of time bins to divide simulation
     """
     # Log initial supernovae information.
     sn_info = f"\n- Running {model} model at {distance} kpc in {detector}.\n"
