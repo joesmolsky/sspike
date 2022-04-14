@@ -308,10 +308,12 @@ def series_plot(bliz, sno, times, plot_type):
     K = list(sno.keys())
     old_name = K[1].split('tbin')
 
-    n_chan = {}
-
+    n_chan = pd.DataFrame()
     t_bins = bliz.t_bins
+    n_chan['time'] = np.zeros(t_bins)
+
     for i in range(t_bins):
+        n_chan['time'][i] = times[i]
         key = f"{old_name[0]}tbin{i+1}.{'.'.join(old_name[1].split('.')[1:])}"
 
         if i == 0:
@@ -323,26 +325,22 @@ def series_plot(bliz, sno, times, plot_type):
                 n_chan[cols[j]] = np.zeros(t_bins)
             n_chan[cols[j]][i] += sum(sno[key]['data'][j])
 
+    sno_pd = f'{bliz.series_path}sno_pd.csv'
+    n_chan.to_csv(path_or_buf=sno_pd, sep=' ')
+
         # nevents is per bin per s
     factor = bliz.t_bins / (bliz.t_end - bliz.t_start)
 
     fig, ax = plt.subplots(1, figsize=(16, 8), facecolor='white')
     for chan in n_chan.keys():
+        if chan == 'time':
+            continue
         ax.plot(times * u.s, n_chan[chan] * factor, label=chan)
 
     ax.set_xlabel("$t$ [s]")
     ax.set_ylabel("Counts [s$^{-1}$]")
     ax.set_yscale('log')
+    ax.set_ylim(bottom=1e-2)
     ax.legend(bbox_to_anchor=(1.02, 1.))
     plt.title(f'{bliz.sn_name} {plot_type[1:]}')
     plt.show()
-
-    # fig, ax = plt.subplots(1, figsize=(16, 8), facecolor='white')
-    # for chan in n_chan.keys():
-    #     ax.plot(tmid[:-1] * u.s, n_chan[chan][:-1] * factor, label=chan)
-    # ax.set_xlabel("$t$ [s]")
-    # ax.set_ylabel("Counts [0.1 s$^{-1}$]")
-    # ax.legend()
-    # ax.set_yscale('log')
-    # plt.title(f'{window_bins} time bins')
-    # plt.show()
