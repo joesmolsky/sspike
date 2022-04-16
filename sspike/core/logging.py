@@ -1,15 +1,16 @@
 """
-Modified python 201 logger (by letner) for logging to `log_file`.
+Modified version of Geoffrey Letner's python 201 logger.
+
 Ref: https://python-tutorial.dev/201/tutorial/logging.html
 """
-from datetime import date as dt
+from datetime import date
 from socket import gethostname
 from logging import (getLogger, NullHandler, Formatter, FileHandler,
                      DEBUG, INFO, WARNING, ERROR, CRITICAL)
 
 HOST = gethostname()
 
-log_date = dt.today().strftime('%Y-%m-%d')
+log_date = date.today().strftime('%Y-%m-%d')
 log_file = f'/Users/joe/src/gitjoe/sspike/log/{log_date}.log'
 fh = FileHandler(log_file)
 
