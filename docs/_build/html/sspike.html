@@ -110,9 +110,9 @@
 <p>Back-end event reader.</p>
 <p>Make plots and tables of pnut outputs.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="sspike.beer.bar">
-<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pack</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.bar" title="Permalink to this definition"></a></dt>
-<dd><p>TODO: Bar graph comparing event rates.</p>
+<dt class="sig sig-object py" id="sspike.beer.bin_times">
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">bin_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bliz</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.bin_times" title="Permalink to this definition"></a></dt>
+<dd><p>Return array of times for plotting.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -134,17 +134,9 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="sspike.beer.pay">
-<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">pay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kamland'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.pay" title="Permalink to this definition"></a></dt>
-<dd><p>TODO: Pack astrophysical yields.  (Combine tabs into dataframe format.)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>tabs</strong> (<em>list of str</em>) – Directory paths containing a <cite>totals.txt</cite> file from <cite>beer.tab()</cite>.</p></li>
-<li><p><strong>distance</strong> (<em>float</em><em> or </em><em>str</em>) – Only include results at this distance.  Default, None, checks all tabs.</p></li>
-</ul>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="sspike.beer.series_plot">
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">series_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bliz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sno</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.beer.series_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Plot channels from tables.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -288,6 +280,29 @@ with units of cm^2 / GeV.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="sspike.pnut.nc_events">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">nc_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T_p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">E_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.nc_events" title="Permalink to this definition"></a></dt>
+<dd><p>Integrate neutrino differential cross-section and fluence w.r.t. energy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T_p</strong> (<em>float</em>) – Proton recoil energy $[MeV]$.</p></li>
+<li><p><strong>E</strong> (<em>np.array</em>) – Neutrino energies $[MeV]$.</p></li>
+<li><p><strong>f</strong> (<em>np.array</em>) – Neutrino fluence $$</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>E</strong> (<em>np.array</em>) – Electron equivalent energy in KamLAND.</p></li>
+<li><p><em>Note</em> – Quenching factors using WebPlotDigitizer on Fig. 6 in:
+<a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0168900210017018">https://www.sciencedirect.com/science/article/pii/S0168900210017018</a></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="sspike.pnut.quench">
 <span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">quench</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T_p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.quench" title="Permalink to this definition"></a></dt>
 <dd><p>Convert proton recoil energy to electron equivalent energy.</p>
@@ -308,7 +323,7 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.pnut.snowglobes_events">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.snowglobes_events" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.snowglobes_events" title="Permalink to this definition"></a></dt>
 <dd><p>Process fluences with SNOwGLoBES via <cite>snewpy</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -344,6 +359,12 @@ with units of cm^2 / GeV.</p>
 <dd class="field-odd"><p>list(str)</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sspike.pnut.time_events">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">time_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bliz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.pnut.time_events" title="Permalink to this definition"></a></dt>
+<dd><p>Process time series with snowglobes.</p>
 </dd></dl>
 
 </section>
@@ -446,6 +467,10 @@ with units of cm^2 / GeV.</p>
 <dt class="sig sig-object py" id="sspike.snowball.Snowball.fluences">
 <span class="sig-name descname"><span class="pre">fluences</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sspike.snowball.Snowball.fluences" title="Permalink to this definition"></a></dt>
 <dd><p>Read fluence file and return dataframe.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Energy in 0.2 MeV bins and fluences are number per square centimeter.</p>
+</div>
 </dd></dl>
 
 </dd></dl>
@@ -533,7 +558,7 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sspike.sspike.run_sim">
-<span class="sig-prename descclassname"><span class="pre">sspike.sspike.</span></span><span class="sig-name descname"><span class="pre">run_sim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progenitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.sspike.run_sim" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.sspike.</span></span><span class="sig-name descname"><span class="pre">run_sim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progenitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.sspike.run_sim" title="Permalink to this definition"></a></dt>
 <dd><p>Process simulation file with <cite>SNoGLoBES</cite> and <cite>sspike</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -543,6 +568,7 @@ with units of cm^2 / GeV.</p>
 <li><p><strong>transform</strong> (<em>str</em>) – Type of <cite>snewpy</cite> transformation to apply.</p></li>
 <li><p><strong>distance</strong> (<em>float</em>) – Distance to supernova.</p></li>
 <li><p><strong>detector</strong> (<em>str</em>) – Name of detector in <cite>SNOwGLoBEs</cite>.</p></li>
+<li><p><strong>t_bins</strong> (<em>int</em>) – Number of time bins to divide simulation</p></li>
 </ul>
 </dd>
 </dl>
