@@ -9,17 +9,19 @@ Welcome to sspike's documentation!
 sspike (supernovae spallation products inducing KamLAND events) is a python package (in development) for simulating supernovae neutrino event rates in KamLAND.  SNOwGLoBES and snewpy handle most of the physics.  sspike's purpose is to compare several supernovae simulations (from snewpy) in a single detector (using SNOwGLoBES).  It was created for KamLAND, but other detectors can be added.  (In *Peanuts*, Spike is Snoopy's brother.)
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents: 
 
    usage
-   modules
+   api
+   api_sum
+   models
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
-* :ref:`search`
+
 
 Spike image credit: <https://favpng.com/png_user/mcglynnlon1974>

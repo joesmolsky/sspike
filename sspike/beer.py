@@ -4,7 +4,6 @@ Make plots and tables of pnut outputs.
 """
 
 from os.path import isfile
-from os import listdir
 
 import pandas as pd
 from matplotlib import rcParams

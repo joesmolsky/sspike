@@ -4,7 +4,7 @@ Usage
 Installation
 ------------
 
-Clone the repository and install in edit mode with pip:
+Clone the repository from https://github.com/joesmolsky/sspike and install in edit mode with pip:
 
 .. code-block:: console
 
