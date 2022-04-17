@@ -4,6 +4,6 @@ models_dir = '/Users/joe/src/snewpy/models/'
 # SNOwGLoBES location.
 snowglobes_dir = "/Users/joe/src/gitjoe/snowglobes/"
 # sspike snowball directory.
-snowball_dir = "/Users/joe/src/gitjoe/sspike/snowballs/"
+snowball_dir = "/Users/joe/src/gitjoe/sspike/out/snowballs/"
 # sspike time series directory.
-series_dir = "/Users/joe/src/gitjoe/sspike/blizzards/"
+series_dir = "/Users/joe/src/gitjoe/sspike/out/blizzards/"
