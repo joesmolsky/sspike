@@ -16,6 +16,8 @@ sspike (supernovae spallation products inducing KamLAND events) is a python pack
    api
    api_sum
    models
+   progenitors
+   detectors
 
 Indices and tables
 ==================

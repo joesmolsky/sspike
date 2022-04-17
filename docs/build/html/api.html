@@ -1,95 +1,231 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sspike API &mdash; sspike &#34;0.1.0&#34; documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-    <script src="_static/js/theme.js"></script>
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>sspike API &#8212; sspike &#34;0.1.0&#34; documentation</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/blank.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API Summary" href="api_sum.html" />
-    <link rel="prev" title="Usage" href="usage.html" /> 
-</head>
+    <link rel="next" title="API summary" href="api_sum.html" />
+    <link rel="prev" title="Usage" href="usage.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> sspike
-            <img src="_static/spike.png" class="logo" alt="Logo"/>
-          </a>
-              <div class="version">
-                "0.1.0"
-              </div>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">sspike API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#classes">Classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#detector">Detector</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#snowball">Snowball</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api_sum.html">API Summary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="models.html">SN models</a></li>
-</ul>
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
 
-        </div>
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="index.html">
+  <img src="_static/spike.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="usage.html">
+  Usage
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="current reference internal nav-link" href="#">
+  sspike API
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="api_sum.html">
+  API summary
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="models.html">
+  SN model descriptions
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="progenitors.html">
+  Model comparisons
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="detectors.html">
+  Detectors
+ </a>
+</li>
+
+    
+</ul>
       </div>
-    </nav>
+      
+    </div>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">sspike</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>sspike API</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
-      </li>
-  </ul>
-  <hr/>
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#classes">
+   Classes
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#detector">
+     Detector
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#snowball">
+     Snowball
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modules">
+   Modules
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pnut">
+     pnut
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#beer">
+     beer
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
   <section id="sspike-api">
-<h1>sspike API<a class="headerlink" href="#sspike-api" title="Permalink to this headline"></a></h1>
+<h1>sspike API<a class="headerlink" href="#sspike-api" title="Permalink to this headline">¶</a></h1>
 <section id="classes">
-<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h2>
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
 <section id="detector">
-<h3>Detector<a class="headerlink" href="#detector" title="Permalink to this headline"></a></h3>
+<h3>Detector<a class="headerlink" href="#detector" title="Permalink to this headline">¶</a></h3>
+<p>Usage example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sspike.detectors</span> <span class="kn">import</span> <span class="n">Detector</span>
+
+<span class="n">detector</span> <span class="o">=</span> <span class="n">Detector</span><span class="p">(</span><span class="s1">&#39;kamland&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="py class">
 <dt class="sig sig-object py" id="sspike.detectors.Detector">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sspike.detectors.</span></span><span class="sig-name descname"><span class="pre">Detector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.detectors.Detector" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sspike.detectors.</span></span><span class="sig-name descname"><span class="pre">Detector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.detectors.Detector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detector specific information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -98,7 +234,7 @@
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.detectors.Detector.N_p">
-<span class="sig-name descname"><span class="pre">N_p</span></span><a class="headerlink" href="#sspike.detectors.Detector.N_p" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">N_p</span></span><a class="headerlink" href="#sspike.detectors.Detector.N_p" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of target protons.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -109,7 +245,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.detectors.Detector.N_e">
-<span class="sig-name descname"><span class="pre">N_e</span></span><a class="headerlink" href="#sspike.detectors.Detector.N_e" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">N_e</span></span><a class="headerlink" href="#sspike.detectors.Detector.N_e" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of target electrons.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -120,7 +256,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.detectors.Detector.snow_channels">
-<span class="sig-name descname"><span class="pre">snow_channels</span></span><a class="headerlink" href="#sspike.detectors.Detector.snow_channels" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">snow_channels</span></span><a class="headerlink" href="#sspike.detectors.Detector.snow_channels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Channels used in SNOwGLoBES simulations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -131,7 +267,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.detectors.Detector.basic_channels">
-<span class="sig-name descname"><span class="pre">basic_channels</span></span><a class="headerlink" href="#sspike.detectors.Detector.basic_channels" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">basic_channels</span></span><a class="headerlink" href="#sspike.detectors.Detector.basic_channels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Channels for cross-checking sspike with SNOwGLoBES.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -142,7 +278,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.detectors.Detector.nc_channels">
-<span class="sig-name descname"><span class="pre">nc_channels</span></span><a class="headerlink" href="#sspike.detectors.Detector.nc_channels" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">nc_channels</span></span><a class="headerlink" href="#sspike.detectors.Detector.nc_channels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Neutrino-proton neutral-current interaction channels by flavor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -155,10 +291,10 @@
 
 </section>
 <section id="snowball">
-<h3>Snowball<a class="headerlink" href="#snowball" title="Permalink to this headline"></a></h3>
+<h3>Snowball<a class="headerlink" href="#snowball" title="Permalink to this headline">¶</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sspike.snowball.</span></span><span class="sig-name descname"><span class="pre">Snowball</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progenitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.snowball.Snowball" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sspike.snowball.</span></span><span class="sig-name descname"><span class="pre">Snowball</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progenitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sspike.snowball.Snowball" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simulation parameters and directory information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -172,7 +308,7 @@
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball.models_dir">
-<span class="sig-name descname"><span class="pre">models_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.models_dir" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">models_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.models_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Local <cite>snewpy</cite> models directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -183,7 +319,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball.snowglobes_dir">
-<span class="sig-name descname"><span class="pre">snowglobes_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.snowglobes_dir" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">snowglobes_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.snowglobes_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Local <cite>SNOwGLoBES</cite> directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -194,7 +330,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball.sim_path">
-<span class="sig-name descname"><span class="pre">sim_path</span></span><a class="headerlink" href="#sspike.snowball.Snowball.sim_path" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">sim_path</span></span><a class="headerlink" href="#sspike.snowball.Snowball.sim_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simulation file containing initial neutrino fluxes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -205,7 +341,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball.snowball_dir">
-<span class="sig-name descname"><span class="pre">snowball_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.snowball_dir" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">snowball_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.snowball_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>sspike directory for simulation fluences and processed dataframes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -216,7 +352,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball.sn_name">
-<span class="sig-name descname"><span class="pre">sn_name</span></span><a class="headerlink" href="#sspike.snowball.Snowball.sn_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">sn_name</span></span><a class="headerlink" href="#sspike.snowball.Snowball.sn_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name indicating model type and progenitor parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -227,7 +363,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball.tarball">
-<span class="sig-name descname"><span class="pre">tarball</span></span><a class="headerlink" href="#sspike.snowball.Snowball.tarball" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tarball</span></span><a class="headerlink" href="#sspike.snowball.Snowball.tarball" title="Permalink to this definition">¶</a></dt>
 <dd><p>File path to tarball created by <cite>snewpy</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -238,7 +374,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball.fluence_dir">
-<span class="sig-name descname"><span class="pre">fluence_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.fluence_dir" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fluence_dir</span></span><a class="headerlink" href="#sspike.snowball.Snowball.fluence_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Directory path to extracted <cite>snewpy</cite> tarball.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -249,7 +385,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sspike.snowball.Snowball.fluences">
-<span class="sig-name descname"><span class="pre">fluences</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sspike.snowball.Snowball.fluences" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fluences</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sspike.snowball.Snowball.fluences" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read fluence file and return dataframe.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -262,7 +398,9 @@
 </section>
 </section>
 <section id="modules">
-<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline"></a></h2>
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<section id="pnut">
+<h3>pnut<a class="headerlink" href="#pnut" title="Permalink to this headline">¶</a></h3>
 <p>Process neutrino underground telemetry.</p>
 <p>Functions to load SN models from and process event rates.</p>
 <dl class="py function">
@@ -454,6 +592,9 @@ with units of cm^2 / GeV.</p>
 <dd><p>Process time series with snowglobes.</p>
 </dd></dl>
 
+</section>
+<section id="beer">
+<h3>beer<a class="headerlink" href="#beer" title="Permalink to this headline">¶</a></h3>
 <p>Back-end event reader.</p>
 <p>Make plots and tables of pnut outputs.</p>
 <dl class="py function">
@@ -522,36 +663,53 @@ with units of cm^2 / GeV.</p>
 
 </section>
 </section>
+</section>
 
 
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="api_sum.html" class="btn btn-neutral float-right" title="API Summary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2022, Joe Smolsky.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
+              </div>
+              
+              
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="usage.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Usage</p>
         </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+    </a>
+    <a class='right-next' id="next-link" href="api_sum.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API summary</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+              
+          </main>
+          
 
-</body>
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2022, Joe Smolsky.<br>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
 </html>

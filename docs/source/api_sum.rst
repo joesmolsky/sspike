@@ -1,4 +1,4 @@
-API Summary
+API summary
 ===========
 
 .. autosummary::

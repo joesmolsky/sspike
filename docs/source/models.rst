@@ -1,5 +1,5 @@
-SN models
-=========
+SN model descriptions
+=====================
 
 Supernovae simulation model descriptions.
 
