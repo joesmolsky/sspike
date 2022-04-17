@@ -15,19 +15,19 @@ detector = Detector('kamland')
 
 def test_snowglobes_events():
     snowflakes = pnut.snowglobes_events(sb, detector)
-    assert snowflakes[0] == '/Users/joe/src/gitjoe/sspike/snowballs'\
+    assert snowflakes[0] == '/Users/joe/src/gitjoe/sspike/out/snowballs'\
                             '/N13-30-20-100/5kpc-NoTransformation'\
                             '/snow-unsmeared.csv'
-    assert snowflakes[1] == '/Users/joe/src/gitjoe/sspike/snowballs'\
+    assert snowflakes[1] == '/Users/joe/src/gitjoe/sspike/out/snowballs'\
                             '/N13-30-20-100/5kpc-NoTransformation'\
                             '/snow-smeared.csv'
 
 
 def test_sspike_events():
     sspikes = pnut.sspike_events(sb, detector)
-    assert sspikes[0] == '/Users/joe/src/gitjoe/sspike/snowballs'\
+    assert sspikes[0] == '/Users/joe/src/gitjoe/sspike/out/snowballs'\
                          '/N13-30-20-100/5kpc-NoTransformation/'\
                          'sspike-basic.csv'
-    assert sspikes[1] == '/Users/joe/src/gitjoe/sspike/snowballs'\
+    assert sspikes[1] == '/Users/joe/src/gitjoe/sspike/out/snowballs'\
                          '/N13-30-20-100/5kpc-NoTransformation/'\
                          'sspike-nc.csv'
