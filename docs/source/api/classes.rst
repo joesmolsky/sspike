@@ -1,0 +1,7 @@
+Classes
+=======
+
+.. toctree::
+
+    detector
+    snowball
