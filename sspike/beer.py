@@ -173,17 +173,21 @@ def tab(snowball):
 
     # Location of event rates.
     data_dir = f'{sb.snowball_dir}{sb.fluence_dir}'
+    # TODO: change this to a detector attribute.
     data_files = ['snow-smeared.csv', 'snow-unsmeared.csv',
                   'sspike-basic.csv', 'sspike-nc.csv']
     # Output file of tabulated events.
     tab_file = f'{data_dir}totals.txt'
     tab = open(tab_file, 'w')
 
+    # Low energy thresholds for NC channels in GeV.
+    cuts = [0, 2e-5, 1e-4, 2e-4, 3e-4, 4e-4, 5e-4]
+
     for file in data_files:
         # Path to processed data files.
         path = f'{data_dir}{file}'
 
-        # Detectors other than kamland may not have all for file types.
+        # Detectors other than kamland may not have all four file types.
         if not isfile(path):
             continue
 
@@ -198,79 +202,13 @@ def tab(snowball):
 
         # sspike data have different format than SNOwGLoBES data.
         if name == 'sspike-nc':
-            # Event rates with no energy threshold.
-            tab.write('No energy cut\n')
-            tab.write('-------------\n')
-            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
-                chan = f'nc_{nu}_p'
-                N = np.sum(data[chan])
-                tab.write(f'{chan}: \t{N}\n')
-
-            # 20 keV cut.
-            tab.write('\n')
-            tab.write('20 kev energy cut\n')
-            tab.write('-----------------\n')
-            cut = 2e-5
-            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
-                chan = f'nc_{nu}_p'
-                vis = data[chan].where(data['E_vis'] >= cut)
-                N = np.sum(vis)
-                tab.write(f'{chan}: \t{N}\n')
-
-            # 100 keV cut.
-            tab.write('\n')
-            tab.write('100 kev energy cut\n')
-            tab.write('------------------\n')
-            cut = 1e-4
-            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
-                chan = f'nc_{nu}_p'
-                vis = data[chan].where(data['E_vis'] >= cut)
-                N = np.sum(vis)
-                tab.write(f'{chan}: \t{N}\n')
-
-            # 200 keV cut.
-            tab.write('\n')
-            tab.write('200 kev energy cut\n')
-            tab.write('------------------\n')
-            cut = 2e-4
-            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
-                chan = f'nc_{nu}_p'
-                vis = data[chan].where(data['E_vis'] >= cut)
-                N = np.sum(vis)
-                tab.write(f'{chan}: \t{N}\n')
-
-            # 300 keV cut.
-            tab.write('\n')
-            tab.write('300 kev energy cut\n')
-            tab.write('------------------\n')
-            cut = 3e-4
-            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
-                chan = f'nc_{nu}_p'
-                vis = data[chan].where(data['E_vis'] >= cut)
-                N = np.sum(vis)
-                tab.write(f'{chan}: \t{N}\n')
-
-            # 400 keV cut.
-            tab.write('\n')
-            tab.write('400 kev energy cut\n')
-            tab.write('------------------\n')
-            cut = 4e-4
-            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
-                chan = f'nc_{nu}_p'
-                vis = data[chan].where(data['E_vis'] >= cut)
-                N = np.sum(vis)
-                tab.write(f'{chan}: \t{N}\n')
-
-            # 500 keV cut.
-            tab.write('\n')
-            tab.write('500 kev energy cut\n')
-            tab.write('------------------\n')
-            cut = 5e-4
-            for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
-                chan = f'nc_{nu}_p'
-                vis = data[chan].where(data['E_vis'] >= cut)
-                N = np.sum(vis)
-                tab.write(f'{chan}: \t{N}\n')
+            for E in cuts:
+                tab.write(f'{E*1e6} keV cut\n')
+                tab.write('---------------\n')
+                for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
+                    chan = f'nc_{nu}_p'
+                    N = np.sum(data[chan])
+                    tab.write(f'{chan}: \t{N}\n')
 
         elif name == 'sspike-basic':
             for chan in ['ibd', 'nue_e', 'nuebar_e', 'nux_e']:
