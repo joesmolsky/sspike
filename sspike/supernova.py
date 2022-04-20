@@ -1,5 +1,5 @@
 """Class for model specifics."""
-from os.path import isdir
+from os.path import isdir, isfile
 from os import makedirs
 
 from .env import sspike_dir
@@ -41,9 +41,13 @@ class Supernova():
         Supernova simulation file name for snewpy model.
     sn_dir : str
         Directory path for sspike outputs.
+    bin_dir : str
+        Name of time series output directory.
+    record : str
+        Path to file for keeping track of snewpy tarballs.
 
-    Note
-    ----
+    Notes
+    -----
     All parameters are also set as attributes.
     """
     def __init__(self, model, progenitor, transform, distance,
@@ -55,14 +59,24 @@ class Supernova():
         self.xform = self._xform(transform)
         self.distance = distance
         self.t_bins = t_bins
-        if t_start and t_end:
-            self.t_start = t_start
-            self.t_end = t_end
         # Model/simulation specific variables.
         self._simulation_settings()
         self.sn_dir = f'{sspike_dir}/{self.sn_name}/{distance}kpc-{self.xform}'
         if not isdir(self.sn_dir):
             makedirs(self.sn_dir)
+        # Separate directories based on time bins.
+        if t_start and t_end:
+            self.t_start = t_start
+            self.t_end = t_end
+        else:
+            self.t_start = self.t_min
+            self.t_end = self.t_max            
+        self.bin_dir = f'{self.sn_dir}/'\
+                       f'{t_bins}bins{self.t_start}t0{self.t_end}tf'
+        if not isdir(self.bin_dir):
+            makedirs(self.bin_dir)
+        # Record keeping file for snewpy tarballs.
+        self._record()
 
     def _xform(self, transform):
         """Transformation abbreviation for directories and plots.
@@ -157,4 +171,10 @@ class Supernova():
             # Simulation time limits.
             self.t_min = -1.5788003
             self.t_max = 1.6835847
-      
+
+    def _record(self):
+        """Create a json file for tracking snewpy tarballs."""
+        self.record = f'{self.sn_dir}/record.json'
+        if not isfile(self.record):
+            with open(self.record, 'w') as f:
+                f.write('{}')
