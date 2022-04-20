@@ -38,7 +38,7 @@ class Supernova():
     t_max : float
         Model specific simulation end time.
     sim_file : str
-        Supernova simulation file name for snewpy model.
+        Supernova simulation file path for snewpy model, relative to models_dir.
     sn_dir : str
         Directory path for sspike outputs.
     bin_dir : str
