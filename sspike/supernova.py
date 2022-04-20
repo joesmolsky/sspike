@@ -1,4 +1,8 @@
 """Class for model specifics."""
+from os.path import isdir
+from os import makedirs
+
+from .env import sspike_dir
 from .core.logging import getLogger
 log = getLogger(__name__)
 
@@ -35,6 +39,8 @@ class Supernova():
         Model specific simulation end time.
     sim_file : str
         Supernova simulation file name for snewpy model.
+    sn_dir : str
+        Directory path for sspike outputs.
 
     Note
     ----
@@ -54,6 +60,9 @@ class Supernova():
             self.t_end = t_end
         # Model/simulation specific variables.
         self._simulation_settings()
+        self.sn_dir = f'{sspike_dir}/{self.sn_name}/{distance}kpc-{self.xform}'
+        if not isdir(self.sn_dir):
+            makedirs(self.sn_dir)
 
     def _xform(self, transform):
         """Transformation abbreviation for directories and plots.
@@ -148,3 +157,4 @@ class Supernova():
             # Simulation time limits.
             self.t_min = -1.5788003
             self.t_max = 1.6835847
+      

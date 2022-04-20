@@ -1,4 +1,4 @@
-"""Process neutrino underground telemetry.
+"""Predict neutrino underground telemetry.
 
 Functions to load SN models from and process event rates.
 """
@@ -8,9 +8,11 @@ import numpy as np
 import scipy.constants as cns
 from scipy.integrate import quad
 
+import snewpy.models.ccsn as cc
+from snewpy.neutrino import Flavor
 from snewpy import snowglobes
 
-from .env import snowglobes_dir
+from .env import models_dir, snowglobes_dir  # , sspike_dir
 from .core.logging import getLogger
 log = getLogger(__name__)
 
@@ -23,10 +25,42 @@ hbarc = hbcu[0] * 1e-13 * 1e-3  # Convert fm to cm and MeV to GeV
 Cv = 0.04  # Vector coupling constant
 Ca = 1.27 / 2  # Axial coupling constant
 
-# Path to SNOwGLoBES cross-section files
+# Flavor lists for iterating conventions.
+# Flavor from snewpy.neutrino.Flavor()
+# snewpy_flavors = [Flavor.NU_E, Flavor.NU_E_BAR, 
+#                   Flavor.NU_X, Flavor.NU_X_BAR]
+# Flavor names for SNOwGLoBES flux files.
+snow_flavors = ['NuE', 'NuMu', 'NuTau', 'aNuE', 'aNuMu', 'aNuTau']
+
+# Path to SNOwGLoBES cross-section files used for cross-checking sspike.
 xs_ibd = '/Users/joe/src/snowglobes/xscns/xs_ibd.dat'
 xs_e = '/Users/joe/src/snowglobes/xscns/xs_nue_e.dat'
 
+
+def save_luminosity(sn):
+    """Save luminosity vs. time for each flavor in dataframe format.
+    
+    Parameter
+    ---------
+    sn : Supernova
+        Supernova simulation specifics.
+    """
+    # Filepath to save dataframe.
+    lum_file = f'{sn.sn_dir}/init_lum.csv'
+
+    # Initialize model using snewpy.
+    model_type = getattr(cc, sn.model)
+    cc_model = model_type(f'{models_dir}/{sn.model}/{sn.sim_file}')
+
+    # Luminosity vs. time dataframe.
+    df = pd.DataFrame()
+    df['time'] = cc_model.time.value
+
+    if sn.xform == 'NT':
+        for flavor in Flavor:
+            df[flavor.name] = cc_model.luminosity[flavor].value
+
+    df.to_csv(lum_file, sep=' ')
 
 def snowglobes_events(snowball, detector, t_bins=None):
     """Process fluences with SNOwGLoBES via `snewpy`.
