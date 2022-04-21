@@ -146,8 +146,9 @@ def snowglobes_events(sn, detector, save=True):
         return f'Error: fluence has not been generated for {sn.bin_dir}'
 
     dfs = {}
-    if 'snow_files' not in record:
-        record['snow_files'] = []
+    snow_files = f'{sn.bin_dir}/snow_files'
+    if snow_files not in record:
+        record[snow_files] = []
         # Simulate via snewpy.
         snowglobes.simulate(snowglobes_dir, tarball, 
                             detector_input=detector.name)
@@ -168,13 +169,13 @@ def snowglobes_events(sn, detector, save=True):
             if save:
                 snow_file = f'{sn.bin_dir}/snow-{smear_weight}.csv'
                 df.to_csv(snow_file, sep=' ', index=False)
-                record['snow_files'].append(snow_file)
+                record[snow_files].append(snow_file)
 
         # Update record file.
         sn.write_record(record)
 
     else:
-        for file in record['snow_files']:
+        for file in record[snow_files]:
             key = file.split('snow-')[1][:-4]
             dfs[key] = pd.read_csv(file, sep=' ', index_col=0)
 
@@ -199,8 +200,9 @@ def sspike_events(sn, detector, save=True):
     dfs = {}
 
     record = sn.get_record()
-    if 'sspike_files' not in record:
-        record['sspike_files'] = []
+    sspike_files = f'{sn.bin_dir}/sspike_files'
+    if sspike_files not in record:
+        record[sspike_files] = []
         dfs['basic'] = basic_events(sn, detector)
         dfs['elastic'] = elastic_events(sn, detector)
 
@@ -208,11 +210,11 @@ def sspike_events(sn, detector, save=True):
             for scat in ['basic', 'elastic']:
                 path = f"{sn.bin_dir}/sspike-{scat}.csv"
                 dfs[scat].to_csv(path_or_buf=path, sep=' ', index=False)
-                record['sspike_files'].append(path)                
+                record[sspike_files].append(path)                
             sn.write_record(record)
 
     else:
-        for file in record['sspike_files']:
+        for file in record[sspike_files]:
             key = file.split('sspike-')[1][:-4]
             dfs[key] = pd.read_csv(file, sep=' ')
 
@@ -369,7 +371,7 @@ def elastic_events(sn, detector):
     df['E_min'] = (df['T_p'] + np.sqrt(df['T_p'] * (df['T_p'] + 2 * M_p))) / 2
 
     N_bins = len(df['T_p'])
-    channels = detector.nc_channels
+    channels = f.keys()
     for chan in channels:
         df[chan] = np.zeros(N_bins)
 
