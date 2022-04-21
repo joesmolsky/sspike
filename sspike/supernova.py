@@ -1,6 +1,7 @@
 """Class for model specifics."""
 from os.path import isdir, isfile
 from os import makedirs
+import json
 
 from .env import sspike_dir
 from .core.logging import getLogger
@@ -72,7 +73,7 @@ class Supernova():
             self.t_start = self.t_min
             self.t_end = self.t_max            
         self.bin_dir = f'{self.sn_dir}/'\
-                       f'{t_bins}bins{self.t_start}t0{self.t_end}tf'
+                       f'bins{t_bins}ti{self.t_start}tf{self.t_end}'
         if not isdir(self.bin_dir):
             makedirs(self.bin_dir)
         # Record keeping file for snewpy tarballs.
@@ -178,3 +179,20 @@ class Supernova():
         if not isfile(self.record):
             with open(self.record, 'w') as f:
                 f.write('{}')
+
+    def get_record(self):
+        """Dictionary with snewpy processing history information.""" 
+        with open(self.record, 'r') as f:
+            record = json.load(f)
+        return record
+
+    def write_record(self, record):
+        """Replace existing record file with new record.
+
+        Parameter
+        ---------
+        record : dict
+            Processing information for snewpy files.
+        """
+        with open(self.record, 'w') as f:
+            json.dump(record, f)

@@ -88,8 +88,7 @@ def get_fluence(sn):
         if sn.t_bins != 1:
             return 'Error: gen_fluence only works for single time bin.'
 
-        with open(sn.record, 'r') as f:
-            record = json.load(f)
+        record = sn.get_record()
 
         # Generate fluences as needed.
         if sn.bin_dir not in record:
@@ -119,15 +118,11 @@ def fluence_tarball(sn):
         tb.extractall(sn.bin_dir)
 
     # Record tarball location for future use.
-    with open(sn.record, 'r') as f:
-            record = json.load(f)
-    print(f'Initial record: {record}')
+    record = sn.get_record()
     record.update({sn.bin_dir: tarball})
-    print(f'Final record: {record}')
-    with open(sn.record, 'w') as f:
-        json.dump(record, f)
+    sn.write_record(record)
 
-def snowglobes_events(sn, detector, smearing='smeared', save=True):
+def snowglobes_events(sn, detector, save=True):
     """Process fluences with SNOwGLoBES via `snewpy`.
 
     Parameters
@@ -139,24 +134,49 @@ def snowglobes_events(sn, detector, smearing='smeared', save=True):
 
     Returns
     -------
-    snowflakes : list of str
-        File path to processed dataframe.
+    dfs : dict of pd.Dataframe
+        Events for each type of SNOwGLoBES data.
     """
     log.debug('- Generating SNOwGLoBES events.')
-    # Simulate via snewpy.
-    snow = snowglobes.simulate(sn.snowglobes_dir,
-                               sn.tarball,
-                               detector_input=detector.name)
 
-    # Dataframe based on smearing.
-    df = pd.DataFrame()
-    for smear in smearing:
-        snowflake = f"{sb.snowball_dir}{sb.fluence_dir}snow-{smear}.csv"
-        events = snow[detector.name][sn.sn_name]['weighted', smear]
-        events.to_csv(path_or_buf=snowflake, sep=' ')
-        snowflakes.append(snowflake)
+    record = sn.get_record()
+    try:
+        tarball = record[sn.bin_dir]
+    except Exception:
+        return f'Error: fluence has not been generated for {sn.bin_dir}'
 
-    return snowflakes
+    dfs = {}
+    if 'snow_files' not in record:
+        record['snow_files'] = []
+        # Simulate via snewpy.
+        snowglobes.simulate(snowglobes_dir, tarball, detector_input=detector.name)
+        snow_sim = snowglobes.collate(snowglobes_dir, tarball, skip_plots=True)
+
+        # Save event dataframes by smearing and weighting.
+        keys = list(snow_sim.keys())
+
+        # First key is detector.  The rest indicate smearing and weighting.
+        for key in keys[1:]:
+            df = pd.DataFrame()
+            for i, column in enumerate(snow_sim[key]['header'].split(' ')):
+                df[column] = snow_sim[key]['data'][i]
+
+            smear_weight = key.split('_events_')[1][:-4]
+            dfs[smear_weight] = df
+
+            if save:
+                snow_file = f'{sn.bin_dir}/snow-{smear_weight}.csv'
+                df.to_csv(snow_file, sep=' ')
+                record['snow_files'].append(snow_file)
+
+        # Update record file.
+        sn.write_record(record)
+
+    else:
+        for file in record['snow_files']:
+            dfs.append(pd.read_csv(file, sep=' '))
+
+    return dfs
 
 
 def sspike_events(snowball, detector):
