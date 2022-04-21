@@ -177,7 +177,7 @@ def snowglobes_events(sn, detector, save=True):
     else:
         for file in record[snow_files]:
             key = file.split('snow-')[1][:-4]
-            dfs[key] = pd.read_csv(file, sep=' ', index_col=0)
+            dfs[key] = pd.read_csv(file, sep=' ')
 
     return dfs
 
