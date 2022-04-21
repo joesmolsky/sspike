@@ -103,129 +103,57 @@ def draw(events_path, channels, nc_flavors=False, save=False, test=False):
     plt.show()
 
 
-def sort_channels(channels):
-    """Combine similar channels for plotting and tables.
-
-    Parameters
-    ----------
-    channels : list of str
-        Interaction channels to plot.
-
-    Returns
-    -------
-    combos : dict of list of str
-        List of all neutrino flavor interactions for each nucleus or electrons.
-    """
-    combos = {}
-    for chan in channels:
-        # SNOwGLoBES naming convention is based on '_'.
-        vals = chan.split('_')
-        n = len(vals)
-
-        # Inverse beta decay.
-        if n == 1:
-            combos[chan] = [chan]
-            continue
-
-        # SNOwGLoBES naming convention is target last and neutrino 2nd to last.
-        target = vals[-1]
-
-        # Electron scattering and charged-current interactions have n = 2.
-        if n == 2:
-            # Add neutrino flavor to nucleus charged-current interations.
-            if target != 'e':
-                target = f'{target}-{vals[-2]}'
-
-        # Neutral current events (not or electrons) have n = 3.
-        if n == 3:
-            # Plot proton elastic scattering channels separately.
-            # if target == 'p':
-            #     combos[chan] = [chan]
-            #     continue
-
-            target = f'{target}-{vals[0]}'
-
-        # A few other SNOwGLoBES v1.2 cross-sections have n = 4.
-        if n == 4:
-            target = f'{target}-{vals[0]}-{vals[1]}'
-
-        if target not in combos:
-            combos[target] = []
-
-        combos[target].append(chan)
-
-    return combos
-
-
-def tab(snowball):
+def get_tab(sn, detector, save=True):
     """Count binned event rates and create a table.
 
     Parameters
     ----------
-    snowball : Snowball
+    sn : sspike.Supernova
 
     Return
     ------
-    tab : str
-        File path to results: `totals.txt`.
+    tab : pd.DataFrame
+        3 column dataframe: file_type, channel, events.
     """
-    sb = snowball
+    # record = sn.get_record()
+    data_files = ['snow-unsmeared_weighted.csv', 'snow-smeared_weighted.csv',
+                  'sspike-basic.csv', 'sspike-elastic.csv']
 
-    # Location of event rates.
-    data_dir = f'{sb.snowball_dir}{sb.fluence_dir}'
-    # TODO: change this to a detector attribute.
-    data_files = ['snow-smeared.csv', 'snow-unsmeared.csv',
-                  'sspike-basic.csv', 'sspike-nc.csv']
-    # Output file of tabulated events.
-    tab_file = f'{data_dir}totals.txt'
-    tab = open(tab_file, 'w')
-
-    # Low energy thresholds for NC channels in GeV.
-    cuts = [0, 2e-5, 1e-4, 2e-4, 3e-4, 4e-4, 5e-4]
-
+    row_list = []
     for file in data_files:
         # Path to processed data files.
-        path = f'{data_dir}{file}'
-
-        # Detectors other than kamland may not have all four file types.
-        if not isfile(path):
-            continue
-
+        path = f'{sn.bin_dir}/{file}'
         # Load data.
         data = pd.read_csv(path, sep=' ')
-
-        # Write file name and some dashes to improve readability.
-        name = file[:-4]
-        dashes = '-' * len(name)
-        tab.write(f'{name}\n')
-        tab.write(f'{dashes}\n')
+        file_type = file.split('-')[1][:-4]
 
         # sspike data have different format than SNOwGLoBES data.
-        if name == 'sspike-nc':
-            for E in cuts:
-                tab.write(f'{E*1e6} keV cut\n')
-                tab.write('---------------\n')
-                for nu in ['nue', 'nuebar', 'nux', 'nuxbar']:
-                    chan = f'nc_{nu}_p'
-                    N = np.sum(data[chan])
-                    tab.write(f'{chan}: \t{N}\n')
+        if file == 'sspike-elastic.csv':
+            # Uncut data
+            N_total = np.sum(data['nc_p'])
+            row = {'file': file_type, 'channel': 'nc_p', 'events': N_total}
+            row_list.append(row)
 
-        elif name == 'sspike-basic':
-            for chan in ['ibd', 'nue_e', 'nuebar_e', 'nux_e']:
-                N = np.sum(data[chan])
-                tab.write(f'{chan}: \t{N}\n')
-            tab.write('\n\n')
+            # Low energy cut
+            nc_vis = data['nc_p'].where(data['E_vis'] >= detector.low_cut)
+            N_cut = np.sum(nc_vis)
+            row = {'file': file_type, 'channel': 'nc_p_cut', 'events': N_cut}
+            row_list.append(row)
 
         else:
-            chans = data.keys()[1:]
+            chans = list(data.keys())[1:]
             for chan in chans:
                 N = np.sum(data[chan])
-                tab.write(f'{chan}: \t{N}\n')
-            tab.write('\n\n')
+                row = {'file': file_type, 'channel': chan, 'events': N}
+                row_list.append(row)
 
-    tab.close()
+    df = pd.DataFrame(row_list)
 
-    return tab_file
+    if save:
+        tab_file = f'{sn.bin_dir}/totals.csv'
+        df.to_csv(tab_file, sep=' ', index=False)
+
+    return df
 
 
 def bin_times(bliz):
