@@ -19,6 +19,8 @@ class Detector:
         Number of target protons for 'kamland' or None.
     N_e : float
         Number of target electrons for 'kamland' or None.
+    low_cut : float
+        Low energy threshold [GeV].
 
     Note
     ----
@@ -36,3 +38,5 @@ class Detector:
             self.N_p = 4 * np.pi * _rho_p * _R_f**3 / 3
             # Number of electrons in radius R_f.
             self.N_e = self.N_p * 4.047
+            # Low energy threshold for KamLAND [GeV].
+            self.low_cut = 2e-4
