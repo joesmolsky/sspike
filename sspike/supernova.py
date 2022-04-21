@@ -71,7 +71,7 @@ class Supernova():
             self.t_end = t_end
         else:
             self.t_start = self.t_min
-            self.t_end = self.t_max            
+            self.t_end = self.t_max
         self.bin_dir = f'{self.sn_dir}/'\
                        f'bins{t_bins}ti{self.t_start}tf{self.t_end}'
         if not isdir(self.bin_dir):
