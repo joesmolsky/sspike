@@ -39,7 +39,7 @@ xs_ibd = '/Users/joe/src/snowglobes/xscns/xs_ibd.dat'
 xs_e = '/Users/joe/src/snowglobes/xscns/xs_nue_e.dat'
 
 
-def get_luminosity(sn, save=True):
+def get_luminosities(sn, save=True):
     """Save luminosity vs. time for each flavor in dataframe format.
     
     Parameter
@@ -481,3 +481,55 @@ def time_events(bliz, detector):
     tables = snowglobes.collate(snowglobes_dir, bliz, skip_plots=True)
     
     return tables
+
+def event_totals(sn, detector, save=True):
+    """Sum event totals from snowglobes_events() and sspike_events().
+
+    Parameters
+    ----------
+    sn : sspike.Supernova
+
+    Return
+    ------
+    df : pd.DataFrame
+        3 column dataframe: file_type, channel, events.
+    """
+    # record = sn.get_record()
+    data_files = ['snow-unsmeared_weighted.csv', 'snow-smeared_weighted.csv',
+                  'sspike-basic.csv', 'sspike-elastic.csv']
+
+    row_list = []
+    for file in data_files:
+        # Path to processed data files.
+        path = f'{sn.bin_dir}/{file}'
+        # Load data.
+        data = pd.read_csv(path, sep=' ')
+        file_type = file.split('-')[1][:-4]
+
+        # sspike data have different format than SNOwGLoBES data.
+        if file == 'sspike-elastic.csv':
+            # Uncut data
+            N_total = np.sum(data['nc_p'])
+            row = {'file': file_type, 'channel': 'nc_p', 'events': N_total}
+            row_list.append(row)
+
+            # Low energy cut
+            nc_vis = data['nc_p'].where(data['E_vis'] >= detector.low_cut)
+            N_cut = np.sum(nc_vis)
+            row = {'file': file_type, 'channel': 'nc_p_cut', 'events': N_cut}
+            row_list.append(row)
+
+        else:
+            chans = list(data.keys())[1:]
+            for chan in chans:
+                N = np.sum(data[chan])
+                row = {'file': file_type, 'channel': chan, 'events': N}
+                row_list.append(row)
+
+    df = pd.DataFrame(row_list)
+
+    if save:
+        tab_file = f'{sn.bin_dir}/totals.csv'
+        df.to_csv(tab_file, sep=' ', index=False)
+
+    return df
