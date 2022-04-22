@@ -2,12 +2,6 @@
 
 Make plots and tables of pnut outputs.
 """
-
-# from os.path import isfile
-
-# import pandas as pd
-# import numpy as np
-# from astropy import units as u
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 import plotly.express as px
@@ -24,7 +18,7 @@ rcParams['legend.fontsize'] = 18
 
 def plot_luminosities(sn, lum=None, save=True, show=True):
     if lum is None:
-        lum = pnut.get_luminosity(sn)
+        lum = pnut.get_luminosities(sn)
     flavors = list(lum.keys())[1:]
     fig, ax = plt.subplots(figsize=(10,5), tight_layout=True, facecolor='white')
     for flavor in flavors:
@@ -107,7 +101,7 @@ def plot_snowglobes_events(sn, detector, snow_events=None,
         plt.show()
 
 
-def plot_sspike_events(sn, detector, sspike_events, save=True, show=True):
+def plot_sspike_events(sn, detector, sspike_events=None, save=True, show=True):
     if sspike_events is None:
         sspike_events = pnut.sspike_events(sn, detector)
     
@@ -169,90 +163,6 @@ def bar_totals(sn, detector, totals=None, save=True, show=True):
       bars.write_image(path, width=1100, height=500, scale=3)
    if show:
       bars.show()
-
-
-# def draw(events_path, channels, nc_flavors=False, save=False, test=False):
-#     """Plot event rates.
-
-#     Parameters
-#     ----------
-#     events_path : str
-#         Location of dataframe csv.
-#     channels : list of str
-#         Interaction channels to plot.
-
-#     Note
-#     ----
-#         Proton neutral rates cannot be combined with other rates yet.
-#     """
-#     events = pd.read_csv(events_path, sep=' ')
-#     if 'nc_nue_p' in events:
-#         N_bins = len(events['T_p'])
-#     else:
-#         N_bins = len(events['E'])
-
-#     # Combine similar channels before plotting.
-#     # combos = sort_channels(channels)
-
-#     # Add together channels as needed.
-#     rates = pd.DataFrame()
-#     for combo in combos:
-#         rates[combo] = np.zeros(N_bins)
-#         for chan in combos[combo]:
-#             rates[combo] += events[chan]
-
-#     N_flavor = {}
-#     if nc_flavors:
-#         for flavor in combos['p-nc']:
-#             N_flavor[flavor] = events[flavor]
-
-#     # Plotting time.
-#     fig, ax = plt.subplots(1, figsize=(16, 8), facecolor='white')
-#     # Title plot based on file name.
-#     title = events_path.split('/')[-1][:-4]
-#     fig.suptitle(title)
-#     # Neutral current proton events require 2 axes.
-#     set_twins = False
-
-#     for rate in rates:
-#         log.debug(f"Drawing {rate}.")
-#         # Proton elastic scattering.
-#         if rate == "p-nc":
-#             if not set_twins:
-#                 # ax.set_xlim(right=0.7)
-#                 ax.set_xlabel(r'$T_p\ [MeV]$')
-#                 ax.set_ylabel(r'$Events\ [T_p\ 0.1\ MeV^{-1}]$')
-#                 ax.set_yscale('log')
-#                 # ax.set_ylim(bottom=1e-2)
-#                 twax = ax.twiny()
-#                 twax.set_xlabel(r'$E_{vis}\ [MeV]$')
-#                 set_twins = True
-#                 # ax.set_aspect(1)
-
-#             if nc_flavors:
-#                 for flavor in N_flavor:
-#                     ax.plot(events['T_p']*1e3, events[flavor],
-#                             label=flavor, linestyle=':')
-#                     twax.plot(events['E_vis']*1e3, events[flavor],
-#                               label=flavor)
-#                 continue
-
-#             ax.plot(events['T_p']*1e3, rates[rate], label=rate, linestyle=':')
-#             twax.plot(events['E_vis']*1e3, rates[rate], label=rate)
-
-#             continue
-
-#         ax.plot(events['E']*1e3, rates[rate], label=rate)
-#         ax.set_xlim(right=60)
-#         ax.set_xlabel(r'$E\ [MeV]$')
-
-#     plt.tight_layout(pad=1.0)
-#     plt.legend()
-#     if save:
-#         plt.savefig(save, dpi=600, facecolor='white')
-#         if test:
-#             return 0
-#     plt.show()
 
 
 # def bin_times(bliz):
