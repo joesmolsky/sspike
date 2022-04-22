@@ -69,6 +69,7 @@ def plot_snowglobes_events(sn, detector, snow_events=None,
                            save=True, show=True):
     if snow_events is None:
         snow_events = pnut.snowglobes_events(sn, detector)
+    log.debug(f'\nsnow_events: {snow_events}\n')
     
     title = f'{sn.sn_name} in {detector.name} @ {sn.distance} kpc'
     fig, ax = plt.subplots(figsize=(10,5), tight_layout=True, facecolor='white')
