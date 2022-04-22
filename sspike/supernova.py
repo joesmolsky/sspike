@@ -81,7 +81,7 @@ class Supernova():
 
     def _xform(self, transform):
         """Transformation abbreviation for directories and plots.
-        
+
         Parameter
         ---------
         transform : str
@@ -133,7 +133,7 @@ class Supernova():
             # Simulation time limits.
             self.t_min = -0.05
             self.t_max = 20.
-            
+
         if self.model == 'Sukhbold_2015':
             # Sukhbold model has 2 masses and 2 equations of state.
             mass = self.progenitor['mass']
@@ -181,7 +181,7 @@ class Supernova():
                 f.write('{}')
 
     def get_record(self):
-        """Dictionary with snewpy processing history information.""" 
+        """Dictionary with snewpy processing history information."""
         with open(self.record, 'r') as f:
             record = json.load(f)
         return record
