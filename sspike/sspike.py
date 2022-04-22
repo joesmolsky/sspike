@@ -35,7 +35,7 @@ import itertools
 
 from sspike import pnut
 from sspike import beer
-from sspike.snowball import Snowball
+from sspike.supernova import Supernova
 from sspike.detectors import Detector
 from .core.logging import getLogger, initialize_logging
 from ._version import __version__
@@ -88,7 +88,7 @@ def main():
                         action='version', version=__version__)
     parser.add_argument('-d', '--debug', action='store_true',
                         help='include all messages in log file')
-    # TODO: add output options.
+    # TODO: add output options to file?
     # parser.add_argument('-o', '--output', dest='outfile', metavar='FILE',
     #                     default=stdout, type=FileType(mode='w'),
     #                     help='output file path (default <stdout>)')
@@ -129,11 +129,17 @@ def main():
 
     # Debugging message.
     prog_msg = '\n- Allowed progenitor variables:\n'
+
+    # Create progenitor dictionary.
     for i in range(len(prog_vals)):
+        # Debugging message.
         prog_msg += f"\t- {prog_keys[i]}:"\
                     f"\t {prog_vals[i]} {type(prog_vals[i])}\n"
+
+        # Check if each value type was passed.
         if prog_vals[i]:
             progenitor[prog_keys[i]] = prog_vals[i]
+
     log.debug(prog_msg)
 
     # Physics!!!
@@ -213,23 +219,23 @@ def run_sim(model, progenitor, transform, distance, detector, t_bins=1):
 
     # Load model.
     log.debug('\n- Generating Snowball.\n')
-    sb = Snowball(model, progenitor, transform, distance)
+    sn = Supernova(model, progenitor, transform, distance)
 
     # Detector string to class.
     log.debug(f'\n- Initializing detector: {detector}.\n')
     detector = Detector(detector)
 
+    # Save luminosities.
+    beer.plot_luminosities(sn, show=False)
+
     # Process with SNOwGLoBES.
     log.debug('\n- Processing with SNOwGLoBES .\n')
-    snowflakes = pnut.snowglobes_events(sb, detector)
-    log.info(f'- SNOwGLoBES files:\n\t-{snowflakes[0]}\n\t-{snowflakes[1]}')
+    beer.plot_snowglobes_events(sn, detector, show=False)
 
     # Process with sspike.
     log.debug('\n- Processing with sspike.\n')
-    sspikes = pnut.sspike_events(sb, detector)
-    log.info(f'- sspike files:\n\t-{sspikes[0]}\n\t-{sspikes[1]}')
+    beer.plot_sspike_events(sn, detector, show=False)
 
     # Tabulate results
     log.debug('\n- Tabulating results.\n')
-    tab = beer.tab(sb)
-    log.info(f'- tab file:\n\t-{tab}')
+    beer.bar_totals(sn, detector, show=False)

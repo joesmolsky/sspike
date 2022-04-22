@@ -1,51 +1,28 @@
-from sspike.beer import draw, tab
-from sspike.snowball import Snowball
+from sspike.supernova import Supernova
 from sspike.detectors import Detector
+from sspike import beer
 
-# Directory of copied data from working version.
-data_dir = '/Users/joe/src/gitjoe/sspike/test/test_data/'
-# Data file types.
-smeared = 'snow-smeared.csv'
-unsmeared = 'snow-unsmeared.csv'
-basic = 'sspike-basic.csv'
-nc = 'sspike-nc.csv'
-# Directory for test plot outputs.
-plot_dir = '/Users/joe/src/gitjoe/sspike/test/plots/'
-
-# Detector instance for channel names.
-detector = Detector('kamland')
-
-# Testing Snowball
 model = 'Nakazato_2013'
 progenitor = {'mass':  20,
               'metal': 0.02,
               't_rev': 300}
 transformation = 'NoTransformation'
 distance = 5.0
-sb = Snowball(model, progenitor, transformation, distance)
+sn = Supernova(model, progenitor, transformation, distance)
+detector = Detector('kamland')
 
 
-# SNOwGLoBES unsmeared plot.
-def test_draw_unsmeared():
-    draw(f'{data_dir}{unsmeared}', channels=detector.snow_channels,
-         save=f'{plot_dir}{unsmeared[:-3]}', test=True)
+def test_plot_luminosities():
+    beer.plot_luminosities(sn, show=False)
 
+def test_plot_fluences():
+    beer.plot_fluences(sn, show=False)
 
-# SNOwGLoBES smeared plot.
-def test_draw_smeared():
-    draw(f'{data_dir}{smeared}', channels=detector.snow_channels,
-         save=f'{plot_dir}{smeared[:-3]}', test=True)
+def test_plot_snowglobes_events():
+    beer.plot_snowglobes_events(sn, detector, show=False)
 
+def test_plot_sspike_events():
+    beer.plot_sspike_events(sn, detector, show=False)
 
-def test_draw_basic():
-    draw(f'{data_dir}{basic}', channels=detector.basic_channels,
-         save=f'{plot_dir}{basic[:-3]}', test=True)
-
-
-def test_draw_nc():
-    draw(f'{data_dir}{nc}', channels=detector.nc_channels,
-         save=f'{plot_dir}{nc[:-3]}', test=True)
-
-
-def test_tab():
-    tab(sb)
+def test_bar_totals():
+    beer.bar_totals(sn, detector, show=False)
