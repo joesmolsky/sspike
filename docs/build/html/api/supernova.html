@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Snowball &mdash; sspike &#34;0.1.0&#34; documentation</title>
+  <title>Supernova &mdash; sspike &#34;0.1.0&#34; documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/spike.ico"/>
@@ -48,7 +48,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="classes.html">Classes</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="detector.html">Detector</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Snowball</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Supernova</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html">Modules</a></li>
@@ -77,9 +77,9 @@
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="index.html">API</a> &raquo;</li>
           <li><a href="classes.html">Classes</a> &raquo;</li>
-      <li>Snowball</li>
+      <li>Supernova</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/api/snowball.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/supernova.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -87,12 +87,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="snowball">
-<h1>Snowball<a class="headerlink" href="#snowball" title="Permalink to this headline"></a></h1>
-<p>Based on snewpy tarballs for SNOwGLoBES.</p>
+  <section id="supernova">
+<h1>Supernova<a class="headerlink" href="#supernova" title="Permalink to this headline"></a></h1>
+<p>Usage example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sspike.supernova</span> <span class="kn">import</span> <span class="n">Supernova</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;Nakazato_2013&#39;</span>
+<span class="n">progenitor</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mass&#39;</span><span class="p">:</span>  <span class="mi">20</span><span class="p">,</span>
+              <span class="s1">&#39;metal&#39;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span>
+              <span class="s1">&#39;t_rev&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">}</span>
+<span class="n">transformation</span> <span class="o">=</span> <span class="s1">&#39;NoTransformation&#39;</span>
+<span class="n">distance</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="n">sn</span> <span class="o">=</span> <span class="n">Supernova</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">progenitor</span><span class="p">,</span> <span class="n">transformation</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sspike.snowball.</span></span><span class="sig-name descname"><span class="pre">Snowball</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progenitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sspike.supernova.</span></span><span class="sig-name descname"><span class="pre">Supernova</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progenitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Simulation parameters and directory information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -101,53 +112,12 @@
 <li><p><strong>progenitor</strong> (<em>dict</em>) – Model specific simulation parameters.</p></li>
 <li><p><strong>transform</strong> (<em>str</em>) – Name of transformation type for <cite>snewpy</cite> to apply.</p></li>
 <li><p><strong>distance</strong> (<em>float</em>) – Distance to supernova in kpc.</p></li>
+<li><p><strong>t_bins</strong> (<em>int</em><em>, </em><em>default 1</em>) – Number of time bins.</p></li>
+<li><p><strong>t_start</strong> (<em>float</em><em>, </em><em>optional</em>) – Start time for simulation if not earliest model time.</p></li>
+<li><p><strong>t_end</strong> (<em>float</em><em>, </em><em>optional</em>) – End time for simulation if not latest model time.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">models_dir</span></span></dt>
-<dd><p>Local <cite>snewpy</cite> models directory.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">snowglobes_dir</span></span></dt>
-<dd><p>Local <cite>SNOwGLoBES</cite> directory.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">sim_path</span></span></dt>
-<dd><p>Simulation file containing initial neutrino fluxes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">snowball_dir</span></span></dt>
-<dd><p>sspike directory for simulation fluences and processed dataframes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">sn_name</span></span></dt>
@@ -161,8 +131,8 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">tarball</span></span></dt>
-<dd><p>File path to tarball created by <cite>snewpy</cite>.</p>
+<span class="sig-name descname"><span class="pre">xform</span></span></dt>
+<dd><p>Transformation abbreviation for folders and plots.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -172,8 +142,30 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">fluence_dir</span></span></dt>
-<dd><p>Directory path to extracted <cite>snewpy</cite> tarball.</p>
+<span class="sig-name descname"><span class="pre">t_min</span></span></dt>
+<dd><p>Model specific simulation start time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">t_max</span></span></dt>
+<dd><p>Model specific simulation end time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">sim_file</span></span></dt>
+<dd><p>Supernova simulation file path for snewpy model, relative to models_dir.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -181,14 +173,56 @@
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">sn_dir</span></span></dt>
+<dd><p>Directory path for sspike outputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">bin_dir</span></span></dt>
+<dd><p>Name of time series output directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">record</span></span></dt>
+<dd><p>Path to file for keeping track of snewpy tarballs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Notes</p>
+<p>All parameters are also set as attributes.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">fluences</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
-<dd><p>Read fluence file and return dataframe.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Energy in 0.2 MeV bins and fluences are number per square centimeter.</p>
-</div>
+<span class="sig-name descname"><span class="pre">get_record</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Dictionary with snewpy processing history information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">write_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Replace existing record file with new record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>record</strong> (<em>dict</em>) – Processing information for snewpy files.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

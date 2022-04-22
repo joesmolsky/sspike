@@ -13,11 +13,11 @@
 
    .. autosummary::
    
-      bin_times
-      draw
-      series_plot
-      sort_channels
-      tab
+      bar_totals
+      plot_fluences
+      plot_luminosities
+      plot_snowglobes_events
+      plot_sspike_events
    
    
 

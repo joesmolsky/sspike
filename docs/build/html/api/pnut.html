@@ -89,24 +89,24 @@
              
   <section id="pnut">
 <h1>pnut<a class="headerlink" href="#pnut" title="Permalink to this headline"></a></h1>
-<p>Process neutrino underground telemetry.</p>
+<p>Predict neutrino underground telemetry.</p>
 <p>Functions to load SN models from and process event rates.</p>
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">basic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">basic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Estimate ibd and electron scatter events for cross-checking.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>snowball</strong> (<em>Snowball</em>) – Simulation details.</p></li>
-<li><p><strong>detector</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+<li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation details.</p></li>
+<li><p><strong>detector</strong> (<em>sspike.detector</em>) – Detector for simulations.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>sspiked</strong> – File path to processed dataframe.</p>
+<dd class="field-even"><p><strong>df</strong> – IBD and electron event rates for cross-checking with SNOwGLoBES rates.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>pd.Dataframe</p>
 </dd>
 </dl>
 </dd></dl>
@@ -134,37 +134,37 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">e_scat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">e_scat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Electron-neutrino scattering events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>snowball</strong> (<em>Snowball</em>) – Simulation details.</p></li>
-<li><p><strong>detector</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+<li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation details.</p></li>
+<li><p><strong>detector</strong> (<em>sspike.Detector</em>) – Name of SNOwGLoBES detector.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>sspiked</strong> – Pandas dataframe with electron events by flavor.</p>
+<dd class="field-even"><p><strong>df</strong> – Summed neutrino-electron events for cross-checking with SNOwGLoBES.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dataframe</p>
+<dd class="field-odd"><p>pd.Dataframe</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">elastic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">elastic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Proton-neutrino elastic scattering events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>snowball</strong> (<em>Snowball</em>) – Simulation details.</p></li>
-<li><p><strong>detector</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+<li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation details.</p></li>
+<li><p><strong>detector</strong> (<em>sspike.Detector</em>) – Name of SNOwGLoBES detector.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>sspiked</strong> – Pandas dataframe with neutral-current events by flavor.</p>
+<dd class="field-even"><p><strong>sspiked</strong> – Neutrino-proton neutral-current event rates by flavor.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dataframe</p>
@@ -174,20 +174,82 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">ibd_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">event_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Sum event totals from snowglobes_events() and sspike_events().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sn</strong> (<em>sspike.Supernova</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df</strong> – 3 column dataframe: file_type, channel, events.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">fluence_tarball</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Generate fluences tarball via snewpy and extract in sn.bin_dir.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation specifics</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">get_fluences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Get fluences generated by snewpy and update record.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Supernova specifics.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df</strong> – Energy [GeV] and fluence by flavor [cm^-2].</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">get_luminosities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Save luminosity vs. time for each flavor in dataframe format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Supernova simulation specifics.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df</strong> – Simulation times [s] and flavor luminosities [erg / s].</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">ibd_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Inverse beta decay events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>snowball</strong> (<em>Snowball</em>) – Simulation details.</p></li>
-<li><p><strong>detector</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+<li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation details.</p></li>
+<li><p><strong>detector</strong> (<em>sspike.Detector</em>) – Name of SNOwGLoBES detector.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>sspiked</strong> – Pandas dataframe with electron events by flavor.</p>
+<dd class="field-even"><p><strong>df</strong> – Inverse beta decay event rates for cross-checking with SNOwGLoBES.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dataframe</p>
+<dd class="field-odd"><p>pd.Dataframe</p>
 </dd>
 </dl>
 </dd></dl>
@@ -236,48 +298,42 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Process fluences with SNOwGLoBES via <cite>snewpy</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>snowball</strong> (<em>Snowball</em>) – Simulation details.</p></li>
-<li><p><strong>detector</strong> (<em>str</em>) – Name of SNOwGLoBES detector.</p></li>
+<li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation details.</p></li>
+<li><p><strong>detector</strong> (<em>sspike.Detector</em>) – Detector for simulations.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>snowflakes</strong> – File path to processed dataframe.</p>
+<dd class="field-even"><p><strong>dfs</strong> – Events for each type of SNOwGLoBES data.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list of str</p>
+<dd class="field-odd"><p>dict of pd.Dataframe</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">sspike_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snowball</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">sspike_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Process event rates using sspike functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>snowball</strong> (<em>Snowball</em>) – Simulation details.</p></li>
-<li><p><strong>detector</strong> (<em>list of str</em>) – Name of SNOwGLoBES detector.</p></li>
+<li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation details.</p></li>
+<li><p><strong>detector</strong> (<em>sspike.detector</em>) – Detector for simulations.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>sspikes</strong> – File paths to processed dataframe.</p>
+<dd class="field-even"><p><strong>dfs</strong> – Event rates for sspike data types.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list(str)</p>
+<dd class="field-odd"><p>dict of pd.Dataframe</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">time_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bliz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Process time series with snowglobes.</p>
 </dd></dl>
 
 </section>

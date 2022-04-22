@@ -5,6 +5,6 @@ Summary
    :toctree: generated
 
    sspike.detectors
-   sspike.snowball
+   sspike.supernova
    sspike.pnut
    sspike.beer

@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Snowball" href="snowball.html" />
+    <link rel="next" title="Supernova" href="supernova.html" />
     <link rel="prev" title="Classes" href="classes.html" /> 
 </head>
 
@@ -48,7 +48,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="classes.html">Classes</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Detector</a></li>
-<li class="toctree-l3"><a class="reference internal" href="snowball.html">Snowball</a></li>
+<li class="toctree-l3"><a class="reference internal" href="supernova.html">Supernova</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html">Modules</a></li>
@@ -107,7 +107,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">N_p</span></span></dt>
-<dd><p>Number of target protons.</p>
+<dd><p>Number of target protons for ‘kamland’ or None.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>float</p>
@@ -118,7 +118,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">N_e</span></span></dt>
-<dd><p>Number of target electrons.</p>
+<dd><p>Number of target electrons for ‘kamland’ or None.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>float</p>
@@ -128,37 +128,19 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">snow_channels</span></span></dt>
-<dd><p>Channels used in SNOwGLoBES simulations.</p>
+<span class="sig-name descname"><span class="pre">low_cut</span></span></dt>
+<dd><p>Low energy threshold [GeV].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list of  str</p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">basic_channels</span></span></dt>
-<dd><p>Channels for cross-checking sspike with SNOwGLoBES.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list of str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">nc_channels</span></span></dt>
-<dd><p>Neutrino-proton neutral-current interaction channels by flavor.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>list of str</p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><cite>name</cite> is also an attribute.</p>
+</div>
 </dd></dl>
 
 </section>
@@ -168,7 +150,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="classes.html" class="btn btn-neutral float-left" title="Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="snowball.html" class="btn btn-neutral float-right" title="Snowball" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="supernova.html" class="btn btn-neutral float-right" title="Supernova" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
