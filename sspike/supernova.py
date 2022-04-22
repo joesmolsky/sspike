@@ -58,7 +58,7 @@ class Supernova():
         self.progenitor = progenitor
         self.transform = transform
         self.xform = self._xform(transform)
-        self.distance = distance
+        self.distance = float(distance)
         self.t_bins = t_bins
         # Model/simulation specific variables.
         self._simulation_settings()

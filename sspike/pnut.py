@@ -465,10 +465,6 @@ def nc_events(T_p, E, f, E_min, scale=1):
     ------
     E : np.array
         Electron equivalent energy in KamLAND.
-
-    Note:
-        Quenching factors using WebPlotDigitizer on Fig. 6 in:
-        https://www.sciencedirect.com/science/article/pii/S0168900210017018
     """
     N = quad(lambda x: dxs_nc(x, T_p) * np.interp(x, E, f), E_min, 0.1)[0]
     return N * scale

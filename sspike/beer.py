@@ -218,12 +218,14 @@ def bar_totals(sn, detector, totals=None, save=True, show=True):
     title = f'{sn.sn_name} @ {sn.distance} kpc in {detector.name}'
     labels={'channel': 'Channel', 'events': 'Events', 'file': 'Type'}
 
-    bars = px.bar(totals, x='channel', y='events', color='file', barmode='group',
-                    labels=labels, log_y=True)
+    bars = px.bar(totals, x='channel', y='events', color='file', 
+                  barmode='group', labels=labels, log_y=True)
     bars.layout.bargap = 0.05
     bars.layout.bargroupgap = 0.03
     bars.layout.title = title
-    bars.layout.font = dict(size=22, family="Times New Roman")
+    bars.layout.font = dict(size=18, family="Times New Roman")
+    bars.layout.width = 800
+    bars.layout.height = 400
 
     if save:
         path = f'{sn.bin_dir}/totals'

@@ -5,12 +5,11 @@ from sspike.detectors import Detector
 from sspike import pnut
 
 model = 'Nakazato_2013'
-progenitor = {'mass': 30,
+progenitor = {'mass':  20,
               'metal': 0.02,
-              't_rev': 100}
+              't_rev': 300}
 transformation = 'NoTransformation'
-distance = 5
-
+distance = 5.0
 sn = Supernova(model, progenitor, transformation, distance)
 detector = Detector('kamland')
 
@@ -26,7 +25,7 @@ def test_get_fluences():
     assert list(fluences.keys()) == ['E', 'NuE', 'NuMu', 'NuTau',
                                      'aNuE', 'aNuMu', 'aNuTau']
     assert len(fluences['E']) == 501
-    assert fluences['NuTau'][0] == 3.07249601E+04
+    assert fluences['NuTau'][0] == 3.78587055E+09
 
 
 def test_snowglobes_events():
