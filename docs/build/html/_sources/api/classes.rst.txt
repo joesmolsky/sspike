@@ -4,4 +4,4 @@ Classes
 .. toctree::
 
     detector
-    snowball
+    supernova

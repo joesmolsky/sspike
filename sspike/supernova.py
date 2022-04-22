@@ -189,8 +189,8 @@ class Supernova():
     def write_record(self, record):
         """Replace existing record file with new record.
 
-        Parameter
-        ---------
+        Parameters
+        ----------
         record : dict
             Processing information for snewpy files.
         """

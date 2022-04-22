@@ -1,9 +1,8 @@
 """Predict neutrino underground telemetry.
 
-Functions to load SN models from and process event rates.
+Functions to load SN models and process event rates.
 """
 import tarfile
-# import json
 
 import pandas as pd
 import numpy as np
@@ -35,8 +34,8 @@ xs_e = '/Users/joe/src/snowglobes/xscns/xs_nue_e.dat'
 def get_luminosities(sn, save=True):
     """Save luminosity vs. time for each flavor in dataframe format.
 
-    Parameter
-    ---------
+    Parameters
+    ----------
     sn : sspike.Supernova
         Supernova simulation specifics.
 
@@ -477,13 +476,6 @@ def nc_events(T_p, E, f, E_min, scale=1):
     N = quad(lambda x: dxs_nc(x, T_p) * np.interp(x, E, f), E_min, 0.1)[0]
     return N * scale
 
-def time_events(bliz, detector):
-    """Process time series with snowglobes."""
-
-    snowglobes.simulate(snowglobes_dir, bliz, detector_input=detector)
-    tables = snowglobes.collate(snowglobes_dir, bliz, skip_plots=True)
-    
-    return tables
 
 def event_totals(sn, detector, save=True):
     """Sum event totals from snowglobes_events() and sspike_events().
@@ -536,3 +528,12 @@ def event_totals(sn, detector, save=True):
         df.to_csv(tab_file, sep=' ', index=False)
 
     return df
+
+
+# def time_events(bliz, detector):
+#     """Process time series with snowglobes."""
+
+#     snowglobes.simulate(snowglobes_dir, bliz, detector_input=detector)
+#     tables = snowglobes.collate(snowglobes_dir, bliz, skip_plots=True)
+    
+#     return tables

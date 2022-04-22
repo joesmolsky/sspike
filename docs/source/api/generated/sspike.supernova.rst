@@ -1,7 +1,7 @@
-﻿sspike.snowball
-===============
+﻿sspike.supernova
+================
 
-.. automodule:: sspike.snowball
+.. automodule:: sspike.supernova
 
    
    
@@ -17,7 +17,7 @@
 
    .. autosummary::
    
-      Snowball
+      Supernova
    
    
 

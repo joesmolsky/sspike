@@ -17,6 +17,19 @@ rcParams['legend.fontsize'] = 18
 
 
 def plot_luminosities(sn, lum=None, save=True, show=True):
+    """Plot initial luminosities for a single model.
+
+    Parameters
+    ----------
+    sn : sspike.Supernova
+        Simulation specifications.
+    lum : pd.DataFrame, optional
+        Luminosities from `pnut.get_luminosities(sn)`.
+    save : bool, default True
+        Save plot in sn.sn_dir.
+    show : bool, default True
+        Display plot.
+    """
     if lum is None:
         lum = pnut.get_luminosities(sn)
     flavors = list(lum.keys())[1:]
@@ -40,6 +53,19 @@ def plot_luminosities(sn, lum=None, save=True, show=True):
 
 
 def plot_fluences(sn, flu=None, save=True, show=True):
+    """Plot fluences at earth for a single model.
+
+    Parameters
+    ----------
+    sn : sspike.Supernova
+        Simulation specifications.
+    flu : pd.DataFrame, optional
+        Fluences from `pnut.get_luminosities(sn)`.
+    save : bool, default True
+        Save plot in sn.bin_dir.
+    show : bool, default True
+        Display plot.
+    """
     if flu is None:
         flu = pnut.get_fluences(sn)
     
@@ -67,6 +93,21 @@ def plot_fluences(sn, flu=None, save=True, show=True):
 
 def plot_snowglobes_events(sn, detector, snow_events=None,
                            save=True, show=True):
+    """Plot SNOwGLoBES unsmeared and smeared event rates.
+
+    Parameters
+    ----------
+    sn : sspike.Supernova
+        Simulation specifications.
+    detector : sspike.Detector
+        Detector specifications.
+    snow_events : dict of pd.DataFrame, optional
+        Events dictionary from `pnut.get_snowglobes_events(sn, detector)`.
+    save : bool, default True
+        Save plot in sn.bin_dir.
+    show : bool, default True
+        Display plot.
+    """
     if snow_events is None:
         snow_events = pnut.snowglobes_events(sn, detector)
     log.debug(f'\nsnow_events: {snow_events}\n')
@@ -103,6 +144,21 @@ def plot_snowglobes_events(sn, detector, snow_events=None,
 
 
 def plot_sspike_events(sn, detector, sspike_events=None, save=True, show=True):
+    """Plot sspike event rates.
+
+    Parameters
+    ----------
+    sn : sspike.Supernova
+        Simulation specifications.
+    detector : sspike.Detector
+        Detector specifications.
+    snow_events : dict of pd.DataFrame, optional
+        Events dictionary from `pnut.get_sspike_events(sn, detector)`.
+    save : bool, default True
+        Save plot in sn.bin_dir.
+    show : bool, default True
+        Display plot.
+    """
     if sspike_events is None:
         sspike_events = pnut.sspike_events(sn, detector)
     
@@ -125,11 +181,6 @@ def plot_sspike_events(sn, detector, sspike_events=None, save=True, show=True):
     for flavor in flavors:
         ax2.plot(df['T_p']*1e3, df[flavor], linestyle='--')
 
-    # ax.set(xlabel='E$_{vis}$ [MeV]',
-    #        yscale='log',
-    #        ylim=(1e-4, None),
-    #        ylabel='Events [0.1 MeV$^{-1}$ (T$_p$)]',
-    #        title=title)
     ax2.set(xlabel='T$_p$ [MeV]', xlim=(None, 10))
     ax2.xaxis.set_ticks_position("bottom")
     ax2.xaxis.set_label_position("bottom")
@@ -147,23 +198,38 @@ def plot_sspike_events(sn, detector, sspike_events=None, save=True, show=True):
 
 
 def bar_totals(sn, detector, totals=None, save=True, show=True):
-   if totals is None:
-      totals = pnut.event_totals(sn, detector)
-   title = f'{sn.sn_name} @ {sn.distance} kpc in {detector.name}'
-   labels={'channel': 'Channel', 'events': 'Events', 'file': 'Type'}
+    """Bar graph of event totals for a single model.
 
-   bars = px.bar(totals, x='channel', y='events', color='file', barmode='group',
-                 labels=labels, log_y=True)
-   bars.layout.bargap = 0.05
-   bars.layout.bargroupgap = 0.03
-   bars.layout.title = title
-   bars.layout.font = dict(size=22, family="Times New Roman")
+    Parameters
+    ----------
+    sn : sspike.Supernova
+        Simulation specifications.
+    detector : sspike.Detector
+        Detector specifications.
+    snow_events : dict of pd.DataFrame, optional
+        Events dictionary from `pnut.get_snowglobes_events(sn, detector)`.
+    save : bool, default True
+        Save plot in sn.bin_dir.
+    show : bool, default True
+        Display plot.
+    """
+    if totals is None:
+        totals = pnut.event_totals(sn, detector)
+    title = f'{sn.sn_name} @ {sn.distance} kpc in {detector.name}'
+    labels={'channel': 'Channel', 'events': 'Events', 'file': 'Type'}
 
-   if save:
-      path = f'{sn.bin_dir}/totals.png'
-      bars.write_image(path, width=1100, height=500, scale=3)
-   if show:
-      bars.show()
+    bars = px.bar(totals, x='channel', y='events', color='file', barmode='group',
+                    labels=labels, log_y=True)
+    bars.layout.bargap = 0.05
+    bars.layout.bargroupgap = 0.03
+    bars.layout.title = title
+    bars.layout.font = dict(size=22, family="Times New Roman")
+
+    if save:
+        path = f'{sn.bin_dir}/totals.png'
+        bars.write_image(path, width=1100, height=500, scale=3)
+    if show:
+        bars.show()
 
 
 # def bin_times(bliz):
