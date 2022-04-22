@@ -118,7 +118,7 @@ def fluence_tarball(sn):
 
     # Record tarball location for future use.
     record = sn.get_record()
-    record.update({sn.bin_dir: tarball})
+    record.update({'tarball': tarball})
     sn.write_record(record)
 
 def snowglobes_events(sn, detector, save=True):
@@ -139,45 +139,43 @@ def snowglobes_events(sn, detector, save=True):
     log.debug('- Generating SNOwGLoBES events.')
 
     record = sn.get_record()
-    try:
-        tarball = record[sn.bin_dir]
-    except Exception:
+
+    if 'tarball' not in record:
         _ = get_fluences(sn)
         record = sn.get_record()
-        tarball = record[sn.bin_dir]
+
+    tarball = record['tarball']
         
 
     dfs = {}
-    snow_files = f'{sn.bin_dir}/snow_files'
-    if snow_files not in record:
-        record[snow_files] = []
+    if 'snow_files' not in record:
+        record['snow_files'] = []
         # Simulate via snewpy.
         snowglobes.simulate(snowglobes_dir, tarball,
                             detector_input=detector.name)
         snow_sim = snowglobes.collate(snowglobes_dir, tarball, skip_plots=True)
 
         # Save event dataframes by smearing and weighting.
-        keys = list(snow_sim.keys())
+        keys = list(snow_sim.keys())[1:]
+        header = snow_sim[keys[0]]['header'].split(' ')
 
         # First key is detector.  The rest indicate smearing and weighting.
-        for key in keys[1:]:
-            df = pd.DataFrame()
-            for i, column in enumerate(snow_sim[key]['header'].split(' ')):
-                df[column] = snow_sim[key]['data'][i]
-
-            smear_weight = key.split('_events_')[1][:-4]
-            dfs[smear_weight] = df
+        for key in keys:
+            data = snow_sim[key]['data'].T
+            df = pd.DataFrame(data, columns=header)
+            new_key = key.split('_events_')[1][:-4]
+            dfs[new_key] = df
 
             if save:
-                snow_file = f'{sn.bin_dir}/snow-{smear_weight}.csv'
+                snow_file = f'{sn.bin_dir}/snow-{new_key}.csv'
                 df.to_csv(snow_file, sep=' ', index=False)
-                record[snow_files].append(snow_file)
+                record['snow_files'].append(snow_file)
 
         # Update record file.
         sn.write_record(record)
 
     else:
-        for file in record[snow_files]:
+        for file in record['snow_files']:
             key = file.split('snow-')[1][:-4]
             dfs[key] = pd.read_csv(file, sep=' ')
 
@@ -202,9 +200,8 @@ def sspike_events(sn, detector, save=True):
     dfs = {}
 
     record = sn.get_record()
-    sspike_files = f'{sn.bin_dir}/sspike_files'
-    if sspike_files not in record:
-        record[sspike_files] = []
+    if 'sspike_files' not in record:
+        record['sspike_files'] = []
         dfs['basic'] = basic_events(sn, detector)
         dfs['elastic'] = elastic_events(sn, detector)
 
@@ -212,11 +209,11 @@ def sspike_events(sn, detector, save=True):
             for scat in ['basic', 'elastic']:
                 path = f"{sn.bin_dir}/sspike-{scat}.csv"
                 dfs[scat].to_csv(path_or_buf=path, sep=' ', index=False)
-                record[sspike_files].append(path)                
+                record['sspike_files'].append(path)                
             sn.write_record(record)
 
     else:
-        for file in record[sspike_files]:
+        for file in record['sspike_files']:
             key = file.split('sspike-')[1][:-4]
             dfs[key] = pd.read_csv(file, sep=' ')
 

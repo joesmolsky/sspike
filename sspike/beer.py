@@ -112,7 +112,7 @@ def plot_snowglobes_events(sn, detector, snow_events=None,
         snow_events = pnut.snowglobes_events(sn, detector)
     log.debug(f'\nsnow_events: {snow_events}\n')
     
-    title = f'{sn.sn_name} in {detector.name} @ {sn.distance} kpc'
+    title = f'{sn.sn_name} @ {sn.distance} kpc in {detector.name}'
     fig, ax = plt.subplots(figsize=(10,5), tight_layout=True, facecolor='white')
     
     df = snow_events['unsmeared_weighted']
@@ -162,7 +162,7 @@ def plot_sspike_events(sn, detector, sspike_events=None, save=True, show=True):
     if sspike_events is None:
         sspike_events = pnut.sspike_events(sn, detector)
     
-    title = f'{sn.sn_name} in {detector.name} @ {sn.distance} kpc'
+    title = f'{sn.sn_name} @ {sn.distance} kpc in {detector.name}'
     fig, ax = plt.subplots(figsize=(10,6), tight_layout=True, facecolor='w')
     ax.set(xlabel='E$_{vis}$ [MeV]',
            yscale='log',
@@ -226,8 +226,9 @@ def bar_totals(sn, detector, totals=None, save=True, show=True):
     bars.layout.font = dict(size=22, family="Times New Roman")
 
     if save:
-        path = f'{sn.bin_dir}/totals.png'
-        bars.write_image(path, width=1100, height=500, scale=3)
+        path = f'{sn.bin_dir}/totals'
+        bars.write_image(f'{path}.png', width=1100, height=500, scale=3)
+        bars.write_html(f'{path}.html')
     if show:
         bars.show()
 
