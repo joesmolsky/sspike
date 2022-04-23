@@ -535,7 +535,10 @@ def vis_totals(sn, detector, save=True):
     Parameters
     ----------
     sn : sspike.Supernova
-
+        Supernova simulation specifics.
+    detector: sspike.Detector
+        Detector information.
+    
     Return
     ------
     df : pd.DataFrame
@@ -548,16 +551,7 @@ def vis_totals(sn, detector, save=True):
 
     else:
         totals = event_totals(sn, detector)
-
-        if detector.name == 'kamland':
-            keep = (totals['file'] == 'smeared_weighted') |\
-                   (totals['channel'] == 'nc_p_cut')
-            vis = totals.where(keep).dropna().drop(columns='file')
-            vis.replace('nc_p_cut', 'nc_p', inplace=True)
-        else:
-            msg = f'Error: {detector.name} not included in pnut.vis_totals()'
-            log.error(msg)
-            return msg
+        vis = detector.keep_vis(totals)
 
         prog_list = list(sn.progenitor.values())
         row_list = []
