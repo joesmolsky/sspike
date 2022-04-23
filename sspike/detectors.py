@@ -21,12 +21,10 @@ class Detector:
         Number of target electrons for 'kamland' or None.
     low_cut : float
         Low energy threshold [GeV].
-    det_dir : str
-        Directory path for sspike outputs.
-    det_bin : str
-        Name of time series output directory.
-    record : str
-        Path to file for keeping track of processing history.
+    sspike_functions : list of str
+        Names of functions to use from sspike.pnut.
+    total_files : list of str
+        Names of event files to include in pnut.event_totals().
 
     Note
     ----
@@ -46,12 +44,15 @@ class Detector:
             self.N_e = self.N_p * 4.047
             # Low energy threshold for KamLAND [GeV].
             self.low_cut = 2e-4
-            # File types to include in pnut.event_totals.
+            # Name of sspike.pnut functions to use.
+            self.sspike_functions = ['basic_events', 'elastic_events']
+            # File types to include in pnut.event_totals().
             self.total_files = ['snow-unsmeared_weighted.csv', 
                                 'snow-smeared_weighted.csv',
                                 'sspike-basic.csv', 
                                 'sspike-elastic.csv']
-    
+
+
     def keep_vis(self, totals):
         """Final event selection from processed file totals.
         

@@ -4,6 +4,7 @@ from os import makedirs
 import json
 
 from .env import sspike_dir
+from ._version import __version__
 from .core.logging import getLogger
 log = getLogger(__name__)
 
@@ -42,10 +43,12 @@ class Supernova():
         Supernova simulation file path for snewpy model, relative to models_dir.
     sn_dir : str
         Directory path for sspike outputs.
+    bin_name : str
+        Folder name for bin-dependent files: f'b{t_bins}s{t_start}e{t_end}'.
     bin_dir : str
-        Name of time series output directory.
+        Path of bin-dependent output directory.
     record : str
-        Path to file for keeping track of snewpy tarballs.
+        Path to file for keeping track of processing history.
 
     Notes
     -----
@@ -62,7 +65,8 @@ class Supernova():
         self.t_bins = t_bins
         # Model/simulation specific variables.
         self._simulation_settings()
-        self.sn_dir = f'{sspike_dir}/{self.sn_name}/{distance}kpc-{self.xform}'
+        self.sn_dir = f'{sspike_dir}/supernova/{self.sn_name}/'\
+                      f'{self.distance}kpc-{self.xform}'
         if not isdir(self.sn_dir):
             makedirs(self.sn_dir)
         # Separate directories based on time bins.
@@ -72,8 +76,9 @@ class Supernova():
         else:
             self.t_start = self.t_min
             self.t_end = self.t_max
-        self.bin_dir = f'{self.sn_dir}/'\
-                       f'bins{t_bins}ti{self.t_start}tf{self.t_end}'
+        self.bin_name = f'b{t_bins}s{self.t_start}e{self.t_end}'
+        self.bin_dir = f'{self.sn_dir}/{self.bin_name}'
+                       
         if not isdir(self.bin_dir):
             makedirs(self.bin_dir)
         # Record keeping file for snewpy tarballs.
@@ -174,11 +179,12 @@ class Supernova():
             self.t_max = 1.6835847
 
     def _record(self):
-        """Create a json file for tracking snewpy tarballs."""
+        """Create a json file for tracking processing."""
         self.record = f'{self.sn_dir}/record.json'
         if not isfile(self.record):
+            record = {'version': __version__}
             with open(self.record, 'w') as f:
-                f.write('{}')
+                json.dump(record, f)
 
     def get_record(self):
         """Dictionary with snewpy processing history information."""
@@ -186,13 +192,13 @@ class Supernova():
             record = json.load(f)
         return record
 
-    def write_record(self, record):
+    def set_record(self, record):
         """Replace existing record file with new record.
 
         Parameters
         ----------
         record : dict
-            Processing information for snewpy files.
+            Processing information in json format.
         """
         with open(self.record, 'w') as f:
             json.dump(record, f)

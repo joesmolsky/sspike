@@ -2,6 +2,8 @@
 
 Functions to load SN models and process event rates.
 """
+from os.path import isdir, isfile
+from os import makedirs
 import tarfile
 
 import pandas as pd
@@ -9,11 +11,11 @@ import numpy as np
 import scipy.constants as cns
 from scipy.integrate import quad
 
-import snewpy.models.ccsn as cc
+import snewpy.models.ccsn
 from snewpy.neutrino import Flavor
 from snewpy import snowglobes
 
-from .env import models_dir, snowglobes_dir  # , sspike_dir
+from .env import models_dir, snowglobes_dir
 from .core.logging import getLogger
 log = getLogger(__name__)
 
@@ -44,23 +46,37 @@ def get_luminosities(sn, save=True):
     df : pd.DataFrame
         Simulation times [s] and flavor luminosities [erg / s].
     """
+    # Check if luminosity file already exists.
+    record = sn.get_record()
+
+    if 'luminosity' in record:
+        df = pd.read_csv(record['luminosity'], sep=' ')
+
+        return df
+
     # Filepath to save dataframe.
     lum_file = f'{sn.sn_dir}/luminosity.csv'
 
     # Initialize model using snewpy.
-    model_type = getattr(cc, sn.model)
-    cc_model = model_type(f'{models_dir}/{sn.model}/{sn.sim_file}')
+    model_type = getattr(snewpy.models.ccsn, sn.model)
+    sn_sim = model_type(f'{models_dir}/{sn.model}/{sn.sim_file}')
 
     # Luminosity vs. time dataframe.
     df = pd.DataFrame()
-    df['time'] = cc_model.time.value
+    df['time'] = sn_sim.time.value
 
     if sn.xform == 'NT':
         for flavor in Flavor:
-            df[flavor.name] = cc_model.luminosity[flavor].value
+            df[flavor.name] = sn_sim.luminosity[flavor].value
+    else:
+        msg = 'Error: transformed luminosities not yet available!'
+        log.error(msg)
+        return msg
 
     if save:
         df.to_csv(lum_file, sep=' ', index=False)
+        record.update({'luminosity': lum_file})
+        sn.set_record(record)
 
     return df
 
@@ -82,7 +98,7 @@ def get_fluences(sn):
 
     record = sn.get_record()
 
-    # Generate fluences as needed.
+    # Generate fluences and extract as needed.
     if sn.bin_dir not in record:
         fluence_tarball(sn)
 
@@ -119,7 +135,7 @@ def fluence_tarball(sn):
     # Record tarball location for future use.
     record = sn.get_record()
     record.update({'tarball': tarball})
-    sn.write_record(record)
+    sn.set_record(record)
 
 def snowglobes_events(sn, detector, save=True):
     """Process fluences with SNOwGLoBES via `snewpy`.
@@ -141,43 +157,54 @@ def snowglobes_events(sn, detector, save=True):
     record = sn.get_record()
 
     if 'tarball' not in record:
-        _ = get_fluences(sn)
+        fluence_tarball(sn)
         record = sn.get_record()
 
     tarball = record['tarball']
-        
-
     dfs = {}
-    if 'snow_files' not in record:
-        record['snow_files'] = []
-        # Simulate via snewpy.
-        snowglobes.simulate(snowglobes_dir, tarball,
-                            detector_input=detector.name)
-        snow_sim = snowglobes.collate(snowglobes_dir, tarball, skip_plots=True)
+    
+    if detector.name in record:
+        if 'snow_files' in record[detector.name]:
+            if sn.bin_name in record[detector.name]['snow_files']:
+                for file in record[detector.name]['snow_files'][sn.bin_name]:
+                    key = file.split('snow-')[1][:-4]
+                    dfs[key] = pd.read_csv(file, sep=' ')
 
-        # Save event dataframes by smearing and weighting.
-        keys = list(snow_sim.keys())[1:]
-        header = snow_sim[keys[0]]['header'].split(' ')
+                return dfs
 
-        # First key is detector.  The rest indicate smearing and weighting.
-        for key in keys:
-            data = snow_sim[key]['data'].T
-            df = pd.DataFrame(data, columns=header)
-            new_key = key.split('_events_')[1][:-4]
-            dfs[new_key] = df
-
-            if save:
-                snow_file = f'{sn.bin_dir}/snow-{new_key}.csv'
-                df.to_csv(snow_file, sep=' ', index=False)
-                record['snow_files'].append(snow_file)
-
-        # Update record file.
-        sn.write_record(record)
-
+            else:
+                record[detector.name]['snow_files'][sn.bin_name] = []
+        else:
+            record[detector.name]['snow_files'] = {sn.bin_name: []}
     else:
-        for file in record['snow_files']:
-            key = file.split('snow-')[1][:-4]
-            dfs[key] = pd.read_csv(file, sep=' ')
+        record[detector.name] = {'snow_files': {sn.bin_name: []}}
+
+    # Simulate via snewpy.
+    snowglobes.simulate(snowglobes_dir, tarball,
+                        detector_input=detector.name)
+    snow_sim = snowglobes.collate(snowglobes_dir, tarball, skip_plots=True)
+
+    # First key is detector.  The rest indicate smearing and weighting.
+    keys = list(snow_sim.keys())[1:]
+    header = snow_sim[keys[0]]['header'].split(' ')
+
+    # Save event dataframes by smearing and weighting.
+    for key in keys:
+        data = snow_sim[key]['data'].T
+        df = pd.DataFrame(data, columns=header)
+        df_key = key.split('_events_')[1][:-4]
+        dfs[df_key] = df
+
+        if save:
+            detector_dir = sn.bin_dir.replace('supernova', detector.name)
+            if not isdir(detector_dir):
+                makedirs(detector_dir)
+            snow_file = f'{detector_dir}/snow-{df_key}.csv'
+            df.to_csv(snow_file, sep=' ', index=False)
+            record[detector.name]['snow_files'][sn.bin_name].append(snow_file)
+
+    # Update record file.
+    sn.set_record(record)
 
     return dfs
 
@@ -197,25 +224,41 @@ def sspike_events(sn, detector, save=True):
     dfs : dict of pd.Dataframe
         Event rates for sspike data types.
     """
+    record = sn.get_record()
     dfs = {}
 
-    record = sn.get_record()
-    if 'sspike_files' not in record:
-        record['sspike_files'] = []
-        dfs['basic'] = basic_events(sn, detector)
-        dfs['elastic'] = elastic_events(sn, detector)
+    if detector.name in record:
+        if 'sspike_files' in record[detector.name]:
+            if sn.bin_name in record[detector.name]['sspike_files']:
+                for file in record[detector.name]['sspike_files'][sn.bin_name]:
+                    key = file.split('sspike-')[1][:-4]
+                    dfs[key] = pd.read_csv(file, sep=' ')
 
-        if save:
-            for scat in ['basic', 'elastic']:
-                path = f"{sn.bin_dir}/sspike-{scat}.csv"
-                dfs[scat].to_csv(path_or_buf=path, sep=' ', index=False)
-                record['sspike_files'].append(path)                
-            sn.write_record(record)
+                return dfs
 
+            else:
+                record[detector.name]['sspike_files'][sn.bin_name] = []
+        else:
+            record[detector.name]['sspike_files'] = {sn.bin_name: []}
     else:
-        for file in record['sspike_files']:
-            key = file.split('sspike-')[1][:-4]
-            dfs[key] = pd.read_csv(file, sep=' ')
+        record[detector.name] = {'sspike_files': {sn.bin_name: []}}
+
+    for name in detector.sspike_functions:
+        try:
+            key = name.split('_')[0]
+        except Exception:
+            key = name
+        dfs[key] = eval(name + "(sn, detector)")
+
+    if save:
+        detector_dir = sn.bin_dir.replace('supernova', detector.name)
+        if not isdir(detector_dir):
+            makedirs(detector_dir)
+        for file in dfs:
+            path = f"{detector_dir}/sspike-{file}.csv"
+            dfs[file].to_csv(path_or_buf=path, sep=' ', index=False)
+            record[detector.name]['sspike_files'][sn.bin_name].append(path)                
+        sn.set_record(record)
 
     return dfs
 
@@ -484,47 +527,63 @@ def event_totals(sn, detector, save=True):
     """
     record = sn.get_record()
 
-    if 'totals_all' in record:
-        df = pd.read_csv(record['totals_all'], sep=' ')
+    if detector.name in record:
+        if 'totals_all' in record[detector.name]:
+            if sn.bin_name in record[detector.name]['totals_all']:
+                path = record[detector.name]['totals_all'][sn.bin_name]
+                df = pd.read_csv(path, sep=' ')
 
+                return df
+        else:
+            record[detector.name]['totals_all'] = {sn.bin_name: []}
     else:
-        total_files = detector.total_files
+        msg = f'Error: {sn.name} has not been processed for {detector.name}'
+        log.error(msg)
+        return msg
 
-        row_list = []
-        for file in total_files:
-            # Path to processed data files.
-            path = f'{sn.bin_dir}/{file}'
-            # Load data.
-            data = pd.read_csv(path, sep=' ')
-            file_type = file.split('-')[1][:-4]
+    row_list = []
+    total_files = detector.total_files
+    detector_dir = sn.bin_dir.replace('supernova', detector.name)
 
-            # sspike-elastic data have different format than SNOwGLoBES data.
-            if file == 'sspike-elastic.csv':
-                # Uncut data
-                N_total = np.sum(data['nc_p'])
-                row = {'file': file_type, 'channel': 'nc_p', 'events': N_total}
+    for file in total_files:
+        # Path to processed data files.
+        path = f'{detector_dir}/{file}'
+        if not isfile(path):
+            msg = f'\nWarning!\nFile not found. Skipping:\n{path}'
+            log.warning(msg)
+            continue
+
+        # Load data.
+        data = pd.read_csv(path, sep=' ')
+        file_type = file.split('-')[1][:-4]
+
+        # sspike-elastic data have different format than other data.
+        if file == 'sspike-elastic.csv':
+            # Uncut data
+            N_total = np.sum(data['nc_p'])
+            row = {'file': file_type, 'channel': 'nc_p', 'events': N_total}
+            row_list.append(row)
+
+            # Low energy cut
+            nc_vis = data['nc_p'].where(data['E_vis'] >= detector.low_cut)
+            N_cut = np.sum(nc_vis)
+            row = {'file': file_type, 'channel': 'nc_p_cut', 'events': N_cut}
+            row_list.append(row)
+
+        else:
+            chans = list(data.keys())[1:]
+            for chan in chans:
+                N = np.sum(data[chan])
+                row = {'file': file_type, 'channel': chan, 'events': N}
                 row_list.append(row)
 
-                # Low energy cut
-                nc_vis = data['nc_p'].where(data['E_vis'] >= detector.low_cut)
-                N_cut = np.sum(nc_vis)
-                row = {'file': file_type, 'channel': 'nc_p_cut', 'events': N_cut}
-                row_list.append(row)
+    df = pd.DataFrame(row_list)
 
-            else:
-                chans = list(data.keys())[1:]
-                for chan in chans:
-                    N = np.sum(data[chan])
-                    row = {'file': file_type, 'channel': chan, 'events': N}
-                    row_list.append(row)
-
-        df = pd.DataFrame(row_list)
-
-        if save:
-            totals_file = f'{sn.bin_dir}/totals_all.csv'
-            df.to_csv(totals_file, sep=' ', index=False)
-            record.update({'totals_all': totals_file})
-            sn.write_record(record)
+    if save:
+        totals_file = f'{detector_dir}/totals_all.csv'
+        df.to_csv(totals_file, sep=' ', index=False)
+        record[detector.name]['totals_all'][sn.bin_name] = totals_file
+        sn.set_record(record)
 
     return df
 
@@ -546,29 +605,43 @@ def vis_totals(sn, detector, save=True):
     """
     record = sn.get_record()
 
-    if 'vis_totals' in record:
-        df = pd.read_csv(record['vis_totals'], sep=' ')
+    if detector.name in record:
+        if 'vis_totals' in record[detector.name]:
+            if sn.bin_name in record[detector.name]['vis_totals']:
+                path = record[detector.name]['vis_totals'][sn.bin_dir]
+                df = pd.read_csv(path, sep=' ')
 
+                return df
+            
+        else:
+            record[detector.name]['vis_totals'] = {}
     else:
-        totals = event_totals(sn, detector)
-        vis = detector.keep_vis(totals)
+        msg = f'Error: {sn.name} has not been processed for {detector.name}'
+        log.error(msg)
+        return msg
 
-        prog_list = list(sn.progenitor.values())
-        row_list = []
-        for row in vis.to_numpy():
-            new_row =  [sn.model] + prog_list + row.tolist()
-            row_list.append(new_row)
+    totals = event_totals(sn, detector)
+    vis = detector.keep_vis(totals)
 
-        prog_columns = list(sn.progenitor.keys())
-        column_names = ['model'] + prog_columns + ['channel', 'events']
+    prog_list = list(sn.progenitor.values())
+    row_list = []
+    for row in vis.to_numpy():
+        new_row =  [sn.model] + prog_list + row.tolist()
+        row_list.append(new_row)
 
-        df = pd.DataFrame(row_list, columns=column_names)
+    prog_columns = list(sn.progenitor.keys())
+    column_names = ['model'] + prog_columns + ['channel', 'events']
 
-        if save:
-            vis_file = f'{sn.bin_dir}/totals_vis.csv'
-            df.to_csv(vis_file, sep=' ', index=False)
-            record.update({'vis_totals': vis_file})
-            sn.write_record(record)
+    df = pd.DataFrame(row_list, columns=column_names)
+
+    if save:
+        detector_dir = sn.bin_dir.replace('supernova', detector.name)
+        if not isdir(detector_dir):
+            makedirs(detector_dir)
+        vis_file = f'{detector_dir}/totals_vis.csv'
+        df.to_csv(vis_file, sep=' ', index=False)
+        record[detector.name]['vis_totals'][sn.bin_dir] = vis_file
+        sn.set_record(record)
 
     return df
 

@@ -9,7 +9,7 @@ progenitor = {'mass':  20,
               'metal': 0.02,
               't_rev': 300}
 transformation = 'NoTransformation'
-distance = 5.0
+distance = 5.
 sn = Supernova(model, progenitor, transformation, distance)
 detector = Detector('kamland')
 
