@@ -482,43 +482,99 @@ def event_totals(sn, detector, save=True):
     df : pd.DataFrame
         3 column dataframe: file_type, channel, events.
     """
-    # record = sn.get_record()
-    data_files = ['snow-unsmeared_weighted.csv', 'snow-smeared_weighted.csv',
-                  'sspike-basic.csv', 'sspike-elastic.csv']
+    record = sn.get_record()
 
-    row_list = []
-    for file in data_files:
-        # Path to processed data files.
-        path = f'{sn.bin_dir}/{file}'
-        # Load data.
-        data = pd.read_csv(path, sep=' ')
-        file_type = file.split('-')[1][:-4]
+    if 'totals_all' in record:
+        df = pd.read_csv(record['totals_all'], sep=' ')
 
-        # sspike data have different format than SNOwGLoBES data.
-        if file == 'sspike-elastic.csv':
-            # Uncut data
-            N_total = np.sum(data['nc_p'])
-            row = {'file': file_type, 'channel': 'nc_p', 'events': N_total}
-            row_list.append(row)
+    else:
+        total_files = detector.total_files
 
-            # Low energy cut
-            nc_vis = data['nc_p'].where(data['E_vis'] >= detector.low_cut)
-            N_cut = np.sum(nc_vis)
-            row = {'file': file_type, 'channel': 'nc_p_cut', 'events': N_cut}
-            row_list.append(row)
+        row_list = []
+        for file in total_files:
+            # Path to processed data files.
+            path = f'{sn.bin_dir}/{file}'
+            # Load data.
+            data = pd.read_csv(path, sep=' ')
+            file_type = file.split('-')[1][:-4]
 
-        else:
-            chans = list(data.keys())[1:]
-            for chan in chans:
-                N = np.sum(data[chan])
-                row = {'file': file_type, 'channel': chan, 'events': N}
+            # sspike-elastic data have different format than SNOwGLoBES data.
+            if file == 'sspike-elastic.csv':
+                # Uncut data
+                N_total = np.sum(data['nc_p'])
+                row = {'file': file_type, 'channel': 'nc_p', 'events': N_total}
                 row_list.append(row)
 
-    df = pd.DataFrame(row_list)
+                # Low energy cut
+                nc_vis = data['nc_p'].where(data['E_vis'] >= detector.low_cut)
+                N_cut = np.sum(nc_vis)
+                row = {'file': file_type, 'channel': 'nc_p_cut', 'events': N_cut}
+                row_list.append(row)
 
-    if save:
-        tab_file = f'{sn.bin_dir}/totals.csv'
-        df.to_csv(tab_file, sep=' ', index=False)
+            else:
+                chans = list(data.keys())[1:]
+                for chan in chans:
+                    N = np.sum(data[chan])
+                    row = {'file': file_type, 'channel': chan, 'events': N}
+                    row_list.append(row)
+
+        df = pd.DataFrame(row_list)
+
+        if save:
+            totals_file = f'{sn.bin_dir}/totals_all.csv'
+            df.to_csv(totals_file, sep=' ', index=False)
+            record.update({'totals_all': totals_file})
+            sn.write_record(record)
+
+    return df
+
+
+def vis_totals(sn, detector, save=True):
+    """Select visible events from all totals.
+
+    Parameters
+    ----------
+    sn : sspike.Supernova
+
+    Return
+    ------
+    df : pd.DataFrame
+        DataFrame of event totals and progenitor properties.
+    """
+    record = sn.get_record()
+
+    if 'vis_totals' in record:
+        df = pd.read_csv(record['vis_totals'], sep=' ')
+
+    else:
+        totals = event_totals(sn, detector)
+
+        if detector.name == 'kamland':
+            keep = (totals['file'] == 'smeared_weighted') |\
+                   (totals['channel'] == 'nc_p_cut')
+            vis = totals.where(keep).dropna().drop(columns='file')
+            vis.replace('nc_p_cut', 'nc_p', inplace=True)
+        else:
+            msg = f'Error: {detector.name} not included in pnut.vis_totals()'
+            log.error(msg)
+            return msg
+
+        prog_list = list(sn.progenitor.values())
+        row_list = []
+        for row in vis.to_numpy():
+            new_row =  [sn.model] + prog_list + row.tolist()
+            row_list.append(new_row)
+
+        prog_columns = list(sn.progenitor.keys())
+        column_names = ['model'] + prog_columns + ['channel', 'events']
+
+        df = pd.DataFrame(row_list, columns=column_names)
+
+        if save:
+            vis_file = f'{sn.bin_dir}/totals_vis.csv'
+            df.to_csv(vis_file, sep=' ', index=False)
+            record.update({'vis_totals': vis_file})
+            sn.write_record(record)
 
     return df
 

@@ -206,8 +206,8 @@ def bar_totals(sn, detector, totals=None, save=True, show=True):
         Simulation specifications.
     detector : sspike.Detector
         Detector specifications.
-    snow_events : dict of pd.DataFrame, optional
-        Events dictionary from `pnut.get_snowglobes_events(sn, detector)`.
+    totals : pd.DataFrame, optional
+        Totals from pnut.event_totals(sn, detector).
     save : bool, default True
         Save plot in sn.bin_dir.
     show : bool, default True
@@ -235,7 +235,7 @@ def bar_totals(sn, detector, totals=None, save=True, show=True):
         bars.show()
 
 
-def bar_vis(sn, detector, totals=None, save=True, show=True):
+def bar_vis(sn, detector, vis=None, save=True, show=True):
     """Bar graph of visible event totals for a single model.
 
     Parameters
@@ -244,28 +244,18 @@ def bar_vis(sn, detector, totals=None, save=True, show=True):
         Simulation specifications.
     detector : sspike.Detector
         Detector specifications.
-    snow_events : dict of pd.DataFrame, optional
-        Events dictionary from `pnut.get_snowglobes_events(sn, detector)`.
+    vis : pd.DataFrame, optional
+        Totals from pnut.event_totals(sn, detector).
     save : bool, default True
         Save plot in sn.bin_dir.
     show : bool, default True
         Display plot.
     """
-    if totals is None:
-        totals = pnut.event_totals(sn, detector)
+    if vis is None:
+        vis = pnut.vis_totals(sn, detector)
 
     title = f'{sn.sn_name} @ {sn.distance} kpc in {detector.name}'
-    labels={'channel': 'Channel', 'events': 'Events', 'file': 'Type'}
-    
-    if detector.name == 'kamland':
-        keep = (totals['file'] == 'smeared_weighted') |\
-               (totals['channel'] == 'nc_p_cut')
-        vis = totals.where(keep).dropna()
-        vis.replace('nc_p_cut', 'nc_p', inplace=True)
-    else:
-        msg = f'Error: need to update for {detector.name}'
-        log.error(msg)
-        return msg
+    labels = {'channel': 'Channel', 'events': 'Events'}
 
     bars = px.bar(vis,  x='channel', y='events', color='channel',
                   labels=labels, log_y=True)
@@ -276,7 +266,7 @@ def bar_vis(sn, detector, totals=None, save=True, show=True):
     bars.layout.showlegend = False
     
     if save:
-        path = f'{sn.bin_dir}/bar_vis'
+        path = f'{sn.bin_dir}/totals_vis'
         bars.write_image(f'{path}.png', scale=3)
         bars.write_html(f'{path}.html')
     if show:

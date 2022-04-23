@@ -239,3 +239,7 @@ def run_sim(model, progenitor, transform, distance, detector, t_bins=1):
     # Tabulate results
     log.debug('\n- Tabulating results.\n')
     beer.bar_totals(sn, detector, show=False)
+
+    # Keep visible results
+    log.debug('\n- Visible results.\n')
+    beer.bar_vis(sn, detector, show=False)

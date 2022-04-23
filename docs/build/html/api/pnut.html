@@ -267,12 +267,10 @@ with units of cm^2 / GeV.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>E</strong> (<em>np.array</em>) – Electron equivalent energy in KamLAND.</p></li>
-<li><p><em>Note</em> – Quenching factors using WebPlotDigitizer on Fig. 6 in:
-<a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0168900210017018">https://www.sciencedirect.com/science/article/pii/S0168900210017018</a></p></li>
-</ul>
-</p>
+<dd class="field-even"><p><strong>E</strong> – Electron equivalent energy in KamLAND.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
 </dd>
 </dl>
 </dd></dl>
@@ -332,6 +330,23 @@ with units of cm^2 / GeV.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict of pd.Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">vis_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Select visible events from all totals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sn</strong> (<em>sspike.Supernova</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df</strong> – DataFrame of event totals and progenitor properties.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>

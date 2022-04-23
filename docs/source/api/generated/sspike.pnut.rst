@@ -26,6 +26,7 @@
       quench
       snowglobes_events
       sspike_events
+      vis_totals
    
    
 

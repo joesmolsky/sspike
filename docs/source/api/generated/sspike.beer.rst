@@ -14,6 +14,7 @@
    .. autosummary::
    
       bar_totals
+      bar_vis
       plot_fluences
       plot_luminosities
       plot_snowglobes_events

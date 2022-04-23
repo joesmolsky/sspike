@@ -26,3 +26,6 @@ def test_plot_sspike_events():
 
 def test_bar_totals():
     beer.bar_totals(sn, detector, show=False)
+
+def test_bar_vis():
+    beer.bar_vis(sn, detector, show=False)

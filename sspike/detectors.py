@@ -40,3 +40,9 @@ class Detector:
             self.N_e = self.N_p * 4.047
             # Low energy threshold for KamLAND [GeV].
             self.low_cut = 2e-4
+            # File types to include in pnut.event_totals.
+            self.total_files = ['snow-unsmeared_weighted.csv', 
+                                'snow-smeared_weighted.csv',
+                                'sspike-basic.csv', 
+                                'sspike-elastic.csv']
+    
