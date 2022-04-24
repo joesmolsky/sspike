@@ -6,10 +6,11 @@ import json
 from .env import sspike_dir
 from ._version import __version__
 from .core.logging import getLogger
+
 log = getLogger(__name__)
 
 
-class Supernova():
+class Supernova:
     """Simulation parameters and directory information.
 
     Parameters
@@ -40,22 +41,28 @@ class Supernova():
     t_max : float
         Model specific simulation end time.
     sim_file : str
-        Supernova simulation file path for snewpy model, relative to models_dir.
+        Supernova simulation file path, relative to models_dir.
+    prog_dir : str
+        Directory for sspike outputs varied by model, progenitor, and x-form.
     sn_dir : str
-        Directory path for sspike outputs.
+        Directory path for sspike outputs varied by distance and transform.
     bin_name : str
         Folder name for bin-dependent files: f'b{t_bins}s{t_start}e{t_end}'.
     bin_dir : str
-        Path of bin-dependent output directory.
+        Directory for sspike outputs varied by binning.
     record : str
         Path to file for keeping track of processing history.
+    lum_file : str
+        File path for model luminosities: f'{sn.prog_dir}/luminosity.csv'.
 
     Notes
     -----
     All parameters are also set as attributes.
     """
-    def __init__(self, model, progenitor, transform, distance,
-                 t_bins=1, t_start=None, t_end=None):
+
+    def __init__(
+        self, model, progenitor, transform, distance, t_bins=1, t_start=None, t_end=None
+    ):
         # Simulation properties.
         self.model = model
         self.progenitor = progenitor
@@ -65,10 +72,8 @@ class Supernova():
         self.t_bins = t_bins
         # Model/simulation specific variables.
         self._simulation_settings()
-        self.sn_dir = f'{sspike_dir}/supernova/{self.sn_name}/'\
-                      f'{self.distance}kpc-{self.xform}'
-        if not isdir(self.sn_dir):
-            makedirs(self.sn_dir)
+        self.prog_dir = f"{sspike_dir}/supernova/{self.sn_name}"
+        self.sn_dir = f"{self.prog_dir}/{self.distance}kpc-{self.xform}"
         # Separate directories based on time bins.
         if t_start and t_end:
             self.t_start = t_start
@@ -76,13 +81,13 @@ class Supernova():
         else:
             self.t_start = self.t_min
             self.t_end = self.t_max
-        self.bin_name = f'b{t_bins}s{self.t_start}e{self.t_end}'
-        self.bin_dir = f'{self.sn_dir}/{self.bin_name}'
-                       
+        self.bin_name = f"b{t_bins}s{self.t_start}e{self.t_end}"
+        self.bin_dir = f"{self.sn_dir}/{self.bin_name}"
         if not isdir(self.bin_dir):
             makedirs(self.bin_dir)
-        # Record keeping file for snewpy tarballs.
+        # Record keeping.
         self._record()
+        self.lum_file = f"{self.prog_dir}/luminosity.csv"
 
     def _xform(self, transform):
         """Transformation abbreviation for directories and plots.
@@ -97,99 +102,144 @@ class Supernova():
         xform : str
             Abbreviation of transformation type.
         """
-        if transform == 'NoTransformation':
-            xform = 'NT'
+        if transform == "NoTransformation":
+            xform = "NT"
 
         return xform
 
     def _simulation_settings(self):
         """Parse progenitor dictionary; set simulation specific variables."""
-        if self.model == 'Fornax_2021':
+        if self.model == "Fornax_2021":
             # Fornax 2019 models only vary by mass.
-            mass = self.progenitor['mass']
+            mass = self.progenitor["mass"]
             # Name for sub-directory of fluences produced by this model file.
-            self.sn_name = f'F21-{mass}'
-            self.sim_file = f'lum_spec_{mass}M_r10000_dat.h5'
+            self.sn_name = f"F21-{mass}"
+            self.sim_file = f"lum_spec_{mass}M_r10000_dat.h5"
             # Simulation time limits.
             self.t_min = -0.2135
             self.t_max = 4.4885
 
-        if self.model == 'Kuroda_2020':
+        if self.model == "Kuroda_2020":
             # Kuroda models have spin and magnetic field.
             # Allowed combinations for (Omega, B0): (00, 00), (10, 12), (10, 13).
-            Omega = self.progenitor['omega']
-            B0 = self.progenitor['B0']
-            self.sn_name = f'K20-{Omega}-{B0}'
-            self.sim_file = f'LnuR{Omega}B{B0}.dat'
+            Omega = self.progenitor["omega"]
+            B0 = self.progenitor["B0"]
+            self.sn_name = f"K20-{Omega}-{B0}"
+            self.sim_file = f"LnuR{Omega}B{B0}.dat"
             # Simulation time limits.
             self.t_min = -0.00482311
             self.t_max = 0.316403
 
-        if self.model == 'Nakazato_2013':
+        if self.model == "Nakazato_2013":
             # Nakazato parameters: mass, metallicity, shock-revival time.
-            mass = self.progenitor['mass']
-            metal = self.progenitor['metal']
-            t_rev = self.progenitor['t_rev']
+            mass = self.progenitor["mass"]
+            metal = self.progenitor["metal"]
+            t_rev = self.progenitor["t_rev"]
             # Name for sub-directory of fluences produced by this model file.
-            self.sn_name = f'N13-{mass}-{int(metal*1e3):02d}-{t_rev}'
+            self.sn_name = f"N13-{mass}-{int(metal*1e3):02d}-{t_rev}"
             # Supernovae model filename.
-            self.sim_file = f'nakazato-shen-'\
-                            f'z{metal}-t_rev{t_rev}ms-s{mass}.0.fits'
+            self.sim_file = f"nakazato-shen-" f"z{metal}-t_rev{t_rev}ms-s{mass}.0.fits"
             # Simulation time limits.
             self.t_min = -0.05
-            self.t_max = 20.
+            self.t_max = 20.0
 
-        if self.model == 'Sukhbold_2015':
+        if self.model == "Sukhbold_2015":
             # Sukhbold model has 2 masses and 2 equations of state.
-            mass = self.progenitor['mass']
-            EoS = self.progenitor['eos']
+            mass = self.progenitor["mass"]
+            EoS = self.progenitor["eos"]
             # Name for sub-directory of fluences produced by this model file.
-            self.sn_name = f'S15-{mass}-{EoS}'
+            self.sn_name = f"S15-{mass}-{EoS}"
             # Naming convention varies with mass by 1 letter.
             if mass == 27.0:
-                self.sim_file = f'sukhbold-{EoS}-s{mass}.fits'
+                self.sim_file = f"sukhbold-{EoS}-s{mass}.fits"
             if mass == 9.6:
-                self.sim_file = f'sukhbold-{EoS}-z{mass}.fits'
+                self.sim_file = f"sukhbold-{EoS}-z{mass}.fits"
 
-        if self.model == 'Tamborra_2014':
+        if self.model == "Tamborra_2014":
             # Tamborra model includes 2 different simulations 20.0, 27.0 S.M.
-            mass = self.progenitor['mass']
+            mass = self.progenitor["mass"]
             # Name for sub-directory of fluences produced by this model file.
-            self.sn_name = f'T14-{mass}'
-            self.sim_file = f's{mass}c_3D_dir1'
+            self.sn_name = f"T14-{mass}"
+            self.sim_file = f"s{mass}c_3D_dir1"
 
         # Walk models are 1 for each year.
-        if self.model == 'Walk_2018':
-            self.sn_name = 'W18'
-            self.sim_file = 's15.0c_3D_nonrot_dir1'
-        if self.model == 'Walk_2019':
-            self.sn_name = 'W19'
-            self.sim_file = 's40.0c_3DBH_dir1'
+        if self.model == "Walk_2018":
+            self.sn_name = "W18"
+            self.sim_file = "s15.0c_3D_nonrot_dir1"
+        if self.model == "Walk_2019":
+            self.sn_name = "W19"
+            self.sim_file = "s40.0c_3DBH_dir1"
 
-        if self.model == 'Warren_2020':
+        if self.model == "Warren_2020":
             # Warren 2020 models vary by mass and stirring parameter.
-            mass = self.progenitor['mass']
-            stir = self.progenitor['stir']
+            mass = self.progenitor["mass"]
+            stir = self.progenitor["stir"]
             # Name for sub-directory of fluences produced by this model file.
-            self.sn_name = f'W20-{mass}-{stir}'
-            self.sim_file = f'stir_a{stir}/'\
-                            f'stir_multimessenger_a{stir}_m{mass}.h5'
+            self.sn_name = f"W20-{mass}-{stir}"
+            self.sim_file = f"stir_a{stir}/" f"stir_multimessenger_a{stir}_m{mass}.h5"
             # Simulation time limits.
             self.t_min = -1.5788003
             self.t_max = 1.6835847
 
     def _record(self):
         """Create a json file for tracking processing."""
-        self.record = f'{self.sn_dir}/record.json'
+        self.record = f"{self.sn_dir}/record.json"
         if not isfile(self.record):
-            record = {'version': __version__}
-            with open(self.record, 'w') as f:
+            record = {"version": __version__}
+            with open(self.record, "w") as f:
                 json.dump(record, f)
 
-    def get_record(self):
-        """Dictionary with snewpy processing history information."""
-        with open(self.record, 'r') as f:
+    def get_record(self, entry=None, detector=None):
+        """Dictionary with snewpy processing history information.
+        
+        Parameters
+        ----------
+        entry : str
+            Type of entry to add if it does not already exist.  Default None.
+        detector: sspike.Detector
+            Detector to add if it does not already exist.  Default None.
+
+        Returns
+        -------
+        record : dict
+            Dictionary from json file of processing history.
+        """
+        with open(self.record, "r") as f:
             record = json.load(f)
+
+        if entry is None:
+            if detector is None:
+                return record
+
+            if detector.name in record:
+                return record
+
+            record[detector.name] == {}
+            return record
+
+        if detector is None:
+            if entry in record:
+                return record
+
+            record[entry] = {}
+
+        if detector.name in record:
+            pass
+
+        if detector.name in record:
+            if "vis_totals" in record[detector.name]:
+                if sn.bin_name in record[detector.name]["vis_totals"]:
+                    path = record[detector.name]["vis_totals"][sn.bin_dir]
+                    df = pd.read_csv(path, sep=" ")
+
+                    return df
+
+            else:
+                record[detector.name]["vis_totals"] = {}
+        else:
+            msg = f"Error: {sn.name} has not been processed for {detector.name}"
+            log.error(msg)
+
         return record
 
     def set_record(self, record):
@@ -200,5 +250,5 @@ class Supernova():
         record : dict
             Processing information in json format.
         """
-        with open(self.record, 'w') as f:
+        with open(self.record, "w") as f:
             json.dump(record, f)

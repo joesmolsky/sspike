@@ -5,26 +5,41 @@ Ref: https://python-tutorial.dev/201/tutorial/logging.html
 """
 from datetime import date
 from socket import gethostname
-from logging import (getLogger, NullHandler, Formatter, FileHandler,
-                     DEBUG, INFO, WARNING, ERROR, CRITICAL)
+from logging import (
+    getLogger,
+    NullHandler,
+    Formatter,
+    FileHandler,
+    DEBUG,
+    INFO,
+    WARNING,
+    ERROR,
+    CRITICAL,
+)
 
 HOST = gethostname()
 
-log_date = date.today().strftime('%Y-%m-%d')
-log_file = f'/Users/joe/src/gitjoe/sspike/log/{log_date}.log'
+log_date = date.today().strftime("%Y-%m-%d")
+log_file = f"/Users/joe/src/gitjoe/sspike/log/{log_date}.log"
 fh = FileHandler(log_file)
 
-formatter = Formatter(f'%(asctime)s on {HOST}\n'
-                      f'  %(levelname)s [%(name)s] %(message)s',
-                      datefmt='%Y-%m-%d %H:%M:%S')
+formatter = Formatter(
+    f"%(asctime)s on {HOST}\n" f"  %(levelname)s [%(name)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 
 fh.setFormatter(formatter)
 
-logger = getLogger('sspike')
+logger = getLogger("sspike")
 logger.addHandler(NullHandler())
 
-levels = {'debug': DEBUG, 'info': INFO, 'warning': WARNING,
-          'error': ERROR, 'critical': CRITICAL}
+levels = {
+    "debug": DEBUG,
+    "info": INFO,
+    "warning": WARNING,
+    "error": ERROR,
+    "critical": CRITICAL,
+}
 
 
 def initialize_logging(level):

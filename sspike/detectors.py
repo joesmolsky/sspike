@@ -30,28 +30,30 @@ class Detector:
     ----
     `name` is also an attribute.
     """
+
     def __init__(self, name):
         self.name = name
         self.N_e = None
         self.N_p = None
-        if name == 'kamland':
+        if name == "kamland":
             # Calculate number of targets in fiducial volume of radius R_f.
             _R_f = 600  # Radial volume cut [cm].
             _rho_p = 6.66e22  # KamLAND proton density [cm^-3].
             # Number of protons in radius R_f.
-            self.N_p = 4 * np.pi * _rho_p * _R_f**3 / 3
+            self.N_p = 4 * np.pi * _rho_p * _R_f ** 3 / 3
             # Number of electrons in radius R_f.
             self.N_e = self.N_p * 4.047
             # Low energy threshold for KamLAND [GeV].
             self.low_cut = 2e-4
             # Name of sspike.pnut functions to use.
-            self.sspike_functions = ['basic_events', 'elastic_events']
+            self.sspike_functions = ["basic_events", "elastic_events"]
             # File types to include in pnut.event_totals().
-            self.total_files = ['snow-unsmeared_weighted.csv', 
-                                'snow-smeared_weighted.csv',
-                                'sspike-basic.csv', 
-                                'sspike-elastic.csv']
-
+            self.total_files = [
+                "snow-unsmeared_weighted.csv",
+                "snow-smeared_weighted.csv",
+                "sspike-basic.csv",
+                "sspike-elastic.csv",
+            ]
 
     def keep_vis(self, totals):
         """Final event selection from processed file totals.
@@ -66,13 +68,14 @@ class Detector:
         vis: pd.DataFrame
             Selected results based on detector processing types.
         """
-        if self.name == 'kamland':
-            keep = (totals['file'] == 'smeared_weighted') |\
-                   (totals['channel'] == 'nc_p_cut')
-            vis = totals.where(keep).dropna().drop(columns='file')
-            vis.replace('nc_p_cut', 'nc_p', inplace=True)
+        if self.name == "kamland":
+            keep = (totals["file"] == "smeared_weighted") | (
+                totals["channel"] == "nc_p_cut"
+            )
+            vis = totals.where(keep).dropna().drop(columns="file")
+            vis.replace("nc_p_cut", "nc_p", inplace=True)
         else:
-            keep = (totals['file'] == 'smeared_weighted')
-            vis = totals.where(keep).dropna().drop(columns='file')
+            keep = totals["file"] == "smeared_weighted"
+            vis = totals.where(keep).dropna().drop(columns="file")
 
         return vis

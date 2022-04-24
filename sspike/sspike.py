@@ -45,49 +45,76 @@ log = getLogger(__name__)
 
 def main():
     # Description for -h, --help flag.
-    description = 'simulated supernovae products inducing KamLAND events'
+    description = "simulated supernovae products inducing KamLAND events"
 
     # Command line arguments.
-    parser = ArgumentParser(prog='sspike', description=description)
+    parser = ArgumentParser(prog="sspike", description=description)
 
     # Supernova model type or file path.
-    parser.add_argument('model',
-                        help='name of supernova model type or file path')
+    parser.add_argument("model", help="name of supernova model type or file path")
     # Detector.
-    parser.add_argument('-D', '--detector', default='kamland', metavar='',
-                        help='Detector for simulations')
+    parser.add_argument(
+        "-D",
+        "--detector",
+        default="kamland",
+        metavar="",
+        help="Detector for simulations",
+    )
     # Distance to supernovae.
-    parser.add_argument('-L', '--baseline',
-                        default=5.0, metavar='', type=float,
-                        help='supernovae distance in kpc (default 5.0)')
+    parser.add_argument(
+        "-L",
+        "--baseline",
+        default=5.0,
+        metavar="",
+        type=float,
+        help="supernovae distance in kpc (default 5.0)",
+    )
     # Neutrino transformation.
-    parser.add_argument('-X', '--transform', default='NoTransformation',
-                        metavar='', help='transformation type from snewpy')
+    parser.add_argument(
+        "-X",
+        "--transform",
+        default="NoTransformation",
+        metavar="",
+        help="transformation type from snewpy",
+    )
     # Time bins
-    parser.add_argument('-T', '--time-bins', default=1,
-                    metavar='', help='number of time bins (default 1)')
+    parser.add_argument(
+        "-T",
+        "--time-bins",
+        default=1,
+        metavar="",
+        help="number of time bins (default 1)",
+    )
     # Progenitor properties.
-    parser.add_argument('-M', '--mass', metavar='',
-                        help='progenitor mass in solar masses')
-    parser.add_argument('-Z', '--metal', metavar='', type=float,
-                        help='metallicity (Nakazato_2013)')
-    parser.add_argument('-R', '--revival-time', metavar='',
-                        help='revival time (Nakazato_2013)')
-    parser.add_argument('-O', '--omega', metavar='',
-                        help='rotation binary (Kuroda_2020)')
-    parser.add_argument('-B', '--b-field', metavar='',
-                        help='magnetic field (Kuroda_2020)')
-    parser.add_argument('-N', '--eos', metavar='',
-                        help='nuclear equation of state (Sukhbold_2015)')
-    parser.add_argument('-S', '--stir', metavar='',
-                        help='stirring parameter (Warren_2020)')
+    parser.add_argument(
+        "-M", "--mass", metavar="", help="progenitor mass in solar masses"
+    )
+    parser.add_argument(
+        "-Z", "--metal", metavar="", type=float, help="metallicity (Nakazato_2013)"
+    )
+    parser.add_argument(
+        "-R", "--revival-time", metavar="", help="revival time (Nakazato_2013)"
+    )
+    parser.add_argument(
+        "-O", "--omega", metavar="", help="rotation binary (Kuroda_2020)"
+    )
+    parser.add_argument(
+        "-B", "--b-field", metavar="", help="magnetic field (Kuroda_2020)"
+    )
+    parser.add_argument(
+        "-N", "--eos", metavar="", help="nuclear equation of state (Sukhbold_2015)"
+    )
+    parser.add_argument(
+        "-S", "--stir", metavar="", help="stirring parameter (Warren_2020)"
+    )
     # Other arguments.
-    parser.add_argument('-f', '--file', metavar='',
-                        help='file path to simulations dictionary')
-    parser.add_argument('-v', '--version',
-                        action='version', version=__version__)
-    parser.add_argument('-d', '--debug', action='store_true',
-                        help='include all messages in log file')
+    parser.add_argument(
+        "-f", "--file", metavar="", help="file path to simulations dictionary"
+    )
+    parser.add_argument("-v", "--version", action="version", version=__version__)
+    parser.add_argument(
+        "-d", "--debug", action="store_true", help="include all messages in log file"
+    )
     # TODO: add output options to file?
     # parser.add_argument('-o', '--output', dest='outfile', metavar='FILE',
     #                     default=stdout, type=FileType(mode='w'),
@@ -96,14 +123,14 @@ def main():
 
     # Logging level
     if cmdline.debug:
-        initialize_logging('debug')
+        initialize_logging("debug")
     else:
-        initialize_logging('info')
+        initialize_logging("info")
 
     # Initial debugging message.
-    log.debug('\n****\nBegin debugging!\n****\n')
+    log.debug("\n****\nBegin debugging!\n****\n")
     # Command line arguments and values for debugging.
-    arg_msg = '\n- Command line arguments:\n'
+    arg_msg = "\n- Command line arguments:\n"
     for arg in vars(cmdline):
         arg_msg += f"\t- {arg}: {getattr(cmdline, arg)}\n"
     log.debug(arg_msg)
@@ -125,16 +152,15 @@ def main():
     # Dictionary for progenitor properties.  Better way to do this?
     progenitor = {}
     prog_vals = [mass, metal, t_rev, omega, B0, eos, stir]
-    prog_keys = ['mass', 'metal', 't_rev', 'omega', 'B0', 'eos', 'stir']
+    prog_keys = ["mass", "metal", "t_rev", "omega", "B0", "eos", "stir"]
 
     # Debugging message.
-    prog_msg = '\n- Allowed progenitor variables:\n'
+    prog_msg = "\n- Allowed progenitor variables:\n"
 
     # Create progenitor dictionary.
     for i in range(len(prog_vals)):
         # Debugging message.
-        prog_msg += f"\t- {prog_keys[i]}:"\
-                    f"\t {prog_vals[i]} {type(prog_vals[i])}\n"
+        prog_msg += f"\t- {prog_keys[i]}:" f"\t {prog_vals[i]} {type(prog_vals[i])}\n"
 
         # Check if each value type was passed.
         if prog_vals[i]:
@@ -144,25 +170,25 @@ def main():
 
     # Physics!!!
     # Model name for single simulation.
-    if '.' not in model:
-        print(f'Starting simulation: {model} \t {progenitor}.')
+    if "." not in model:
+        print(f"Starting simulation: {model} \t {progenitor}.")
         run_sim(model, progenitor, transform, distance, detector, t_bins)
 
     # File name for (multiple) simulation(s).
     else:
-        with open(model, 'r') as f:
+        with open(model, "r") as f:
             info = json.load(f)
 
         # List of (model-type, progenitor) tuples.
         sims = []
-        for sim in info['sim']:
-            for pair in itertools.product(sim['model'], sim['progenitor']):
+        for sim in info["sim"]:
+            for pair in itertools.product(sim["model"], sim["progenitor"]):
                 sims.append(pair)
 
         # List of (distance, transform, detector) tuples.
-        params = itertools.product(info['transform'],
-                                   info['distance'],
-                                   info['detector'])
+        params = itertools.product(
+            info["transform"], info["distance"], info["detector"]
+        )
 
         # List of each simulation file with each set of parameters.
         runs = itertools.product(sims, params)
@@ -174,18 +200,20 @@ def main():
             transform = run[1][0]
             distance = run[1][1]
             detector = run[1][2]
-            description = f"\tModel: {model}\n"\
-                          f"\tProgenitor: {progenitor}\n"\
-                          f"\tDistance: {distance} kpc\n"\
-                          f"\tDetector: {detector}\n"
-            
+            description = (
+                f"\tModel: {model}\n"
+                f"\tProgenitor: {progenitor}\n"
+                f"\tDistance: {distance} kpc\n"
+                f"\tDetector: {detector}\n"
+            )
+
             # PHYSICS!!!
-            print(f'Starting simulation:\n {description}')
+            print(f"Starting simulation:\n {description}")
             run_sim(model, progenitor, transform, distance, detector)
-            print('\nSimulation complete.\n')
+            print("\nSimulation complete.\n")
 
     # End of main()
-    log.debug('\n****\nsspike.main complete.\n****\n')
+    log.debug("\n****\nsspike.main complete.\n****\n")
 
     print("Job's done.")
 
@@ -218,28 +246,28 @@ def run_sim(model, progenitor, transform, distance, detector, t_bins=1):
     log.info(sn_info)
 
     # Load model.
-    log.debug('\n- Generating Snowball.\n')
+    log.debug("\n- Generating Snowball.\n")
     sn = Supernova(model, progenitor, transform, distance)
 
     # Detector string to class.
-    log.debug(f'\n- Initializing detector: {detector}.\n')
+    log.debug(f"\n- Initializing detector: {detector}.\n")
     detector = Detector(detector)
 
     # Save luminosities.
     beer.plot_luminosities(sn, show=False)
 
     # Process with SNOwGLoBES.
-    log.debug('\n- Processing with SNOwGLoBES .\n')
+    log.debug("\n- Processing with SNOwGLoBES .\n")
     beer.plot_snowglobes_events(sn, detector, show=False)
 
     # Process with sspike.
-    log.debug('\n- Processing with sspike.\n')
+    log.debug("\n- Processing with sspike.\n")
     beer.plot_sspike_events(sn, detector, show=False)
 
     # Tabulate results
-    log.debug('\n- Tabulating results.\n')
+    log.debug("\n- Tabulating results.\n")
     beer.bar_totals(sn, detector, show=False)
 
     # Keep visible results
-    log.debug('\n- Visible results.\n')
+    log.debug("\n- Visible results.\n")
     beer.bar_vis(sn, detector, show=False)

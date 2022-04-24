@@ -1,3 +1,6 @@
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
+
 # sspike: simulated supernovae products inducing KamLAND events
 
 `sspike` uses `snewpy` and `SNOwGLoBES` to determine supernova event rates in KamLAND.  Additionally, `sspike` includes neutrino-proton elastic-scattering.
