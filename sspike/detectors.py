@@ -1,4 +1,7 @@
 """Detector specifications."""
+from os.path import isdir
+from os import makedirs
+
 import numpy as np
 from .core.logging import getLogger
 
@@ -79,3 +82,22 @@ class Detector:
             vis = totals.where(keep).dropna().drop(columns="file")
 
         return vis
+
+    def get_save_dir(self, sn):
+        """Directory path for detector depdendent sspike outputs.
+
+        Parameters
+        ----------
+        sn : sspike.Supernova
+            Supernova specifications.
+
+        Returns
+        -------
+        path : str
+            Directory path for detector depdendent sspike outputs.
+        """
+        path = sn.bin_dir.replace("supernova", self.name)
+        if not isdir(path):
+            makedirs(path)
+
+        return path

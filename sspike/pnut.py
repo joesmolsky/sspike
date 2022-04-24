@@ -95,9 +95,10 @@ def get_fluences(sn):
     # Generate fluences and extract as needed.
     if "tarball" not in record:
         fluence_tarball(sn)
+        record = sn.get_record()
 
     # Path ot extracted tarball.
-    fluence_file = f"{sn.bin_dir}/{sn.sn_name}.dat"
+    fluence_file = sn.flu_file
     names = ["E", "NuE", "NuMu", "NuTau", "aNuE", "aNuMu", "aNuTau"]
     df = pd.read_csv(fluence_file, sep="   ", skiprows=2, names=names, engine="python")
 
@@ -125,10 +126,8 @@ def fluence_tarball(sn):
         tb.extractall(sn.bin_dir)
 
     # Record tarball and extracted file locations for future use.
-    fluence_file = f"{sn.bin_dir}/{sn.sn_name}.dat"
     record = sn.get_record()
     record.update({"tarball": [tarball]})
-    record.update({"fluence": [fluence_file]})
     sn.set_record(record)
 
 
@@ -149,30 +148,22 @@ def snowglobes_events(sn, detector, save=True):
     """
     log.debug("- Generating SNOwGLoBES events.")
 
-    record = sn.get_record()
+    record = sn.get_record(detector, "snow_files")
+    log.debug(record)
 
     if "tarball" not in record:
         fluence_tarball(sn)
         record = sn.get_record()
 
-    tarball = record["tarball"]
+    tarball = record["tarball"][0]
     dfs = {}
 
-    if detector.name in record:
-        if "snow_files" in record[detector.name]:
-            if sn.bin_name in record[detector.name]["snow_files"]:
-                for file in record[detector.name]["snow_files"][sn.bin_name]:
-                    key = file.split("snow-")[1][:-4]
-                    dfs[key] = pd.read_csv(file, sep=" ")
+    if len(record[detector.name][sn.bin_name]["snow_files"]):
+        for file in record[detector.name][sn.bin_name]["snow_files"]:
+            key = file.split("snow-")[1][:-4]
+            dfs[key] = pd.read_csv(file, sep=" ")
 
-                return dfs
-
-            else:
-                record[detector.name]["snow_files"][sn.bin_name] = []
-        else:
-            record[detector.name]["snow_files"] = {sn.bin_name: []}
-    else:
-        record[detector.name] = {"snow_files": {sn.bin_name: []}}
+            return dfs
 
     # Simulate via snewpy.
     snowglobes.simulate(snowglobes_dir, tarball, detector_input=detector.name)
@@ -190,12 +181,10 @@ def snowglobes_events(sn, detector, save=True):
         dfs[df_key] = df
 
         if save:
-            detector_dir = sn.bin_dir.replace("supernova", detector.name)
-            if not isdir(detector_dir):
-                makedirs(detector_dir)
+            detector_dir = detector.get_save_dir(sn)
             snow_file = f"{detector_dir}/snow-{df_key}.csv"
             df.to_csv(snow_file, sep=" ", index=False)
-            record[detector.name]["snow_files"][sn.bin_name].append(snow_file)
+            record[detector.name][sn.bin_name]["snow_files"].append(snow_file)
 
     # Update record file.
     sn.set_record(record)
@@ -218,24 +207,15 @@ def sspike_events(sn, detector, save=True):
     dfs : dict of pd.Dataframe
         Event rates for sspike data types.
     """
-    record = sn.get_record()
+    record = sn.get_record(detector, "sspike_files")
     dfs = {}
 
-    if detector.name in record:
-        if "sspike_files" in record[detector.name]:
-            if sn.bin_name in record[detector.name]["sspike_files"]:
-                for file in record[detector.name]["sspike_files"][sn.bin_name]:
-                    key = file.split("sspike-")[1][:-4]
-                    dfs[key] = pd.read_csv(file, sep=" ")
+    if len(record[detector.name][sn.bin_name]["sspike_files"]):
+        for file in record[detector.name]["sspike_files"][sn.bin_name]:
+            key = file.split("sspike-")[1][:-4]
+            dfs[key] = pd.read_csv(file, sep=" ")
 
-                return dfs
-
-            else:
-                record[detector.name]["sspike_files"][sn.bin_name] = []
-        else:
-            record[detector.name]["sspike_files"] = {sn.bin_name: []}
-    else:
-        record[detector.name] = {"sspike_files": {sn.bin_name: []}}
+        return dfs
 
     for name in detector.sspike_functions:
         try:
@@ -245,13 +225,11 @@ def sspike_events(sn, detector, save=True):
         dfs[key] = eval(name + "(sn, detector)")
 
     if save:
-        detector_dir = sn.bin_dir.replace("supernova", detector.name)
-        if not isdir(detector_dir):
-            makedirs(detector_dir)
+        detector_dir = detector.get_save_dir(sn)
         for file in dfs:
             path = f"{detector_dir}/sspike-{file}.csv"
             dfs[file].to_csv(path_or_buf=path, sep=" ", index=False)
-            record[detector.name]["sspike_files"][sn.bin_name].append(path)
+            record[detector.name][sn.bin_name]["sspike_files"].append(path)
         sn.set_record(record)
 
     return dfs
@@ -521,25 +499,17 @@ def event_totals(sn, detector, save=True):
     df : pd.DataFrame
         3 column dataframe: file_type, channel, events.
     """
-    record = sn.get_record()
+    record = sn.get_record(detector, "totals_all")
 
-    if detector.name in record:
-        if "totals_all" in record[detector.name]:
-            if sn.bin_name in record[detector.name]["totals_all"]:
-                path = record[detector.name]["totals_all"][sn.bin_name]
-                df = pd.read_csv(path, sep=" ")
+    if len(record[detector.name][sn.bin_name]["totals_all"]):
+        path = record[detector.name][sn.bin_name]["totals_all"][0]
+        df = pd.read_csv(path, sep=" ")
 
-                return df
-        else:
-            record[detector.name]["totals_all"] = {sn.bin_name: []}
-    else:
-        msg = f"Error: {sn.name} has not been processed for {detector.name}"
-        log.error(msg)
-        return msg
+        return df
 
     row_list = []
     total_files = detector.total_files
-    detector_dir = sn.bin_dir.replace("supernova", detector.name)
+    detector_dir = detector.get_save_dir(sn)
 
     for file in total_files:
         # Path to processed data files.
@@ -578,7 +548,7 @@ def event_totals(sn, detector, save=True):
     if save:
         totals_file = f"{detector_dir}/totals_all.csv"
         df.to_csv(totals_file, sep=" ", index=False)
-        record[detector.name]["totals_all"][sn.bin_name] = totals_file
+        record[detector.name][sn.bin_name]["totals_all"] = [totals_file]
         sn.set_record(record)
 
     return df
@@ -599,22 +569,13 @@ def vis_totals(sn, detector, save=True):
     df : pd.DataFrame
         DataFrame of event totals and progenitor properties.
     """
-    record = sn.get_record()
+    record = sn.get_record(detector, "vis_totals")
 
-    if detector.name in record:
-        if "vis_totals" in record[detector.name]:
-            if sn.bin_name in record[detector.name]["vis_totals"]:
-                path = record[detector.name]["vis_totals"][sn.bin_dir]
-                df = pd.read_csv(path, sep=" ")
+    if len(record[detector.name][sn.bin_name]["vis_totals"]):
+        path = record[detector.name][sn.bin_name]["vis_totals"][0]
+        df = pd.read_csv(path, sep=" ")
 
-                return df
-
-        else:
-            record[detector.name]["vis_totals"] = {}
-    else:
-        msg = f"Error: {sn.name} has not been processed for {detector.name}"
-        log.error(msg)
-        return msg
+        return df
 
     totals = event_totals(sn, detector)
     vis = detector.keep_vis(totals)
@@ -631,12 +592,10 @@ def vis_totals(sn, detector, save=True):
     df = pd.DataFrame(row_list, columns=column_names)
 
     if save:
-        detector_dir = sn.bin_dir.replace("supernova", detector.name)
-        if not isdir(detector_dir):
-            makedirs(detector_dir)
+        detector_dir = detector.get_save_dir(sn)
         vis_file = f"{detector_dir}/totals_vis.csv"
         df.to_csv(vis_file, sep=" ", index=False)
-        record[detector.name]["vis_totals"][sn.bin_dir] = vis_file
+        record[detector.name][sn.bin_name]["vis_totals"] = [vis_file]
         sn.set_record(record)
 
     return df

@@ -3,7 +3,7 @@ from os.path import isdir, isfile
 from os import makedirs
 import json
 
-from .env import sspike_dir
+from .env import sspike_dir, models_dir
 from ._version import __version__
 from .core.logging import getLogger
 
@@ -54,6 +54,8 @@ class Supernova:
         Path to file for keeping track of processing history.
     lum_file : str
         File path for model luminosities: f'{sn.prog_dir}/luminosity.csv'.
+    flu_file : str
+        File path to extracted fluences: f"{sn.bin_dir}/{sn.sn_name}.dat".
 
     Notes
     -----
@@ -88,6 +90,7 @@ class Supernova:
         # Record keeping.
         self._record()
         self.lum_file = f"{self.prog_dir}/luminosity.csv"
+        self.flu_file = f"{self.bin_dir}/{self.sn_name}.dat"
 
     def _xform(self, transform):
         """Transformation abbreviation for directories and plots.
@@ -189,7 +192,7 @@ class Supernova:
             with open(self.record, "w") as f:
                 json.dump(record, f)
 
-    def get_record(self, entry=None, detector=None):
+    def get_record(self, detector=None, entry=None):
         """Dictionary with snewpy processing history information.
         
         Parameters
@@ -203,42 +206,31 @@ class Supernova:
         -------
         record : dict
             Dictionary from json file of processing history.
+
+        Note
+        ----
+        Returns original record if no entry entry is None.
         """
         with open(self.record, "r") as f:
             record = json.load(f)
 
         if entry is None:
-            if detector is None:
-                return record
-
-            if detector.name in record:
-                return record
-
-            record[detector.name] == {}
             return record
 
-        if detector is None:
-            if entry in record:
-                return record
+        if detector.name not in record:
+            record[detector.name] = {self.bin_name: {entry: []}}
 
-            record[entry] = {}
+            return record
 
-        if detector.name in record:
-            pass
+        if self.bin_dir not in record[detector.name]:
+            record[detector.name][self.bin_name] = {entry: []}
 
-        if detector.name in record:
-            if "vis_totals" in record[detector.name]:
-                if sn.bin_name in record[detector.name]["vis_totals"]:
-                    path = record[detector.name]["vis_totals"][sn.bin_dir]
-                    df = pd.read_csv(path, sep=" ")
+            return record
 
-                    return df
+        if entry in record[detector.name][self.bin_name]:
+            return record
 
-            else:
-                record[detector.name]["vis_totals"] = {}
-        else:
-            msg = f"Error: {sn.name} has not been processed for {detector.name}"
-            log.error(msg)
+        record[detector.name][self.bin_name][entry] = []
 
         return record
 

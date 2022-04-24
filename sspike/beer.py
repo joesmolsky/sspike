@@ -39,6 +39,7 @@ def plot_luminosities(sn, lum=None, save=True, show=True):
     fig, ax = plt.subplots(figsize=(10, 5), tight_layout=True, facecolor="white")
     for flavor in flavors:
         ax.plot(lum["time"], lum[flavor], label=flavor)
+
     ax.set(
         xscale="log",
         xlim=(5e-3, 12),
@@ -50,8 +51,7 @@ def plot_luminosities(sn, lum=None, save=True, show=True):
     fig.tight_layout()
 
     if save:
-        prog_dir = "/".join(sn.sn_dir.split("/")[:-1])
-        path = f"{prog_dir}/luminosity.png"
+        path = f"{sn.prog_dir}/luminosity.png"
         plt.savefig(path, dpi=600)
 
     if show:
