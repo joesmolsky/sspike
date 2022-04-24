@@ -152,6 +152,7 @@ def snowglobes_events(sn, detector, save=True):
     log.debug(record)
 
     if "tarball" not in record:
+        sn.set_record(record)
         fluence_tarball(sn)
         record = sn.get_record()
 
