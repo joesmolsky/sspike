@@ -1,3 +1,4 @@
+# fmt: off
 # Install locations.
 # No spaces around `=` so variables can be used in shell scripts.
 # Location of snewpy models directory.
@@ -6,3 +7,4 @@ models_dir='/Users/joe/src/snewpy/models'
 snowglobes_dir="/Users/joe/src/gitjoe/snowglobes"
 # sspike output directory.
 sspike_dir="/Users/joe/src/gitjoe/sspike/out"
+# fmt: on
