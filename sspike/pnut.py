@@ -90,17 +90,11 @@ def get_fluences(sn):
     if sn.t_bins != 1:
         return "Error: gen_fluence only works for single time bin."
 
-    record = sn.get_record()
-
-    # Generate fluences and extract as needed.
-    if "tarball" not in record:
+    if not isfile(sn.tar_file):
         fluence_tarball(sn)
-        record = sn.get_record()
 
-    # Path ot extracted tarball.
-    fluence_file = sn.flu_file
     names = ["E", "NuE", "NuMu", "NuTau", "aNuE", "aNuMu", "aNuTau"]
-    df = pd.read_csv(fluence_file, sep="   ", skiprows=2, names=names, engine="python")
+    df = pd.read_csv(sn.flu_file, sep="   ", skiprows=2, names=names, engine="python")
 
     return df
 
@@ -116,7 +110,7 @@ def fluence_tarball(sn):
     log.info(f"\nGenerating fluences for {sn.sn_name} in {sn.sn_dir}.\n")
 
     # Generate tarball with snewpy.
-    sim_path = f"{models_dir}/{sn.model}/{sn.sim_file}"
+    sim_path = sn.sim_path
     tarball = snowglobes.generate_fluence(
         sim_path, sn.model, sn.transform, sn.distance, sn.sn_name
     )
@@ -124,11 +118,6 @@ def fluence_tarball(sn):
     # Extract snewpy output in sspike snowball directory.
     with tarfile.open(tarball) as tb:
         tb.extractall(sn.bin_dir)
-
-    # Record tarball and extracted file locations for future use.
-    record = sn.get_record()
-    record.update({"tarball": [tarball]})
-    sn.set_record(record)
 
 
 def snowglobes_events(sn, detector, save=True):
@@ -149,14 +138,10 @@ def snowglobes_events(sn, detector, save=True):
     log.debug("- Generating SNOwGLoBES events.")
 
     record = sn.get_record(detector, "snow_files")
-    log.debug(record)
 
-    if "tarball" not in record:
-        sn.set_record(record)
+    if not isfile(sn.tar_file):
         fluence_tarball(sn)
-        record = sn.get_record()
 
-    tarball = record["tarball"][0]
     dfs = {}
 
     if len(record[detector.name][sn.bin_name]["snow_files"]):
@@ -167,8 +152,8 @@ def snowglobes_events(sn, detector, save=True):
             return dfs
 
     # Simulate via snewpy.
-    snowglobes.simulate(snowglobes_dir, tarball, detector_input=detector.name)
-    snow_sim = snowglobes.collate(snowglobes_dir, tarball, skip_plots=True)
+    snowglobes.simulate(snowglobes_dir, sn.tar_file, detector_input=detector.name)
+    snow_sim = snowglobes.collate(snowglobes_dir, sn.tar_file, skip_plots=True)
 
     # First key is detector.  The rest indicate smearing and weighting.
     keys = list(snow_sim.keys())[1:]
@@ -209,6 +194,10 @@ def sspike_events(sn, detector, save=True):
         Event rates for sspike data types.
     """
     record = sn.get_record(detector, "sspike_files")
+
+    if not isfile(sn.tar_file):
+        fluence_tarball(sn)
+
     dfs = {}
 
     if len(record[detector.name][sn.bin_name]["sspike_files"]):

@@ -40,8 +40,10 @@ class Supernova:
         Model specific simulation start time.
     t_max : float
         Model specific simulation end time.
+    model_dir : str
+        Supernova simulation directory path.
     sim_file : str
-        Supernova simulation file path, relative to models_dir.
+        Path to simulation file: f"{models_dir}/{sn.model}/{sn.sim_path}"
     prog_dir : str
         Directory for sspike outputs varied by model, progenitor, and x-form.
     sn_dir : str
@@ -52,6 +54,8 @@ class Supernova:
         Directory for sspike outputs varied by binning.
     record : str
         Path to file for keeping track of processing history.
+    tar_file : str
+        File path to tarball created by snewpy: f'{models_dir}/
     lum_file : str
         File path for model luminosities: f'{sn.prog_dir}/luminosity.csv'.
     flu_file : str
@@ -73,6 +77,7 @@ class Supernova:
         self.distance = float(distance)
         self.t_bins = t_bins
         # Model/simulation specific variables.
+        self.model_dir = f"{models_dir}/{self.model}"
         self._simulation_settings()
         self.prog_dir = f"{sspike_dir}/supernova/{self.sn_name}"
         self.sn_dir = f"{self.prog_dir}/{self.distance}kpc-{self.xform}"
@@ -87,10 +92,12 @@ class Supernova:
         self.bin_dir = f"{self.sn_dir}/{self.bin_name}"
         if not isdir(self.bin_dir):
             makedirs(self.bin_dir)
-        # Record keeping.
-        self._record()
+        # Output files.
+        self.tar_file = f"{self.model_dir}/{self.sn_name}.tar.bz2"
         self.lum_file = f"{self.prog_dir}/luminosity.csv"
         self.flu_file = f"{self.bin_dir}/{self.sn_name}.dat"
+        # Record keeping for processed files.
+        self._record()
 
     def _xform(self, transform):
         """Transformation abbreviation for directories and plots.
@@ -117,7 +124,7 @@ class Supernova:
             mass = self.progenitor["mass"]
             # Name for sub-directory of fluences produced by this model file.
             self.sn_name = f"F21-{mass}"
-            self.sim_file = f"lum_spec_{mass}M_r10000_dat.h5"
+            self.sim_file = f"{self.model_dir}/lum_spec_{mass}M_r10000_dat.h5"
             # Simulation time limits.
             self.t_min = -0.2135
             self.t_max = 4.4885
@@ -128,7 +135,7 @@ class Supernova:
             Omega = self.progenitor["omega"]
             B0 = self.progenitor["B0"]
             self.sn_name = f"K20-{Omega}-{B0}"
-            self.sim_file = f"LnuR{Omega}B{B0}.dat"
+            self.sim_file = f"{self.model_dir}/LnuR{Omega}B{B0}.dat"
             # Simulation time limits.
             self.t_min = -0.00482311
             self.t_max = 0.316403
@@ -141,7 +148,9 @@ class Supernova:
             # Name for sub-directory of fluences produced by this model file.
             self.sn_name = f"N13-{mass}-{int(metal*1e3):02d}-{t_rev}"
             # Supernovae model filename.
-            self.sim_file = f"nakazato-shen-" f"z{metal}-t_rev{t_rev}ms-s{mass}.0.fits"
+            self.sim_file = (
+                f"{self.model_dir}/nakazato-shen-z{metal}-t_rev{t_rev}ms-s{mass}.0.fits"
+            )
             # Simulation time limits.
             self.t_min = -0.05
             self.t_max = 20.0
@@ -154,32 +163,34 @@ class Supernova:
             self.sn_name = f"S15-{mass}-{EoS}"
             # Naming convention varies with mass by 1 letter.
             if mass == 27.0:
-                self.sim_file = f"sukhbold-{EoS}-s{mass}.fits"
+                self.sim_file = f"{self.model_dir}/sukhbold-{EoS}-s{mass}.fits"
             if mass == 9.6:
-                self.sim_file = f"sukhbold-{EoS}-z{mass}.fits"
+                self.sim_file = f"{self.model_dir}/sukhbold-{EoS}-z{mass}.fits"
 
         if self.model == "Tamborra_2014":
             # Tamborra model includes 2 different simulations 20.0, 27.0 S.M.
             mass = self.progenitor["mass"]
             # Name for sub-directory of fluences produced by this model file.
             self.sn_name = f"T14-{mass}"
-            self.sim_file = f"s{mass}c_3D_dir1"
+            self.sim_file = f"{self.model_dir}/s{mass}c_3D_dir1"
 
         # Walk models are 1 for each year.
         if self.model == "Walk_2018":
             self.sn_name = "W18"
-            self.sim_file = "s15.0c_3D_nonrot_dir1"
+            self.sim_file = f"{self.model_dir}/s15.0c_3D_nonrot_dir1"
         if self.model == "Walk_2019":
             self.sn_name = "W19"
-            self.sim_file = "s40.0c_3DBH_dir1"
+            self.sim_file = f"{self.model_dir}/s40.0c_3DBH_dir1"
 
         if self.model == "Warren_2020":
+            # Extra directory level.
+            self.model_dir = f"{self.model_dir}/stir_a{stir}"
             # Warren 2020 models vary by mass and stirring parameter.
             mass = self.progenitor["mass"]
             stir = self.progenitor["stir"]
             # Name for sub-directory of fluences produced by this model file.
             self.sn_name = f"W20-{mass}-{stir}"
-            self.sim_file = f"stir_a{stir}/" f"stir_multimessenger_a{stir}_m{mass}.h5"
+            self.sim_file = f"{self.model_dir}/stir_multimessenger_a{stir}_m{mass}.h5"
             # Simulation time limits.
             self.t_min = -1.5788003
             self.t_max = 1.6835847
