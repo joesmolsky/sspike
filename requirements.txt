@@ -2,3 +2,4 @@ SNOwGloBES
 snewpy
 plotly
 kaleido
+pyarrow

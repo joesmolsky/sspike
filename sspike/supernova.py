@@ -1,7 +1,9 @@
 """Class for model specifics."""
-from os.path import isdir, isfile
+from os.path import isdir
 from os import makedirs
-import json
+
+from astropy import units
+import numpy as np
 
 from .env import sspike_dir, models_dir
 from ._version import __version__
@@ -43,7 +45,7 @@ class Supernova:
     model_dir : str
         Supernova simulation directory path.
     sim_file : str
-        Path to simulation file: f"{models_dir}/{sn.model}/{sn.sim_path}"
+        Path to simulation file: f"{models_dir}/{self.model}/{self.sim_path}"
     prog_dir : str
         Directory for sspike outputs varied by model, progenitor, and x-form.
     sn_dir : str
@@ -55,11 +57,12 @@ class Supernova:
     record : str
         Path to file for keeping track of processing history.
     tar_file : str
-        File path to tarball created by snewpy: f'{models_dir}/
+        File path to tarball created by snewpy: f'{models_dir}/{self.sn_name_}{i}.dat".
     lum_file : str
-        File path for model luminosities: f'{sn.prog_dir}/luminosity.csv'.
-    flu_file : str
-        File path to extracted fluences: f"{sn.bin_dir}/{sn.sn_name}.dat".
+        File path for model luminosities: f'{self.prog_dir}/luminosity.csv'.
+    flu_file : list of str
+        File path(s) to extracted fluences: 
+        f"{self.bin_dir}/{self.sn_name}-{self.bin_name}_{i}.dat".
 
     Notes
     -----
@@ -82,7 +85,7 @@ class Supernova:
         self.prog_dir = f"{sspike_dir}/supernova/{self.sn_name}"
         self.sn_dir = f"{self.prog_dir}/{self.distance}kpc-{self.xform}"
         # Separate directories based on time bins.
-        if t_start and t_end:
+        if t_start is not None and t_end is not None:
             self.t_start = t_start
             self.t_end = t_end
         else:
@@ -93,11 +96,11 @@ class Supernova:
         if not isdir(self.bin_dir):
             makedirs(self.bin_dir)
         # Output files.
-        self.tar_file = f"{self.model_dir}/{self.sn_name}.tar.bz2"
+        self.tar_file = f"{self.model_dir}/{self.sn_name}_{self.bin_name}.tar.bz2"
         self.lum_file = f"{self.prog_dir}/luminosity.csv"
-        self.flu_file = f"{self.bin_dir}/{self.sn_name}.dat"
-        # Record keeping for processed files.
-        self._record()
+        self.flu_file = [
+            f"{self.bin_dir}/fluence/{self.sn_name}_{self.bin_name}_{i}.dat" for i in range(t_bins)
+        ]
 
     def _xform(self, transform):
         """Transformation abbreviation for directories and plots.
@@ -195,63 +198,20 @@ class Supernova:
             self.t_min = -1.5788003
             self.t_max = 1.6835847
 
-    def _record(self):
-        """Create a json file for tracking processing."""
-        self.record = f"{self.sn_dir}/record.json"
-        if not isfile(self.record):
-            record = {"version": __version__}
-            with open(self.record, "w") as f:
-                json.dump(record, f)
-
-    def get_record(self, detector=None, entry=None):
-        """Dictionary with snewpy processing history information.
-        
-        Parameters
-        ----------
-        entry : str
-            Type of entry to add if it does not already exist.  Default None.
-        detector: sspike.Detector
-            Detector to add if it does not already exist.  Default None.
+    def bin_times(self):
+        """Create arrays of start, mid, and end times.
 
         Returns
         -------
-        record : dict
-            Dictionary from json file of processing history.
-
-        Note
-        ----
-        Returns original record if no entry entry is None.
+        (ts, tm, te) : np.array
         """
-        with open(self.record, "r") as f:
-            record = json.load(f)
+        ts = (
+            np.linspace(self.t_start, self.t_end, num=self.t_bins, endpoint=False)
+            * units.s
+        )
 
-        if entry is None:
-            return record
+        dt = (self.t_end - self.t_start) / self.t_bins * units.s
+        te = ts + dt
+        tm = (ts + te) / 2.0
 
-        if detector.name not in record:
-            record[detector.name] = {self.bin_name: {entry: []}}
-
-            return record
-
-        if self.bin_dir not in record[detector.name]:
-            record[detector.name][self.bin_name] = {entry: []}
-
-            return record
-
-        if entry in record[detector.name][self.bin_name]:
-            return record
-
-        record[detector.name][self.bin_name][entry] = []
-
-        return record
-
-    def set_record(self, record):
-        """Replace existing record file with new record.
-
-        Parameters
-        ----------
-        record : dict
-            Processing information in json format.
-        """
-        with open(self.record, "w") as f:
-            json.dump(record, f)
+        return (ts, tm, te)
