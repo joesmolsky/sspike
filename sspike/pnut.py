@@ -125,7 +125,7 @@ def fluence_tarball(sn, t_start=None, t_end=None):
         sn.model,
         sn.transform,
         sn.distance,
-        output_filename=f"{sn.sn_name}_{sn.bin_name}",
+        output_filename=f"{sn.flu_name}",
         tstart=t_start,
         tend=t_end,
     )
@@ -516,10 +516,10 @@ def event_totals(sn, detector, index=0, save=True):
     bin_dir = detector.get_save_dir(sn)
     tot_file = f"{bin_dir}/totals_all_{index}.csv"
 
-    if isfile(tot_file):
-        df = pd.read_csv(tot_file, sep=" ")
+    # if isfile(tot_file):
+    #     df = pd.read_csv(tot_file, sep=" ")
 
-        return df
+    #     return df
 
     row_list = []
     total_files = detector.total_files

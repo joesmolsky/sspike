@@ -54,8 +54,8 @@ class Supernova:
         Folder name for bin-dependent files: f'b{t_bins}s{t_start}e{t_end}'.
     bin_dir : str
         Directory for sspike outputs varied by binning.
-    record : str
-        Path to file for keeping track of processing history.
+    flu_name : str
+        Fluence ID: f"{self.sn_name}_{self.distance}-{self.xform}_{self.bin_name}".
     tar_file : str
         File path to tarball created by snewpy: f'{models_dir}/{self.sn_name_}{i}.dat".
     lum_file : str
@@ -96,10 +96,12 @@ class Supernova:
         if not isdir(self.bin_dir):
             makedirs(self.bin_dir)
         # Output files.
-        self.tar_file = f"{self.model_dir}/{self.sn_name}_{self.bin_name}.tar.bz2"
+        self.flu_name = f"{self.sn_name}_{self.distance}-{self.xform}_{self.bin_name}"
+        self.tar_file = f"{self.model_dir}/{self.flu_name}.tar.bz2"
         self.lum_file = f"{self.prog_dir}/luminosity.csv"
+        
         self.flu_file = [
-            f"{self.bin_dir}/fluence/{self.sn_name}_{self.bin_name}_{i}.dat" for i in range(t_bins)
+            f"{self.bin_dir}/fluence/{self.flu_name}_{i}.dat" for i in range(t_bins)
         ]
 
     def _xform(self, transform):
@@ -176,6 +178,9 @@ class Supernova:
             # Name for sub-directory of fluences produced by this model file.
             self.sn_name = f"T14-{mass}"
             self.sim_file = f"{self.model_dir}/s{mass}c_3D_dir1"
+            # Simulation time limits.
+            self.t_min = 0.0105
+            self.t_max = 0.55162
 
         # Walk models are 1 for each year.
         if self.model == "Walk_2018":

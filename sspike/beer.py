@@ -42,11 +42,12 @@ def plot_luminosities(sn, lum=None, save=True, show=True):
 
     ax.set(
         xscale="log",
-        xlim=(5e-3, 12),
         xlabel="Time [s]",
         ylabel="Luminosity [$10^{53}$ erg s$^{-1}$]",
         title=sn.sn_name,
     )
+    if sn.model == 'Nakazato_2013':
+        ax.set(xlim=(5e-3, 12),)
     ax.legend(bbox_to_anchor=(1.05, 1.0), loc="upper left")
     fig.tight_layout()
 
@@ -96,7 +97,7 @@ def plot_fluences(sn, index=0, save=True, show=True):
         plt.show()
 
 
-def plot_snowglobes_events(sn, detector, index=0, save=True, show=True):
+def plot_snowglobes_events(sn, detector, index=0, with_unsmeared=True, save=True, show=True):
     """Plot SNOwGLoBES unsmeared and smeared event rates.
 
     Parameters
@@ -116,14 +117,16 @@ def plot_snowglobes_events(sn, detector, index=0, save=True, show=True):
     title = f"{sn.sn_name} @ {sn.distance} kpc in {detector.name}"
     fig, ax = plt.subplots(figsize=(10, 5), tight_layout=True, facecolor="white")
 
-    df = snow_events[f"unsmeared_weighted_{index}"]
-    flavors = list(df.keys())[1:]
-    for flavor in flavors:
-        ax.plot(df["Energy"] * 1e3, df[flavor], linestyle="--")
+    if with_unsmeared:
+        df = snow_events[f"unsmeared_weighted_{index}"]
+        flavors = list(df.keys())[1:]
+        for flavor in flavors:
+            ax.plot(df["Energy"] * 1e3, df[flavor], linestyle="--")
 
     plt.gca().set_prop_cycle(None)
 
     df = snow_events[f"smeared_weighted_{index}"]
+    flavors = list(df.keys())[1:]
     for flavor in flavors:
         ax.plot(df["Energy"] * 1e3, df[flavor], label=flavor)
 
@@ -309,7 +312,7 @@ def plot_series(sn, detector, save=True, show=True):
     ax.set_ylim(bottom=1e-3)
     ax.legend(bbox_to_anchor=(1.02, 1.))
 
-    plt.title(f'{sn.sn_name} @ {sn.distance} in {detector.name} with {dt} s bins')
+    plt.title(f'{sn.sn_name} @ {sn.distance} in {detector.name} with {round(dt, 4)} s bins')
     fig.tight_layout()
 
     if save:
