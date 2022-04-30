@@ -4,7 +4,9 @@ from os import makedirs
 
 from astropy import units
 import numpy as np
+import pandas as pd
 
+from .pnut import snow_energy
 from .env import sspike_dir, models_dir
 from ._version import __version__
 from .core.logging import getLogger
@@ -57,9 +59,9 @@ class Supernova:
     flu_name : str
         Fluence ID: f"{self.sn_name}_{self.distance}-{self.xform}_{self.bin_name}".
     tar_file : str
-        File path to tarball created by snewpy: f'{models_dir}/{self.sn_name_}{i}.dat".
+        File path to tarball created by snewpy: f"{models_dir}/{self.flu_name}{i}.tar.bz2".
     lum_file : str
-        File path for model luminosities: f'{self.prog_dir}/luminosity.csv'.
+        File path for model luminosities: f"{self.prog_dir}/luminosity.csv".
     flu_file : list of str
         File path(s) to extracted fluences: 
         f"{self.bin_dir}/{self.sn_name}-{self.bin_name}_{i}.dat".
@@ -99,7 +101,7 @@ class Supernova:
         self.flu_name = f"{self.sn_name}_{self.distance}-{self.xform}_{self.bin_name}"
         self.tar_file = f"{self.model_dir}/{self.flu_name}.tar.bz2"
         self.lum_file = f"{self.prog_dir}/luminosity.csv"
-        
+
         self.flu_file = [
             f"{self.bin_dir}/fluence/{self.flu_name}_{i}.dat" for i in range(t_bins)
         ]
@@ -220,3 +222,12 @@ class Supernova:
         tm = (ts + te) / 2.0
 
         return (ts, tm, te)
+
+    def random_df(self):
+        """Dataframe of random values matching simulation energy and time bins."""
+        _, times, _ = self.bin_times()
+        energy = snow_energy()
+        size = (len(times), len(energy))
+        N_chan  = pd.DataFrame(np.random.random(size=size), index=times.value, columns=energy)
+
+        return N_chan

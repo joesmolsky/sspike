@@ -5,6 +5,8 @@ Make plots and tables of pnut outputs.
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 import plotly.express as px
+import pandas as pd
+import numpy as np
 
 from . import pnut
 from .core.logging import getLogger
@@ -46,7 +48,7 @@ def plot_luminosities(sn, lum=None, save=True, show=True):
         ylabel="Luminosity [$10^{53}$ erg s$^{-1}$]",
         title=sn.sn_name,
     )
-    if sn.model == 'Nakazato_2013':
+    if sn.model == "Nakazato_2013":
         ax.set(xlim=(5e-3, 12),)
     ax.legend(bbox_to_anchor=(1.05, 1.0), loc="upper left")
     fig.tight_layout()
@@ -97,7 +99,9 @@ def plot_fluences(sn, index=0, save=True, show=True):
         plt.show()
 
 
-def plot_snowglobes_events(sn, detector, index=0, with_unsmeared=True, save=True, show=True):
+def plot_snowglobes_events(
+    sn, detector, index=0, with_unsmeared=True, save=True, show=True
+):
     """Plot SNOwGLoBES unsmeared and smeared event rates.
 
     Parameters
@@ -238,7 +242,7 @@ def bar_totals(sn, detector, index=0, save=True, show=True):
     bars.layout.height = 400
 
     if save:
-        path = f"{sn.bin_dir}/totals"
+        path = f"{detector.get_save_dir(sn)}/totals"
         bars.write_image(f"{path}.png", width=1100, height=500, scale=3)
         bars.write_html(f"{path}.html")
     if show:
@@ -274,12 +278,11 @@ def bar_vis(sn, detector, index=0, save=True, show=True):
     bars.layout.showlegend = False
 
     if save:
-        path = f"{sn.bin_dir}/totals_vis"
+        path = f"{detector.get_save_dir(sn)}/totals_vis"
         bars.write_image(f"{path}.png", scale=3)
         bars.write_html(f"{path}.html")
     if show:
         bars.show()
-
 
 
 def plot_series(sn, detector, save=True, show=True):
@@ -296,28 +299,88 @@ def plot_series(sn, detector, save=True, show=True):
     show : bool, default True
         Display plot.
     """
-    totals = pnut.time_events(sn, detector)
+    totals = pd.read_csv(f"{detector.get_save_dir(sn)}/chan_time.csv", sep=" ")
+
     channels = list(totals.keys())[1:]
 
     dt = (sn.t_end - sn.t_start) / sn.t_bins
 
-    fig, ax = plt.subplots(1, figsize=(16, 8), facecolor='white')
+    fig, ax = plt.subplots(1, figsize=(16, 8), facecolor="white")
 
     for chan in channels:
-        ax.plot(totals['time'], totals[chan], label=chan)
+        ax.plot(totals["time"], totals[chan], label=chan)
 
     ax.set_xlabel("$t$ [s]")
     ax.set_ylabel("Counts")
-    ax.set_yscale('log')
+    ax.set_yscale("log")
     ax.set_ylim(bottom=1e-3)
-    ax.legend(bbox_to_anchor=(1.02, 1.))
+    ax.legend(bbox_to_anchor=(1.02, 1.0))
 
-    plt.title(f'{sn.sn_name} @ {sn.distance} in {detector.name} with {round(dt, 4)} s bins')
+    plt.title(
+        f"{sn.sn_name} @ {sn.distance} in {detector.name} with {round(dt, 4)} s bins"
+    )
     fig.tight_layout()
 
     if save:
-        save_dir = detector.get_save_dir(sn)
-        path = f"{save_dir}/chan_time.png"
+        path = f"{detector.get_save_dir(sn)}/chan_time.png"
+        plt.savefig(path, dpi=600)
+
+    if show:
+        plt.show()
+
+
+def plot_N_chan(sn, detector, chan, events=False, save=True, show=True):
+    """Display counts binned by time and energy for given channel using plt.imshow().
+
+    Parameters
+    ----------
+    sn : sspike.Supernova
+        Simulation specifications.
+    detector : sspike.Detector
+        Detector specifications.
+    chan : str
+        Name of channel to display or 'random'.
+    save : bool, default True
+        Save plot in sn.bin_dir.
+    show : bool, default True
+        Display plot.
+    """
+    save_dir = detector.get_save_dir(sn)
+
+    if chan == "random":
+        title = "Random bins"
+        N_chan = sn.random_df()
+
+    else:
+        title = f"{chan} rates"
+        N_chan = pd.read_csv(f"{save_dir}/N_{chan}.csv", sep=" ", index_col=0)
+
+    times = N_chan.index.values
+    energy = pnut.snow_energy()
+    t0, t1 = times[0], times[-1]
+    e0, e1 = energy[0] * 1e3, energy[-1] * 1e3
+
+    if events:
+        N_chan = np.where(N_chan.values > sn.random_df().values, 1, 0)
+        N = np.sum(np.sum(N_chan))
+        title = f"{N} {chan} events"
+
+    plt.imshow(
+        N_chan,
+        origin="lower",
+        extent=[e0, e1, t0, t1],
+        aspect="auto",
+        interpolation="none",
+    )
+
+    plt.title(title)
+    plt.xlabel("Energy [MeV]")
+    plt.ylabel("Time [s]")
+    clb = plt.colorbar()
+    clb.ax.set_title("N(E, t)")
+
+    if save:
+        path = f"{save_dir}/N_{chan}.png"
         plt.savefig(path, dpi=600)
 
     if show:
