@@ -228,6 +228,8 @@ class Supernova:
         _, times, _ = self.bin_times()
         energy = snow_energy()
         size = (len(times), len(energy))
-        N_chan  = pd.DataFrame(np.random.random(size=size), index=times.value, columns=energy)
+        N_chan = pd.DataFrame(
+            np.random.random(size=size), index=times.value, columns=energy
+        )
 
         return N_chan
