@@ -14,7 +14,7 @@ setup(
     version=version,
     author="Joe Smolsky",
     author_email="smolsky@mit.edu",
-    description="simulated supernovae products inducing KamLAND events",
+    description="simulated supernovae projectiles inducing KamLAND events",
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="MIT License",
