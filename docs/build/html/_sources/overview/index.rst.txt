@@ -21,4 +21,4 @@ Usage
 .. toctree::
 
     usage
-    
+    structure

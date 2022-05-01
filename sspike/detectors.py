@@ -50,12 +50,12 @@ class Detector:
             self.low_cut = 2e-4
             # Name of sspike.pnut functions to use.
             self.sspike_functions = ["basic_events", "elastic_events"]
-            # File types to include in pnut.event_totals().
+            # File types to include in pnut.event_totals() (relative to bin_dir).
             self.total_files = [
-                "snow-unsmeared_weighted.csv",
-                "snow-smeared_weighted.csv",
-                "sspike-basic.csv",
-                "sspike-elastic.csv",
+                "snow-files/snow-unsmeared_weighted",
+                "snow-files/snow-smeared_weighted",
+                "sspike-files/sspike-basic",
+                "sspike-files/sspike-elastic",
             ]
 
     def keep_vis(self, totals):
@@ -71,6 +71,7 @@ class Detector:
         vis: pd.DataFrame
             Selected results based on detector processing types.
         """
+
         if self.name == "kamland":
             keep = (totals["file"] == "smeared_weighted") | (
                 totals["channel"] == "nc_p_cut"

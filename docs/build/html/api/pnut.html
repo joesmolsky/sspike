@@ -93,7 +93,7 @@
 <p>Functions to load SN models and process event rates.</p>
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">basic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">basic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Estimate ibd and electron scatter events for cross-checking.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -134,7 +134,7 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">e_scat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">e_scat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Electron-neutrino scattering events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -154,7 +154,7 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">elastic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">elastic_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Proton-neutrino elastic scattering events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -174,11 +174,14 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">event_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">event_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Sum event totals from snowglobes_events() and sspike_events().</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>sn</strong> (<em>sspike.Supernova</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation specifics.</p></li>
+<li><p><strong>detector</strong> (<em>sspike.Detector</em>) – Detector specifics.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>df</strong> – 3 column dataframe: file_type, channel, events.</p>
@@ -202,11 +205,14 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">get_fluences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">get_fluences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Get fluences generated by snewpy and update record.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Supernova specifics.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Supernova specifics.</p></li>
+<li><p><strong>i</strong> (<em>int</em>) – Index of fluences file list.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>df</strong> – Energy [GeV] and fluence by flavor [cm^-2].</p>
@@ -236,7 +242,7 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">ibd_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">ibd_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Inverse beta decay events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -296,7 +302,7 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Process fluences with SNOwGLoBES via <cite>snewpy</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -316,7 +322,7 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">sspike_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">sspike_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Process event rates using sspike functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -336,7 +342,13 @@ with units of cm^2 / GeV.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">vis_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">time_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Process time series with snowglobes.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">sspike.pnut.</span></span><span class="sig-name descname"><span class="pre">vis_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Select visible events from all totals.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
