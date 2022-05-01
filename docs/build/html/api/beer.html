@@ -93,14 +93,13 @@
 <p>Make plots and tables of pnut outputs.</p>
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">bar_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">totals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">bar_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bar graph of all event totals for a single model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation specifications.</p></li>
 <li><p><strong>detector</strong> (<em>sspike.Detector</em>) – Detector specifications.</p></li>
-<li><p><strong>totals</strong> (<em>pd.DataFrame</em><em>, </em><em>optional</em>) – Totals from pnut.event_totals(sn, detector).</p></li>
 <li><p><strong>save</strong> (<em>bool</em><em>, </em><em>default True</em>) – Save plot in sn.bin_dir.</p></li>
 <li><p><strong>show</strong> (<em>bool</em><em>, </em><em>default True</em>) – Display plot.</p></li>
 </ul>
@@ -110,14 +109,13 @@
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">bar_vis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">bar_vis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bar graph of visible event totals for a single model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation specifications.</p></li>
 <li><p><strong>detector</strong> (<em>sspike.Detector</em>) – Detector specifications.</p></li>
-<li><p><strong>vis</strong> (<em>pd.DataFrame</em><em>, </em><em>optional</em>) – Totals from pnut.event_totals(sn, detector).</p></li>
 <li><p><strong>save</strong> (<em>bool</em><em>, </em><em>default True</em>) – Save plot in sn.bin_dir.</p></li>
 <li><p><strong>show</strong> (<em>bool</em><em>, </em><em>default True</em>) – Display plot.</p></li>
 </ul>
@@ -127,13 +125,12 @@
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">plot_fluences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">plot_fluences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Plot fluences at earth for a single model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation specifications.</p></li>
-<li><p><strong>flu</strong> (<em>pd.DataFrame</em><em>, </em><em>optional</em>) – Fluences from <cite>pnut.get_luminosities(sn)</cite>.</p></li>
 <li><p><strong>save</strong> (<em>bool</em><em>, </em><em>default True</em>) – Save plot in sn.bin_dir.</p></li>
 <li><p><strong>show</strong> (<em>bool</em><em>, </em><em>default True</em>) – Display plot.</p></li>
 </ul>
@@ -159,14 +156,13 @@
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">plot_snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snow_events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">plot_snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Plot SNOwGLoBES unsmeared and smeared event rates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation specifications.</p></li>
 <li><p><strong>detector</strong> (<em>sspike.Detector</em>) – Detector specifications.</p></li>
-<li><p><strong>snow_events</strong> (<em>dict of pd.DataFrame</em><em>, </em><em>optional</em>) – Events dictionary from <cite>pnut.get_snowglobes_events(sn, detector)</cite>.</p></li>
 <li><p><strong>save</strong> (<em>bool</em><em>, </em><em>default True</em>) – Save plot in sn.bin_dir.</p></li>
 <li><p><strong>show</strong> (<em>bool</em><em>, </em><em>default True</em>) – Display plot.</p></li>
 </ul>
@@ -176,14 +172,13 @@
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">plot_sspike_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sspike_events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">plot_sspike_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Plot sspike event rates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation specifications.</p></li>
 <li><p><strong>detector</strong> (<em>sspike.Detector</em>) – Detector specifications.</p></li>
-<li><p><strong>snow_events</strong> (<em>dict of pd.DataFrame</em><em>, </em><em>optional</em>) – Events dictionary from <cite>pnut.get_sspike_events(sn, detector)</cite>.</p></li>
 <li><p><strong>save</strong> (<em>bool</em><em>, </em><em>default True</em>) – Save plot in sn.bin_dir.</p></li>
 <li><p><strong>show</strong> (<em>bool</em><em>, </em><em>default True</em>) – Display plot.</p></li>
 </ul>

@@ -164,8 +164,19 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">model_dir</span></span></dt>
+<dd><p>Supernova simulation directory path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">sim_file</span></span></dt>
-<dd><p>Supernova simulation file path, relative to models_dir.</p>
+<dd><p>Path to simulation file: f”{models_dir}/{sn.model}/{sn.sim_path}”</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>str</p>
@@ -230,6 +241,17 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">tar_file</span></span></dt>
+<dd><p>File path to tarball created by snewpy: f’{models_dir}/</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">lum_file</span></span></dt>
 <dd><p>File path for model luminosities: f’{sn.prog_dir}/luminosity.csv’.</p>
 <dl class="field-list simple">
@@ -239,35 +261,29 @@
 </dl>
 </dd></dl>
 
-<p class="rubric">Notes</p>
-<p>All parameters are also set as attributes.</p>
-<dl class="py method">
+<dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Dictionary with snewpy processing history information.</p>
+<span class="sig-name descname"><span class="pre">flu_file</span></span></dt>
+<dd><p>File path(s) to extracted fluences: f”{sn.bin_dir}/{<a href="#id1"><span class="problematic" id="id2">sn.sn_name_</span></a>}{i}.dat”.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>entry</strong> (<em>str</em>) – Type of entry to add if it does not already exist.  Default None.</p></li>
-<li><p><strong>detector</strong> (<em>sspike.Detector</em>) – Detector to add if it does not already exist.  Default None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>record</strong> – Dictionary from json file of processing history.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of str</p>
 </dd>
 </dl>
 </dd></dl>
 
+<p class="rubric">Notes</p>
+<p>All parameters are also set as attributes.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">set_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Replace existing record file with new record.</p>
+<span class="sig-name descname"><span class="pre">bin_times</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Create arrays of start, mid, and end times.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>record</strong> (<em>dict</em>) – Processing information in json format.</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>(ts, tm, te)</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.array</p>
 </dd>
 </dl>
 </dd></dl>
