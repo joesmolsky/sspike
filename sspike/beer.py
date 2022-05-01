@@ -361,7 +361,10 @@ def plot_N_chan(sn, detector, chan, events=False, save=True, show=True):
     e0, e1 = energy[0] * 1e3, energy[-1] * 1e3
 
     if events:
-        N_chan = np.where(N_chan.values > sn.random_df().values, 1, 0)
+        rand = sn.random_df()
+        N_chan.index = rand.index
+        N_chan.columns = rand.columns
+        N_chan = rand > np.exp(-N_chan)
         N = np.sum(np.sum(N_chan))
         title = f"{N} {chan} events"
 
