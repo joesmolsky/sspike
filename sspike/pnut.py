@@ -653,7 +653,8 @@ def time_events(sn, detector):
     if not detector_simulated:
         snowglobes.simulate(snowglobes_dir, sn.tar_file, detector_input=detector.name)
         tables = snowglobes.collate(snowglobes_dir, sn.tar_file, skip_plots=True)
-        j = len(files)
+        files = list(tables.keys())[1:]
+        j = -1
 
     row_list = [[] for _ in range(sn.t_bins)]
     header = tables[files[j]]["header"].split(" ")
