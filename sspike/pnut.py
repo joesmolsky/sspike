@@ -641,10 +641,23 @@ def time_events(sn, detector):
     tables = snowglobes.collate(snowglobes_dir, sn.tar_file, skip_plots=True)
 
     files = list(tables.keys())[1:]
+    
+    # Check if this tar_file has been run for this detector.
+    detector_simulated = False
+    for i, file in enumerate(files):
+        if detector.name in file:
+            detector_simulated = True
+            j = i
+            break
+
+    if not detector_simulated:
+        snowglobes.simulate(snowglobes_dir, sn.tar_file, detector_input=detector.name)
+        tables = snowglobes.collate(snowglobes_dir, sn.tar_file, skip_plots=True)
+        j = len(files)
 
     row_list = [[] for _ in range(sn.t_bins)]
-    header = tables[files[0]]["header"].split(" ")
-    energy = tables[files[0]]["data"][0]
+    header = tables[files[j]]["header"].split(" ")
+    energy = tables[files[j]]["data"][0]
 
     counts = {}
     for chan in header[1:]:
@@ -654,6 +667,7 @@ def time_events(sn, detector):
         if "_smeared_weighted" not in file:
             continue
 
+        # I was saving everything in feather format, and maybe will again...?
         # feather = f"{data_dir}/{file[:-4]}.feather"
         df = pd.DataFrame(tables[file]["data"].T, columns=header)
         # df.to_feather(feather)

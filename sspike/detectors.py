@@ -57,6 +57,11 @@ class Detector:
                 "sspike-files/sspike-basic",
                 "sspike-files/sspike-elastic",
             ]
+        else:
+            self.total_files = [
+                "snow-files/snow-unsmeared_weighted",
+                "snow-files/snow-smeared_weighted",
+            ]
 
     def keep_vis(self, totals):
         """Final event selection from processed file totals.

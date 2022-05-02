@@ -35,22 +35,17 @@ def test_get_fluences():
 
 
 def test_snowglobes_events():
-    key_list = [
-        "smeared_weighted",
-        "unsmeared_weighted",
-        "smeared_unweighted",
-        "unsmeared_unweighted",
-    ]
+    key_list = ['unsmeared_unweighted_0', 'smeared_unweighted_0', 'unsmeared_weighted_0', 'smeared_weighted_0']
     column_list = ["Energy", "ibd", "nue_C12", "nue_C13", "nuebar_C12", "nc", "e"]
     snow_events = pnut.snowglobes_events(sn, detector)
     assert list(snow_events.keys()) == key_list
     assert list(snow_events[key_list[0]].keys()) == column_list
-    assert snow_events["smeared_weighted"]["Energy"][0] == 0.0007488
-    assert snow_events["smeared_weighted"]["Energy"][199] == 0.09975
+    assert snow_events["smeared_weighted_0"]["Energy"][0] == 0.0007488
+    assert snow_events["smeared_weighted_0"]["Energy"][199] == 0.09975
 
 
 def test_sspike_events():
-    key_list = ["basic", "elastic"]
+    key_list = ["basic_0", "elastic_0"]
     column_list = [
         "T_p",
         "E_vis",
@@ -66,9 +61,9 @@ def test_sspike_events():
     E174 = 0.0008421692180423
     sspike_events = pnut.sspike_events(sn, detector)
     assert list(sspike_events.keys()) == key_list
-    assert list(sspike_events["elastic"].keys()) == column_list
-    assert sspike_events["elastic"]["T_p"][0] == 0.0001
-    assert sspike_events["elastic"]["T_p"][174] == 0.0175
+    assert list(sspike_events["elastic_0"].keys()) == column_list
+    assert sspike_events["elastic_0"]["T_p"][0] == 0.0001
+    assert sspike_events["elastic_0"]["T_p"][174] == 0.0175
 
-    assert isclose(sspike_events["elastic"]["E_vis"][0], E0, rel_tol=close)
-    assert isclose(sspike_events["elastic"]["E_vis"][174], E174, rel_tol=close)
+    assert isclose(sspike_events["elastic_0"]["E_vis"][0], E0, rel_tol=close)
+    assert isclose(sspike_events["elastic_0"]["E_vis"][174], E174, rel_tol=close)
