@@ -7,6 +7,8 @@
   <title>sspike.beer &mdash; sspike &#34;0.1.0&#34; documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/togglebutton.css" type="text/css" />
     <link rel="shortcut icon" href="../../_static/spike.ico"/>
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
@@ -16,6 +18,12 @@
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -58,7 +66,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../models/index.html">SN models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../progenitors/progenitors.html">Model comparisons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../progenitors/index.html">progenitors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../detectors/detectors.html">Detectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../output/output.html">Output</a></li>
 </ul>
@@ -106,16 +114,25 @@
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bar_vis</span></code>(sn, detector[, index, save, show])</p></td>
 <td><p>Bar graph of visible event totals for a single model.</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_N_chan</span></code>(sn, detector, chan[, events, ...])</p></td>
+<td><p>Display counts binned by time and energy for given channel using plt.imshow().</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_distance_rates</span></code>(sn, detector[, save, show])</p></td>
+<td><p>Plot event rates as a function of distance for each channel.</p></td>
+</tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_fluences</span></code>(sn[, index, save, show])</p></td>
 <td><p>Plot fluences at earth for a single model.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_luminosities</span></code>(sn[, lum, save, show])</p></td>
 <td><p>Plot initial luminosities for a single model.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_snowglobes_events</span></code>(sn, detector[, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_series</span></code>(sn, detector[, save, show])</p></td>
+<td><p>Plot channels from chan_time.csv</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_snowglobes_events</span></code>(sn, detector[, ...])</p></td>
 <td><p>Plot SNOwGLoBES unsmeared and smeared event rates.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sspike_events</span></code>(sn, detector[, index, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sspike_events</span></code>(sn, detector[, index, ...])</p></td>
 <td><p>Plot sspike event rates.</p></td>
 </tr>
 </tbody>

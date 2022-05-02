@@ -7,6 +7,8 @@
   <title>beer &mdash; sspike &#34;0.1.0&#34; documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/spike.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
@@ -16,6 +18,12 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -56,7 +64,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../models/index.html">SN models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../progenitors/progenitors.html">Model comparisons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../progenitors/index.html">progenitors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../detectors/detectors.html">Detectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../output/output.html">Output</a></li>
 </ul>
@@ -125,6 +133,39 @@
 
 <dl class="py function">
 <dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">plot_N_chan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Display counts binned by time and energy for given channel using plt.imshow().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation specifications.</p></li>
+<li><p><strong>detector</strong> (<em>sspike.Detector</em>) – Detector specifications.</p></li>
+<li><p><strong>chan</strong> (<em>str</em>) – Name of channel to display or ‘random’.</p></li>
+<li><p><strong>save</strong> (<em>bool</em><em>, </em><em>default True</em>) – Save plot in sn.bin_dir.</p></li>
+<li><p><strong>show</strong> (<em>bool</em><em>, </em><em>default True</em>) – Display plot.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">plot_distance_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Plot event rates as a function of distance for each channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation specifications.</p></li>
+<li><p><strong>detector</strong> (<em>sspike.Detector</em>) – Detector specifications.</p></li>
+<li><p><strong>save</strong> (<em>bool</em><em>, </em><em>default True</em>) – Save plot in sn.bin_dir.</p></li>
+<li><p><strong>show</strong> (<em>bool</em><em>, </em><em>default True</em>) – Display plot.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">plot_fluences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Plot fluences at earth for a single model.</p>
 <dl class="field-list simple">
@@ -156,7 +197,23 @@
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">plot_snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">plot_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Plot channels from chan_time.csv</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sn</strong> (<em>sspike.Supernova</em>) – Simulation specifications.</p></li>
+<li><p><strong>detector</strong> (<em>sspike.Detector</em>) – Detector specifications.</p></li>
+<li><p><strong>save</strong> (<em>bool</em><em>, </em><em>default True</em>) – Save plot in sn.bin_dir.</p></li>
+<li><p><strong>show</strong> (<em>bool</em><em>, </em><em>default True</em>) – Display plot.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">sspike.beer.</span></span><span class="sig-name descname"><span class="pre">plot_snowglobes_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_unsmeared</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Plot SNOwGLoBES unsmeared and smeared event rates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

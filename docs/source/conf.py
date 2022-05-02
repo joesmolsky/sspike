@@ -14,7 +14,6 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-
 # -- Project information -----------------------------------------------------
 
 project = "sspike"
@@ -32,7 +31,12 @@ release = version
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx.ext.autodoc", "sphinx.ext.autosummary", "sphinx.ext.napoleon"]
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.napoleon",
+    "myst_nb",
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -57,3 +61,6 @@ html_theme = "sphinx_rtd_theme"
 html_favicon = "_static/spike.ico"
 html_logo = "_static/spike.png"
 html_static_path = ["_static"]
+html_js_files = [
+    "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"
+]

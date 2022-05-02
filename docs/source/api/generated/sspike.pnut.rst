@@ -24,6 +24,7 @@
       ibd_events
       nc_events
       quench
+      snow_energy
       snowglobes_events
       sspike_events
       time_events

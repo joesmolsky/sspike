@@ -10,6 +10,7 @@ Supernovae simulation models from snewpy.
 .. toctree::
    :caption: Supernovae models
 
-   nakazato
    fornax
    warren
+   Nakazato_2013
+   Tamborra_2014

@@ -15,7 +15,7 @@ Welcome to sspike's documentation!
    overview/index
    api/index
    models/index
-   progenitors/progenitors
+   progenitors/index
    detectors/detectors
    output/output
 
