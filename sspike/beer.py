@@ -317,7 +317,7 @@ def plot_series(sn, detector, save=True, show=True):
     ax.legend(bbox_to_anchor=(1.02, 1.0))
 
     plt.title(
-        f"{sn.sn_name} @ {sn.distance} in {detector.name} with {round(dt, 4)} s bins"
+        f"{sn.sn_name} @ {sn.distance} kpc in {detector.name} with {round(dt, 4)} s bins"
     )
     fig.tight_layout()
 
@@ -384,6 +384,49 @@ def plot_N_chan(sn, detector, chan, events=False, save=True, show=True):
 
     if save:
         path = f"{save_dir}/N_{chan}.png"
+        plt.savefig(path, dpi=600)
+
+    if show:
+        plt.show()
+
+
+def plot_distance_rates(sn, detector, save=True, show=True):
+    """Plot event rates as a function of distance for each channel.
+
+    Parameters
+    ----------
+    sn : sspike.Supernova
+        Simulation specifications.
+    detector : sspike.Detector
+        Detector specifications.
+    save : bool, default True
+        Save plot in sn.bin_dir.
+    show : bool, default True
+        Display plot.
+    """
+    vis = pnut.vis_totals(sn, detector)
+
+    x = np.arange(0.1, 1e2, 0.1)
+    d = sn.distance
+
+    fig, ax = plt.subplots(1, figsize=(10, 5), facecolor="white")
+
+    for chan in vis["channel"]:
+        N = vis[vis["channel"] == chan]["events"].values[0]
+        y = N * d ** 2 / x ** 2
+        ax.plot(x, y, label=chan)
+
+    ax.set_xlabel("Distance [kpc]")
+    ax.set_ylabel("Events")
+    ax.set_yscale("log")
+    ax.set_xscale("log")
+    ax.legend(bbox_to_anchor=(1.02, 1))
+
+    plt.title(f"{sn.sn_name} rates in {detector.name}")
+    fig.tight_layout()
+
+    if save:
+        path = f"{detector.get_save_dir(sn)}/N_distance.png"
         plt.savefig(path, dpi=600)
 
     if show:
