@@ -35,7 +35,12 @@ def test_get_fluences():
 
 
 def test_snowglobes_events():
-    key_list = ['unsmeared_unweighted_0', 'smeared_unweighted_0', 'unsmeared_weighted_0', 'smeared_weighted_0']
+    key_list = [
+        "unsmeared_unweighted_0",
+        "smeared_unweighted_0",
+        "unsmeared_weighted_0",
+        "smeared_weighted_0",
+    ]
     column_list = ["Energy", "ibd", "nue_C12", "nue_C13", "nuebar_C12", "nc", "e"]
     snow_events = pnut.snowglobes_events(sn, detector)
     assert list(snow_events.keys()) == key_list

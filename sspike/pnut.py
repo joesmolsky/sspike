@@ -641,7 +641,7 @@ def time_events(sn, detector):
     tables = snowglobes.collate(snowglobes_dir, sn.tar_file, skip_plots=True)
 
     files = list(tables.keys())[1:]
-    
+
     # Check if this tar_file has been run for this detector.
     detector_simulated = False
     for i, file in enumerate(files):
