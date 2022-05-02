@@ -27,6 +27,7 @@ def test_bin_times():
     for t in (ts, tm, te):
         assert str(t.unit) == "s"
 
+
 def test_random_df():
     df = sn.random_df()
     keys = list(df.keys())

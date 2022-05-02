@@ -238,7 +238,7 @@ def bar_totals(sn, detector, index=0, save=True, show=True):
     bars.layout.bargroupgap = 0.03
     bars.layout.title = title
     bars.layout.font = dict(size=18, family="Times New Roman")
-    bars.layout.width = 800
+    bars.layout.width = 700
     bars.layout.height = 400
 
     if save:
