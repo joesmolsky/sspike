@@ -16,7 +16,7 @@ import snewpy.models.ccsn
 from snewpy.neutrino import Flavor
 from snewpy import snowglobes
 
-from .env import models_dir, snowglobes_dir
+from .env import snowglobes_dir, aux_dir
 from .core.logging import getLogger
 
 log = getLogger(__name__)
@@ -168,14 +168,15 @@ def snowglobes_events(sn, detector, index=0, save=True):
     dfs = {}
     snow_dir = f"{detector.get_save_dir(sn)}/snow-files"
 
-    if isdir(snow_dir):
+    if not isdir(snow_dir):
+        makedirs(snow_dir)
+
+    if isfile(f"{snow_dir}/snow-unsmeared_unweighted_0.csv"):
         for file in listdir(snow_dir):
             key = file.split("snow-")[1][:-4]
             dfs[key] = pd.read_csv(f"{snow_dir}/{file}", sep=" ")
 
         return dfs
-
-    makedirs(snow_dir)
 
     # Simulate via snewpy.
     snowglobes.simulate(snowglobes_dir, sn.tar_file, detector_input=detector.name)
@@ -470,7 +471,7 @@ def quench(T_p):
         Quenching factors using WebPlotDigitizer on Fig. 6 in:
         https://www.sciencedirect.com/science/article/pii/S0168900210017018
     """
-    quenching = "/Users/joe/src/gitjoe/sspike/sspike/aux/proton_quenching.csv"
+    quenching = f"{aux_dir}/proton_quenching.csv"
     qE, qX = np.genfromtxt(quenching, delimiter=",").T
     E = T_p * np.interp(T_p, qE, qX)
 
@@ -592,13 +593,18 @@ def vis_totals(sn, detector, index=0, save=True):
     totals = event_totals(sn, detector)
     vis = detector.keep_vis(totals)
 
-    prog_list = list(sn.progenitor.values())
+    if sn.progenitor:
+        prog_columns = list(sn.progenitor.keys())
+        prog_list = list(sn.progenitor.values())
+    else:
+        prog_columns = []
+        prog_list = []
+
     row_list = []
     for row in vis.to_numpy():
         new_row = [sn.model] + prog_list + row.tolist()
         row_list.append(new_row)
 
-    prog_columns = list(sn.progenitor.keys())
     column_names = ["model"] + prog_columns + ["channel", "events"]
 
     df = pd.DataFrame(row_list, columns=column_names)

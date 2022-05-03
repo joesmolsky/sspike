@@ -1,13 +1,14 @@
 """Class for model specifics."""
 from os.path import isdir
 from os import makedirs
+import json
 
 from astropy import units
 import numpy as np
 import pandas as pd
 
 from .pnut import snow_energy
-from .env import sspike_dir, models_dir
+from .env import sspike_dir, models_dir, aux_dir
 from ._version import __version__
 from .core.logging import getLogger
 
@@ -87,11 +88,13 @@ class Supernova:
         self.prog_dir = f"{sspike_dir}/supernova/{self.sn_name}"
         self.sn_dir = f"{self.prog_dir}/{self.distance}kpc-{self.xform}"
         # Separate directories based on time bins.
-        if t_start is not None and t_end is not None:
+        if t_start is not None: 
             self.t_start = t_start
-            self.t_end = t_end
         else:
             self.t_start = self.t_min
+        if t_end is not None:
+            self.t_end = t_end
+        else:
             self.t_end = self.t_max
         self.bin_name = f"b{t_bins}s{self.t_start}e{self.t_end}"
         self.bin_dir = f"{self.sn_dir}/{self.bin_name}"
@@ -128,13 +131,52 @@ class Supernova:
         """Parse progenitor dictionary; set simulation specific variables."""
         if self.model == "Fornax_2021":
             # Fornax 2019 models only vary by mass.
-            mass = self.progenitor["mass"]
+            mass = float(self.progenitor["mass"])
             # Name for sub-directory of fluences produced by this model file.
             self.sn_name = f"F21-{mass}"
-            self.sim_file = f"{self.model_dir}/lum_spec_{mass}M_r10000_dat.h5"
+            if mass == 26.99:
+                self.sim_file = f"{self.model_dir}/lum_spec_{mass}M_r10000_dat.h5"
+            else:
+                self.sim_file = f"{self.model_dir}/lum_spec_{int(mass)}M_r10000_dat.h5"
             # Simulation time limits.
-            self.t_min = -0.2135
-            self.t_max = 4.4885
+            f_masses = [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 26.99]
+            f_mins = [
+                -0.2135,
+                -0.2725,
+                -0.2765,
+                -0.2665,
+                -0.2685,
+                -0.2955,
+                -0.2305,
+                -0.2535,
+                -0.3125,
+                -0.3565,
+                -0.3255,
+                -0.3145,
+                -0.3245,
+                -0.3125,
+                -0.3145,
+            ]
+            f_maxes = [
+                4.4885,
+                4.5955,
+                4.5115,
+                3.8355,
+                4.4455,
+                4.6645,
+                4.4585,
+                4.4525,
+                4.6345,
+                3.7615,
+                4.7405,
+                4.5495,
+                3.1135,
+                4.5955,
+                4.5985,
+            ]
+            f_index = f_masses.index(mass)
+            self.t_min = f_mins[f_index]
+            self.t_max = f_maxes[f_index]
 
         if self.model == "Kuroda_2020":
             # Kuroda models have spin and magnetic field.
@@ -144,8 +186,15 @@ class Supernova:
             self.sn_name = f"K20-{Omega}-{B0}"
             self.sim_file = f"{self.model_dir}/LnuR{Omega}B{B0}.dat"
             # Simulation time limits.
-            self.t_min = -0.00482311
-            self.t_max = 0.316403
+            if B0 == '00':
+                self.t_min = -0.00193548
+                self.t_max = 0.476391
+            if B0 == '12':
+                self.t_min = -0.00065563
+                self.t_max = 0.331805
+            if B0 == '13':
+                self.t_min = -0.00482311
+                self.t_max = 0.316403
 
         if self.model == "Nakazato_2013":
             # Nakazato parameters: mass, metallicity, shock-revival time.
@@ -169,10 +218,23 @@ class Supernova:
             # Name for sub-directory of fluences produced by this model file.
             self.sn_name = f"S15-{mass}-{EoS}"
             # Naming convention varies with mass by 1 letter.
-            if mass == 27.0:
-                self.sim_file = f"{self.model_dir}/sukhbold-{EoS}-s{mass}.fits"
             if mass == 9.6:
                 self.sim_file = f"{self.model_dir}/sukhbold-{EoS}-z{mass}.fits"
+            if mass == 27.0:
+                self.sim_file = f"{self.model_dir}/sukhbold-{EoS}-s{mass}.fits"
+            # Simulation time limits.
+            if mass == 9.6 and EoS == 'LS220':
+                self.t_min = -0.23338102
+                self.t_max = 11.999932
+            if mass == 9.6 and EoS == 'SFHo':
+                self.t_min = -0.24226689
+                self.t_max = 13.622597
+            if mass == 27.0 and EoS == 'LS220':
+                self.t_min = -0.34945536
+                self.t_max = 15.439294
+            if mass == 27.0 and EoS == 'SFHo':
+                self.t_min = -0.29291019
+                self.t_max = 11.168845
 
         if self.model == "Tamborra_2014":
             # Tamborra model includes 2 different simulations 20.0, 27.0 S.M.
@@ -181,29 +243,44 @@ class Supernova:
             self.sn_name = f"T14-{mass}"
             self.sim_file = f"{self.model_dir}/s{mass}c_3D_dir1"
             # Simulation time limits.
-            self.t_min = 0.0105
-            self.t_max = 0.55162
+            if mass == 20.0:
+                self.t_min = 0.0065017
+                self.t_max = 0.33801
+            if mass == 27.0:
+                self.t_min = 0.0105
+                self.t_max = 0.55162
 
         # Walk models are 1 for each year.
         if self.model == "Walk_2018":
             self.sn_name = "W18"
             self.sim_file = f"{self.model_dir}/s15.0c_3D_nonrot_dir1"
+            # Simulation time limits.
+            self.t_min = 0.01
+            self.t_max = 0.32939
         if self.model == "Walk_2019":
             self.sn_name = "W19"
             self.sim_file = f"{self.model_dir}/s40.0c_3DBH_dir1"
+            # Simulation time limits.
+            self.t_min = 0.01
+            self.t_max = 0.57159
 
         if self.model == "Warren_2020":
-            # Extra directory level.
-            self.model_dir = f"{self.model_dir}/stir_a{stir}"
             # Warren 2020 models vary by mass and stirring parameter.
             mass = self.progenitor["mass"]
             stir = self.progenitor["stir"]
+            # Extra directory level for stirring parameter.
+            self.model_dir = f"{self.model_dir}/stir_a{stir}"
             # Name for sub-directory of fluences produced by this model file.
             self.sn_name = f"W20-{mass}-{stir}"
             self.sim_file = f"{self.model_dir}/stir_multimessenger_a{stir}_m{mass}.h5"
             # Simulation time limits.
-            self.t_min = -1.5788003
-            self.t_max = 1.6835847
+            # Warren_2020 has too many to list here.
+            time_file = f"{aux_dir}/warren_times.json"
+            with open(time_file, 'r') as f:
+                warren_times = json.load(f)
+            times = warren_times[f"{stir}"][f"{mass}"]
+            self.t_min = times[0]
+            self.t_max = times[1]
 
     def bin_times(self):
         """Create arrays of start, mid, and end times.

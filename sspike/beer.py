@@ -61,7 +61,7 @@ def plot_luminosities(sn, lum=None, save=True, show=True):
         plt.show()
 
 
-def plot_fluences(sn, index=0, save=True, show=True):
+def plot_fluences(sn, index=0, cut=0, save=True, show=True):
     """Plot fluences at earth for a single model.
 
     Parameters
@@ -76,12 +76,15 @@ def plot_fluences(sn, index=0, save=True, show=True):
     flu = pnut.get_fluences(sn, index=index)
 
     time = sn.t_end - sn.t_start
-    title = f"{sn.sn_name} ({time} s)"
+    title = f"{sn.sn_name} ({time:.4f} s)"
+
+    if cut:
+        title = f"{title} (cut: {cut})"
 
     flavors = list(flu.keys())[1:]
     fig, ax = plt.subplots(figsize=(10, 5), tight_layout=True, facecolor="white")
     for flavor in flavors:
-        ax.plot(flu["E"] * 1e3, flu[flavor], label=flavor)
+        ax.plot(flu["E"][cut:] * 1e3, flu[flavor][cut:], label=flavor)
     ax.set(
         xlim=(-0.1, 40),
         xlabel="Energy [MeV]",

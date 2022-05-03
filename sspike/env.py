@@ -12,4 +12,5 @@ snowglobes_dir="/Users/joe/src/gitjoe/snowglobes"
 #
 # sspike output directory.
 sspike_dir="/Users/joe/src/gitjoe/sspike/out"
+aux_dir="/Users/joe/src/gitjoe/sspike/sspike/aux"
 # fmt: on
