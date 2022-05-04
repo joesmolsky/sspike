@@ -8,7 +8,7 @@
 
 `SNOwGLoBES` and `snewpy` must both be installed first.  Additional requirements are in `requirements.txt`, but I may have forgotten some.  `sspike` should be installable by cloning the repository using `pip install .` or `pip install -e .` in main folder.  Feel free to email, Slack, or raise an issue if you are actually trying to use `sspike` and want some help.
 
-`SNOwGLoBES`: <https://webhome.phy.duke.edu/~schol/snowglobes/>
+`SNOwGLoBES`: <https://webhome.phy.duke.edu/~schol/snowglobes/>\
 `snewpy`: <https://github.com/SNEWS2/snewpy>
 
 ## Basic usage

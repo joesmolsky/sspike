@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plot initial spectra together for comparison &mdash; sspike &#34;0.1.0&#34; documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/spike.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Compare models by chan vs time" href="model_comp.html" />
+    <link rel="prev" title="Comparing models" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> sspike
+            <img src="../_static/spike.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                "0.1.0"
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/index.html">Supernova models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../detectors/index.html">Other detectors</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Comparing models</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Plot initial spectra together for comparison</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#this-one-actually-doesn-t-use-sspike-just-snewpy">This one actually doesn’t use sspike, just snewpy</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_comp.html">Compare models by chan vs time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="m20.html">20 S.M. models</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sspike</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Comparing models</a> &raquo;</li>
+      <li>Plot initial spectra together for comparison</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/comps/initial_spectra.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="plot-initial-spectra-together-for-comparison">
+<h1>Plot initial spectra together for comparison<a class="headerlink" href="#plot-initial-spectra-together-for-comparison" title="Permalink to this headline"></a></h1>
+<section id="this-one-actually-doesn-t-use-sspike-just-snewpy">
+<h2>This one actually doesn’t use sspike, just snewpy<a class="headerlink" href="#this-one-actually-doesn-t-use-sspike-just-snewpy" title="Permalink to this headline"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">rcParams</span>
+<span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;sans-serif&#39;</span>
+<span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.sans-serif&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Times&#39;</span><span class="p">]</span>
+<span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">22</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">snewpy.neutrino</span> <span class="kn">import</span> <span class="n">Flavor</span>
+<span class="kn">from</span> <span class="nn">snewpy.models.ccsn</span> <span class="kn">import</span> <span class="n">Fornax_2021</span><span class="p">,</span> <span class="n">Nakazato_2013</span><span class="p">,</span> <span class="n">Kuroda_2020</span>
+<span class="kn">from</span> <span class="nn">snewpy.models.ccsn</span> <span class="kn">import</span> <span class="n">Tamborra_2014</span><span class="p">,</span> <span class="n">Warren_2020</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snewpy_dir</span> <span class="o">=</span> <span class="s1">&#39;/Users/joe/src/snewpy/models&#39;</span>
+<span class="n">fornax</span> <span class="o">=</span> <span class="n">Fornax_2021</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">snewpy_dir</span><span class="si">}</span><span class="s1">/Fornax_2021/lum_spec_20M_r10000_dat.h5&#39;</span><span class="p">)</span>
+<span class="n">nakazato</span> <span class="o">=</span> <span class="n">Nakazato_2013</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">snewpy_dir</span><span class="si">}</span><span class="s1">/Nakazato_2013/nakazato-shen-z0.004-t_rev100ms-s20.0.fits&#39;</span><span class="p">)</span>
+<span class="n">kuroda</span> <span class="o">=</span> <span class="n">Kuroda_2020</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">snewpy_dir</span><span class="si">}</span><span class="s1">/Kuroda_2020/LnuR00B00.dat&#39;</span><span class="p">)</span>
+<span class="n">tamborra</span> <span class="o">=</span> <span class="n">Tamborra_2014</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">snewpy_dir</span><span class="si">}</span><span class="s1">/Tamborra_2014/s20.0c_3D_dir1&#39;</span><span class="p">)</span>
+<span class="n">warren</span> <span class="o">=</span> <span class="n">Warren_2020</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">snewpy_dir</span><span class="si">}</span><span class="s1">/Warren_2020/stir_a1.23/stir_multimessenger_a1.23_m10.0.h5&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/joe/opt/anaconda3/envs/KLSN/lib/python3.8/site-packages/astropy/table/row.py:76: FutureWarning: elementwise == comparison failed and returning scalar instead; this will raise an error or perform elementwise comparison in the future.
+  return self.as_void() == other
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flavor</span> <span class="o">=</span> <span class="n">Flavor</span><span class="o">.</span><span class="n">NU_E_BAR</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">tight_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fornax</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">fornax</span><span class="o">.</span><span class="n">luminosity</span><span class="p">[</span><span class="n">flavor</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;1e53 erg/s&#39;</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fornax&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkorange&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kuroda</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">kuroda</span><span class="o">.</span><span class="n">luminosity</span><span class="p">[</span><span class="n">flavor</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;1e53 erg/s&#39;</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Kuroda&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tamborra</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">tamborra</span><span class="o">.</span><span class="n">luminosity</span><span class="p">[</span><span class="n">flavor</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;1e53 erg/s&#39;</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tamborra&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkgreen&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">warren</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">warren</span><span class="o">.</span><span class="n">luminosity</span><span class="p">[</span><span class="n">flavor</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;1e53 erg/s&#39;</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Warren&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;magenta&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nakazato</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">nakazato</span><span class="o">.</span><span class="n">luminosity</span><span class="p">[</span><span class="n">flavor</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;1e53 erg/s&#39;</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Nakazato&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xscale</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">,</span>
+       <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">5e-3</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+       <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time [s]&#39;</span><span class="p">,</span>
+       <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Luminosity [$10^</span><span class="si">{53}</span><span class="s1">$ erg s$^{-1}$]&#39;</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s1">&#39;20 $M_\odot$ progenitors&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/28b397dd8903a67baa85f73f520e5812a0754668079f66468a299c0217a24669.png" src="../_images/28b397dd8903a67baa85f73f520e5812a0754668079f66468a299c0217a24669.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Comparing models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model_comp.html" class="btn btn-neutral float-right" title="Compare models by chan vs time" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Joe Smolsky.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
