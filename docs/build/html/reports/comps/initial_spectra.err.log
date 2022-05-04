@@ -41,7 +41,7 @@ plt.show()
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mFileNotFoundError[0m                         Traceback (most recent call last)
-[0;32m/var/folders/bs/t_j9r03n3h39lmjyz9hr6b540000gn/T/ipykernel_52721/3277578282.py[0m in [0;36m<module>[0;34m[0m
+[0;32m/var/folders/bs/t_j9r03n3h39lmjyz9hr6b540000gn/T/ipykernel_53486/3277578282.py[0m in [0;36m<module>[0;34m[0m
 [1;32m     17[0m [0max[0m[0;34m.[0m[0mgrid[0m[0;34m([0m[0mls[0m[0;34m=[0m[0;34m':'[0m[0;34m,[0m [0mwhich[0m[0;34m=[0m[0;34m'both'[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
 [1;32m     18[0m [0max[0m[0;34m.[0m[0mlegend[0m[0;34m([0m[0mbbox_to_anchor[0m[0;34m=[0m[0;34m([0m[0;36m1.05[0m[0;34m,[0m [0;36m1.0[0m[0;34m)[0m[0;34m,[0m [0mloc[0m[0;34m=[0m[0;34m'upper left'[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
 [0;32m---> 19[0;31m [0mplt[0m[0;34m.[0m[0msavefig[0m[0;34m([0m[0;34m'../out/plots/m20-initial'[0m[0;34m,[0m [0mdpi[0m[0;34m=[0m[0;36m600[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
