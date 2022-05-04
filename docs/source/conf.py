@@ -35,6 +35,8 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.napoleon",
+    "sphinx_math_dollar",
+    "sphinx.ext.mathjax",
     "myst_nb",
 ]
 

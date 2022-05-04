@@ -63,10 +63,7 @@
 <li class="toctree-l2"><a class="reference internal" href="summary.html">Summary</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../models/index.html">SN models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../progenitors/index.html">progenitors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../detectors/detectors.html">Detectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../output/output.html">Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/index.html">Supernova models</a></li>
 </ul>
 
         </div>
@@ -97,18 +94,6 @@
              
   <section id="supernova">
 <h1>Supernova<a class="headerlink" href="#supernova" title="Permalink to this headline"></a></h1>
-<p>Usage example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sspike.supernova</span> <span class="kn">import</span> <span class="n">Supernova</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;Nakazato_2013&#39;</span>
-<span class="n">progenitor</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mass&#39;</span><span class="p">:</span>  <span class="mi">20</span><span class="p">,</span>
-              <span class="s1">&#39;metal&#39;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span>
-              <span class="s1">&#39;t_rev&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">}</span>
-<span class="n">transformation</span> <span class="o">=</span> <span class="s1">&#39;NoTransformation&#39;</span>
-<span class="n">distance</span> <span class="o">=</span> <span class="mf">5.0</span>
-<span class="n">sn</span> <span class="o">=</span> <span class="n">Supernova</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">progenitor</span><span class="p">,</span> <span class="n">transformation</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
-</pre></div>
-</div>
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sspike.supernova.</span></span><span class="sig-name descname"><span class="pre">Supernova</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progenitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
@@ -305,6 +290,18 @@ f”{self.bin_dir}/{self.sn_name}-{self.bin_name}_{i}.dat”.</p>
 
 </dd></dl>
 
+<p>Usage example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sspike.supernova</span> <span class="kn">import</span> <span class="n">Supernova</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;Nakazato_2013&#39;</span>
+<span class="n">progenitor</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mass&#39;</span><span class="p">:</span>  <span class="mi">20</span><span class="p">,</span>
+              <span class="s1">&#39;metal&#39;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span>
+              <span class="s1">&#39;t_rev&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">}</span>
+<span class="n">transformation</span> <span class="o">=</span> <span class="s1">&#39;NoTransformation&#39;</span>
+<span class="n">distance</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="n">sn</span> <span class="o">=</span> <span class="n">Supernova</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">progenitor</span><span class="p">,</span> <span class="n">transformation</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 
 

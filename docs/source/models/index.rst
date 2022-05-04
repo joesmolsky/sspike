@@ -1,16 +1,15 @@
-SN models
-=========
+Supernova models
+================
 
-Supernovae simulation models from snewpy.
-
-.. warning::
-
-   A lot of the content is my notes and may contain inaccuracies as things are in development.
+Example notebooks with references for each of the `snewpy` models included in `sspike`.
 
 .. toctree::
-   :caption: Supernovae models
+   :maxdepth: 1
 
-   fornax
-   warren
+   Fornax_2021
+   Kuroda_2020
    Nakazato_2013
+   Sukhbold_2015
    Tamborra_2014
+   Walk_2018-2019
+   Warren_2020

@@ -1,6 +1,10 @@
 Supernova
 =========
 
+.. autoclass:: sspike.supernova.Supernova
+    :members:
+    :noindex:
+
 Usage example:
 
 .. code-block:: python
@@ -14,7 +18,3 @@ Usage example:
     transformation = 'NoTransformation'
     distance = 5.0
     sn = Supernova(model, progenitor, transformation, distance)
-
-.. autoclass:: sspike.supernova.Supernova
-    :members:
-    :noindex:

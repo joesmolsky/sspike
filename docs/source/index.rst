@@ -15,8 +15,8 @@ Welcome to sspike's documentation!
    overview/index
    api/index
    models/index
-   progenitors/index
-   detectors/detectors
-   output/output
+   detectors/index
+   comps/index
+
 
 Spike image credit: <https://favpng.com/png_user/mcglynnlon1974>

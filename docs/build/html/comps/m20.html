@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>20 S.M. models &mdash; sspike &#34;0.1.0&#34; documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/mystnb.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/togglebutton.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/spike.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> sspike
+            <img src="../_static/spike.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                "0.1.0"
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/index.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/index.html">Supernova models</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sspike</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>20 S.M. models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/comps/m20.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="s-m-models">
+<h1>20 S.M. models<a class="headerlink" href="#s-m-models" title="Permalink to this headline"></a></h1>
+<p>Use plotly to display integrated results from a list of supernovae model simulations processed with sspike.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">isfile</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+
+<span class="kn">from</span> <span class="nn">sspike.env</span> <span class="kn">import</span> <span class="n">sspike_dir</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="get-file-paths-to-visible-totals">
+<h2>Get file paths to visible totals<a class="headerlink" href="#get-file-paths-to-visible-totals" title="Permalink to this headline"></a></h2>
+<p>Simulations can be run via: <code class="docutils literal notranslate"><span class="pre">sspike</span> <span class="pre">progenitors/m20d10kpc.json</span></code>.</p>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>There seems to be something wrong with the Fornax model numbers.</p></li>
+<li><p>This notebook may not work right if there are similar simulations in the bin_dir.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># List simulations of 20 solar masses at 10 kpc. (m20d10kpc.json)</span>
+<span class="c1"># Something seems off with the Fornax models.</span>
+<span class="c1"># sn_names = [&#39;F21-20.0&#39;, </span>
+<span class="c1">#             &#39;K20-00-00&#39;, &#39;K20-10-12&#39;, &#39;K20-10-13&#39;,</span>
+<span class="c1">#             &#39;N13-20-20-100&#39;, &#39;N13-20-20-200&#39;, &#39;N13-20-20-300&#39;, </span>
+<span class="c1">#             &#39;T14-20.0&#39;,</span>
+<span class="c1">#             &#39;W20-20.0-1.23&#39;, &#39;W20-20.0-1.25&#39;, &#39;W20-20.0-1.27&#39;]</span>
+<span class="n">sn_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;K20-00-00&#39;</span><span class="p">,</span> <span class="s1">&#39;K20-10-12&#39;</span><span class="p">,</span> <span class="s1">&#39;K20-10-13&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;N13-20-20-100&#39;</span><span class="p">,</span> <span class="s1">&#39;N13-20-20-200&#39;</span><span class="p">,</span> <span class="s1">&#39;N13-20-20-300&#39;</span><span class="p">,</span> 
+            <span class="s1">&#39;T14-20.0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;W20-20.0-1.23&#39;</span><span class="p">,</span> <span class="s1">&#39;W20-20.0-1.25&#39;</span><span class="p">,</span> <span class="s1">&#39;W20-20.0-1.27&#39;</span><span class="p">]</span>
+
+<span class="c1"># List for filepaths to totals files tabulated using sspike.beer.tab()</span>
+<span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Folder containing simulation results for each model.</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">sn_names</span><span class="p">:</span>
+    <span class="n">sn_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sspike_dir</span><span class="si">}</span><span class="s2">/kamland/</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">/10.0kpc-NT&quot;</span>
+    <span class="k">for</span> <span class="n">bin_dir</span> <span class="ow">in</span> <span class="n">listdir</span><span class="p">(</span><span class="n">sn_dir</span><span class="p">):</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sn_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">bin_dir</span><span class="si">}</span><span class="s2">/totals_vis_0.csv&quot;</span>
+        <span class="k">if</span> <span class="n">isfile</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+            <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;File not found!</span><span class="se">\n</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>File not found!
+/Users/joe/src/gitjoe/sspike/out/kamland/K20-10-12/10.0kpc-NT/b20s-0.00065563e0.331805/totals_vis_0.csv
+File not found!
+/Users/joe/src/gitjoe/sspike/out/kamland/N13-20-20-300/10.0kpc-NT/b20s0.0e0.5/totals_vis_0.csv
+File not found!
+/Users/joe/src/gitjoe/sspike/out/kamland/T14-20.0/10.0kpc-NT/b20s0.0065017e0.33801/totals_vis_0.csv
+File not found!
+/Users/joe/src/gitjoe/sspike/out/kamland/W20-20.0-1.25/10.0kpc-NT/b20s0.0e0.5/totals_vis_0.csv
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="compile-data">
+<h2>Compile data<a class="headerlink" href="#compile-data" title="Permalink to this headline"></a></h2>
+<p>Read each file and add event rates to a single DataFrame.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Columns for simulation type and events per channel.</span>
+<span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sn_name&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;channel&#39;</span><span class="p">,</span> <span class="s1">&#39;counts&#39;</span><span class="p">]</span>
+
+<span class="n">events</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">column_names</span><span class="p">)</span>
+<span class="c1"># Append 1 row for each channel.  I don&#39;t care if it&#39;s not efficient.  Who&#39;s reading this?</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">file</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">files</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">sn_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;channel&#39;</span><span class="p">]:</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;channel&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">chan</span><span class="p">][</span><span class="s1">&#39;events&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sn_name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span> <span class="s1">&#39;channel&#39;</span><span class="p">:</span> <span class="n">chan</span><span class="p">,</span> <span class="s1">&#39;counts&#39;</span><span class="p">:</span> <span class="n">N</span><span class="p">}</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span> <span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800000; text-decoration-color: #800000">╭──────────────────────────── </span><span style="color: #800000; text-decoration-color: #800000; font-weight: bold">Traceback </span><span style="color: #bf7f7f; text-decoration-color: #bf7f7f; font-weight: bold">(most recent call last)</span><span style="color: #800000; text-decoration-color: #800000"> ────────────────────────────╮</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span>                                                                                           <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> <span style="color: #bfbf7f; text-decoration-color: #bfbf7f">/var/folders/bs/t_j9r03n3h39lmjyz9hr6b540000gn/T/ipykernel_52731/</span><span style="color: #808000; text-decoration-color: #808000; font-weight: bold">3867463047.py</span>:<span style="color: #0000ff; text-decoration-color: #0000ff">7</span> in       <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> <span style="color: #00ff00; text-decoration-color: #00ff00">&lt;module&gt;</span>                                                                                  <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span>                                                                                           <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> <span style="color: #800000; text-decoration-color: #800000; font-style: italic">[Errno 2] No such file or directory: </span>                                                     <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">│</span> <span style="color: #800000; text-decoration-color: #800000; font-style: italic">'/var/folders/bs/t_j9r03n3h39lmjyz9hr6b540000gn/T/ipykernel_52731/3867463047.py'</span>          <span style="color: #800000; text-decoration-color: #800000">│</span>
+<span style="color: #800000; text-decoration-color: #800000">╰───────────────────────────────────────────────────────────────────────────────────────────╯</span>
+<span style="color: #ff0000; text-decoration-color: #ff0000; font-weight: bold">IndexError: </span>list index out of range
+</pre>
+</div></div>
+</div>
+</section>
+<section id="plotly">
+<h2>Plotly<a class="headerlink" href="#plotly" title="Permalink to this headline"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bars</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;channel&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">,</span> 
+              <span class="n">color</span><span class="o">=</span><span class="s1">&#39;sn_name&#39;</span><span class="p">,</span> <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;group&#39;</span><span class="p">,</span> <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">bars</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">bargroupgap</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">bars</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="s2">&quot;Times New Roman&quot;</span><span class="p">)</span>
+<span class="n">bars</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">bargap</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">bars</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">bargroupgap</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">bars</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">740</span>
+<span class="n">bars</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="n">bars</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Comaprison of 20 S.M. models @ 10 kpc in KamLAND&#39;</span>
+<span class="n">bars</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bars</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span><span class="s1">&#39;../out/plots/m20.png&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">bars</span><span class="o">.</span><span class="n">write_html</span><span class="p">(</span><span class="s1">&#39;../out/plots/m20.html&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Joe Smolsky.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

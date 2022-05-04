@@ -23,6 +23,7 @@
         <script>let toggleOpenOnPrint = 'true';</script>
         <script src="../_static/togglebutton.js"></script>
         <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -63,10 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="summary.html">Summary</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../models/index.html">SN models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../progenitors/index.html">progenitors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../detectors/detectors.html">Detectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../output/output.html">Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/index.html">Supernova models</a></li>
 </ul>
 
         </div>
@@ -97,6 +95,7 @@
              
   <section id="pnut">
 <h1>pnut<a class="headerlink" href="#pnut" title="Permalink to this headline"></a></h1>
+<p>Process neutrino underground telemetry.  Functions for processing <cite>snewpy</cite> models in <cite>SNOwGLoBES</cite> and <cite>sspike</cite>.</p>
 <p>Predict neutrino underground telemetry.</p>
 <p>Functions to load SN models and process event rates.</p>
 <dl class="py function">
@@ -281,8 +280,8 @@ with units of cm^2 / GeV.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>T_p</strong> (<em>float</em>) – Proton recoil energy $[MeV]$.</p></li>
-<li><p><strong>E</strong> (<em>np.array</em>) – Neutrino energies $[MeV]$.</p></li>
+<li><p><strong>T_p</strong> (<em>float</em>) – Proton recoil energy <span class="math notranslate nohighlight">\([MeV]\)</span>.</p></li>
+<li><p><strong>E</strong> (<em>np.array</em>) – Neutrino energies <span class="math notranslate nohighlight">\([MeV]\)</span>.</p></li>
 <li><p><strong>f</strong> (<em>np.array</em>) – Neutrino fluence $$</p></li>
 </ul>
 </dd>
@@ -301,7 +300,7 @@ with units of cm^2 / GeV.</p>
 <dd><p>Convert proton recoil energy to electron equivalent energy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>T_p</strong> (<em>np.array</em>) – Proton recoil energies of interest $[MeV]$.</p>
+<dd class="field-odd"><p><strong>T_p</strong> (<em>np.array</em>) – Proton recoil energies of interest <span class="math notranslate nohighlight">\([MeV]\)</span>.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">

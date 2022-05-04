@@ -1,6 +1,10 @@
 Detector
 ========
 
+.. autoclass:: sspike.detectors.Detector
+    :members:
+    :noindex:
+
 Usage example:
 
 .. code-block:: python
@@ -8,7 +12,3 @@ Usage example:
     from sspike.detectors import Detector
 
     detector = Detector('kamland')
-
-.. autoclass:: sspike.detectors.Detector
-    :members:
-    :noindex:
