@@ -149,7 +149,7 @@ def plot_snowglobes_events(
     fig.tight_layout()
 
     if save:
-        path = f"{sn.bin_dir}/snow-events_{index}.png"
+        path = f"{detector.get_save_dir(sn)}/snow-events_{index}.png"
         plt.savefig(path, dpi=600)
 
     if show:
@@ -202,7 +202,7 @@ def plot_sspike_events(sn, detector, index=0, save=True, show=True):
     fig.tight_layout()
 
     if save:
-        path = f"{sn.bin_dir}/sspike-events_{index}.png"
+        path = f"{detector.get_save_dir(sn)}/sspike-events_{index}.png"
         plt.savefig(path, dpi=600)
 
     if show:

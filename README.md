@@ -1,72 +1,28 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-# sspike: simulated supernovae products inducing KamLAND events
+# sspike: simulating supernovae products inducing KamLAND events
 
-`sspike` uses `snewpy` and `SNOwGLoBES` to determine supernova event rates in KamLAND.  Additionally, `sspike` includes neutrino-proton elastic-scattering.
+`sspike` uses `snewpy` and `SNOwGLoBES` to determine supernova event rates in KamLAND (or other detectors).  Additionally, `sspike` includes neutrino-proton elastic-scattering and additional functions for comparing models in a single detector.
 
-## Usage
+## Installation
 
-A single simulation can be specified with command-line arguments.  Simulations an also be run by providing a file path containing a dictionary of models and progenitors.
+`SNOwGLoBES` and `snewpy` must both be installed first.  Additional requirements are in `requirements.txt`, but I may have forgotten some.  `sspike` should be installable by cloning the repository using `pip install .` or `pip install -e .` in main folder.  Feel free to email, Slack, or raise an issue if you are actually trying to use `sspike` and want some help.
 
-### Single simulation
+`SNOwGLoBES`: <https://webhome.phy.duke.edu/~schol/snowglobes/>
+`snewpy`: <https://github.com/SNEWS2/snewpy>
 
-Event rates can be run integrated over the entire simulation time or processed as a series using snewpy.
+## Basic usage
 
-#### Integrated rates
+Integrated event totals for a single simulation can be run from the command line.  Here is an example:
 
-By default, fluences are integrated over the entire simulation time.
+    sspike Fornax_2021 -D kamland -L 10 -M 13
 
-    sspike Nakazato_2013 -M 20 -Z 0.02 -R 100 -D kamland
+The model name can be replaced by a `.json` file path containing multiple models and progenitors.  More usage information can be found using `sspike -h`, checking the documentation, or in `example.ipynb`.  
 
-The `Nakazato_2013` models require specifying mass, metallicity, and revival time.  More information is in the `Models` section.
+## Time series
 
-#### Time series
+Simulation start time, end time, and the number of time bins can all be set.  This cannot yet be done from the command line, but can be done as demonstrated in `time_series.ipynb`
 
-A time series signal can be produced by specifying the number of time bins.
+## Documentation
 
-    sspike Nakazato_2013 -T 100 -M 20 -Z 0.02 -R 100 -D kamland
-
-### Multiple simulation
-
-sspike includes an option to run multiple simulations specified in a single file.  The file must have a `.` in the name.
-
-## Supernova Models
-
-### Nakazato_2013
-
-Nakazato models require specifying mass, metallicity, and revival time.
-
-#### Nakazato simulations
-
-Mass: 13, 20, 30, 50.
-Metallicity: 0.02, 0.004.
-Revival time: 100, 200, 300.
-Times: -0.05 - 20.0.
-
-## Modules and classes
-
-Modules:
-
-1. `pnut`: process neutrino underground telemetry.
-2. `beer`: back-end event reader.
-
-Class:
-
-1. `Supernova`: supernovae model specific properties.
-2. `Detector`: KamLAND specifics.
-
-### pnut
-
-Functions for loading and processing supernovae model fluences.
-
-### beer
-
-Make plots and tables of processed models.
-
-### Supernova
-
-Handle model specific information and data storage paths.
-
-### Detector
-
-Detector configuration specifics.
+Please see `non-existent link` for documentation, example plots for each model, and model comparison examples.

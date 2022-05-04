@@ -120,6 +120,30 @@ def fluence_tarball(sn, t_start=None, t_end=None):
     log.info(f"\nGenerating fluences for {sn.sn_name} in {sn.sn_dir}.\n")
     log.debug(f"\nt_start: {t_start}\nt_end: {t_end}\n")
 
+    # There seem to be problems with rounding errors near the simulation time limits.
+    if t_start is not None:
+        if np.size(t_start) == 1:
+            if t_start.value == sn.t_min:
+                tstart = None
+            else:
+                tstart = t_start
+        else:
+            tstart = t_start
+    else:
+        tstart = None
+
+    if t_end is not None:
+        if np.size(t_end) == 1:
+            if t_end.value == sn.t_max:
+                tend = None
+            else:
+                tend = t_end
+        else:
+            tend = t_end
+    else:
+        tend = None
+
+    log.debug(f"\ntstart: {tstart}\ntend: {tend}\n")
     # Generate tarball with snewpy.
     tarball = snowglobes.generate_fluence(
         sn.sim_file,
@@ -127,13 +151,14 @@ def fluence_tarball(sn, t_start=None, t_end=None):
         sn.transform,
         sn.distance,
         output_filename=f"{sn.flu_name}",
-        tstart=t_start,
-        tend=t_end,
+        tstart=tstart,
+        tend=tend,
     )
 
     # Extract snewpy output in sspike snowball directory.
     with tarfile.open(tarball) as tb:
         flu_dir = f"{sn.bin_dir}/fluence/"
+        log.debug(f"\nExtracting {tarball}\nto {flu_dir}\n")
         if not isdir(flu_dir):
             makedirs(flu_dir)
         tb.extractall(flu_dir)
@@ -160,11 +185,14 @@ def snowglobes_events(sn, detector, index=0, save=True):
     dfs : dict of pd.Dataframe
         Events for each type of SNOwGLoBES data.
     """
-    log.debug("- Generating SNOwGLoBES events.")
+    log.debug("\n- Generating SNOwGLoBES events.")
 
     if not isfile(sn.tar_file):
+        log.debug("\n- Generating tarball.")
         fluence_tarball(sn, t_start=sn.t_start * units.s, t_end=sn.t_end * units.s)
 
+    else:
+        log.debug(f"\n- Skipping tarball generation for:\n {sn.tar_file}\n")
     dfs = {}
     snow_dir = f"{detector.get_save_dir(sn)}/snow-files"
 

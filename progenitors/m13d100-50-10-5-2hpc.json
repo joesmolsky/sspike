@@ -62,7 +62,7 @@
   "transform": [
     "NoTransformation"
   ],
-  "target": [
+  "detector": [
     "kamland"
   ]
 }

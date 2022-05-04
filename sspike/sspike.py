@@ -128,7 +128,7 @@ def main():
         initialize_logging("info")
 
     # Initial debugging message.
-    log.debug("\n****\nBegin debugging!\n****\n")
+    log.debug("\n\n****\nBegin debugging!\n****\n")
     # Command line arguments and values for debugging.
     arg_msg = "\n- Command line arguments:\n"
     for arg in vars(cmdline):
@@ -147,7 +147,7 @@ def main():
     B0 = cmdline.b_field
     eos = cmdline.eos
     stir = cmdline.stir
-    t_bins = cmdline.time_bins
+    # t_bins = cmdline.time_bins
 
     # Dictionary for progenitor properties.  Better way to do this?
     progenitor = {}
@@ -172,7 +172,7 @@ def main():
     # Model name for single simulation.
     if "." not in model:
         print(f"Starting simulation: {model} \t {progenitor}.")
-        run_sim(model, progenitor, transform, distance, detector, t_bins)
+        run_sim(model, progenitor, transform, distance, detector)
 
     # File name for (multiple) simulation(s).
     else:
@@ -220,7 +220,7 @@ def main():
     return 0
 
 
-def run_sim(model, progenitor, transform, distance, detector, t_bins=1):
+def run_sim(model, progenitor, transform, distance, detector):
     """Process simulation file with `SNoGLoBES` and `sspike`.
 
     Parameters
@@ -246,7 +246,7 @@ def run_sim(model, progenitor, transform, distance, detector, t_bins=1):
     log.info(sn_info)
 
     # Load model.
-    log.debug("\n- Generating Snowball.\n")
+    log.debug("\n- Intializing Supernova.\n")
     sn = Supernova(model, progenitor, transform, distance)
 
     # Detector string to class.
@@ -258,11 +258,14 @@ def run_sim(model, progenitor, transform, distance, detector, t_bins=1):
 
     # Process with SNOwGLoBES.
     log.debug("\n- Processing with SNOwGLoBES .\n")
+    pnut.snowglobes_events(sn, detector)
     beer.plot_snowglobes_events(sn, detector, show=False)
 
     # Process with sspike.
-    log.debug("\n- Processing with sspike.\n")
-    beer.plot_sspike_events(sn, detector, show=False)
+    if detector.name == "kamland":
+        log.debug("\n- Processing with sspike.\n")
+        pnut.sspike_events(sn, detector)
+        beer.plot_sspike_events(sn, detector, show=False)
 
     # Tabulate results
     log.debug("\n- Tabulating results.\n")

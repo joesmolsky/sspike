@@ -88,7 +88,7 @@ class Supernova:
         self.prog_dir = f"{sspike_dir}/supernova/{self.sn_name}"
         self.sn_dir = f"{self.prog_dir}/{self.distance}kpc-{self.xform}"
         # Separate directories based on time bins.
-        if t_start is not None: 
+        if t_start is not None:
             self.t_start = t_start
         else:
             self.t_start = self.t_min
@@ -186,13 +186,13 @@ class Supernova:
             self.sn_name = f"K20-{Omega}-{B0}"
             self.sim_file = f"{self.model_dir}/LnuR{Omega}B{B0}.dat"
             # Simulation time limits.
-            if B0 == '00':
+            if B0 == "00":
                 self.t_min = -0.00193548
                 self.t_max = 0.476391
-            if B0 == '12':
+            if B0 == "12":
                 self.t_min = -0.00065563
                 self.t_max = 0.331805
-            if B0 == '13':
+            if B0 == "13":
                 self.t_min = -0.00482311
                 self.t_max = 0.316403
 
@@ -223,16 +223,16 @@ class Supernova:
             if mass == 27.0:
                 self.sim_file = f"{self.model_dir}/sukhbold-{EoS}-s{mass}.fits"
             # Simulation time limits.
-            if mass == 9.6 and EoS == 'LS220':
+            if mass == 9.6 and EoS == "LS220":
                 self.t_min = -0.23338102
                 self.t_max = 11.999932
-            if mass == 9.6 and EoS == 'SFHo':
+            if mass == 9.6 and EoS == "SFHo":
                 self.t_min = -0.24226689
                 self.t_max = 13.622597
-            if mass == 27.0 and EoS == 'LS220':
+            if mass == 27.0 and EoS == "LS220":
                 self.t_min = -0.34945536
                 self.t_max = 15.439294
-            if mass == 27.0 and EoS == 'SFHo':
+            if mass == 27.0 and EoS == "SFHo":
                 self.t_min = -0.29291019
                 self.t_max = 11.168845
 
@@ -266,7 +266,7 @@ class Supernova:
 
         if self.model == "Warren_2020":
             # Warren 2020 models vary by mass and stirring parameter.
-            mass = self.progenitor["mass"]
+            mass = float(self.progenitor["mass"])
             stir = self.progenitor["stir"]
             # Extra directory level for stirring parameter.
             self.model_dir = f"{self.model_dir}/stir_a{stir}"
@@ -276,7 +276,7 @@ class Supernova:
             # Simulation time limits.
             # Warren_2020 has too many to list here.
             time_file = f"{aux_dir}/warren_times.json"
-            with open(time_file, 'r') as f:
+            with open(time_file, "r") as f:
                 warren_times = json.load(f)
             times = warren_times[f"{stir}"][f"{mass}"]
             self.t_min = times[0]
@@ -296,6 +296,8 @@ class Supernova:
 
         dt = (self.t_end - self.t_start) / self.t_bins * units.s
         te = ts + dt
+        if te[-1].value > self.t_max:
+            te[-1].value == self.t_max
         tm = (ts + te) / 2.0
 
         return (ts, tm, te)
