@@ -124,6 +124,10 @@ class Supernova:
         """
         if transform == "NoTransformation":
             xform = "NT"
+        elif transform == "AdiabaticMSW_NMO":
+            xform = "aMSW-N"
+        elif transform == "AdiabaticMSW_IMO":
+            xform = "aMSW-I"
 
         return xform
 
