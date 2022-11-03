@@ -161,7 +161,29 @@ def fluence_tarball(sn, t_start=None, t_end=None):
         log.debug(f"\nExtracting {tarball}\nto {flu_dir}\n")
         if not isdir(flu_dir):
             makedirs(flu_dir)
-        tb.extractall(flu_dir)
+        
+        import os
+        
+        def is_within_directory(directory, target):
+            
+            abs_directory = os.path.abspath(directory)
+            abs_target = os.path.abspath(target)
+        
+            prefix = os.path.commonprefix([abs_directory, abs_target])
+            
+            return prefix == abs_directory
+        
+        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+        
+            for member in tar.getmembers():
+                member_path = os.path.join(path, member.name)
+                if not is_within_directory(path, member_path):
+                    raise Exception("Attempted Path Traversal in Tar File")
+        
+            tar.extractall(path, members, numeric_owner=numeric_owner) 
+            
+        
+        safe_extract(tb, flu_dir)
 
         # snewpy does not include an index in single bin file names (but sspike does).
         if sn.t_bins == 1:
